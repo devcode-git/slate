@@ -16,6 +16,8 @@ build/
 .cache
 .vagrant
 .sass-cache
+CNAME
+.CNAME
 
 # YARD artifacts
 .yardoc
