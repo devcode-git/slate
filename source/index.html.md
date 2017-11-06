@@ -1,5 +1,5 @@
 ---
-title: PaymentIQ Admin API v1.3.5
+title: PaymentIQ Backoffice Admin API v1.3.14-SNAPSHOT
 language_tabs: []
 toc_footers: []
 includes: []
@@ -7,12 +7,15 @@ search: true
 highlight_theme: darkula
 ---
 
-# PaymentIQ Admin API v1.3.5
+# PaymentIQ Backoffice Admin API v1.3.14-SNAPSHOT
 
 > Scroll down for example requests and responses.
 
-The PaymentIQ Admin API is organized around REST and uses JSON. It is language independent and supported
-for virtually all programming languages.
+The PaymentIQ Backoffice Admin API is organized around REST and uses JSON. It is language independent and supportedfor virtually all programming languages. <br/><br/>To get started you need to register an api client in backoffice admin > api clients, only backoffice users with merchant admin role are allowed to setup clients. A registered client is assigned a unique Client ID and Client Secret which will be used in the OAuth flow. The client secret should not be shared.The api uses OAuth 2.0 <a href='https://tools.ietf.org/html/rfc6749#section-4.3'>resource owner password credentials grant</a> to issue access tokens on behalf of users. <br/><br/> To request an access token provice base64 encoded [clientId:clientSecret] in the authorization header and your backoffice user credentials.<br/><br/>curl -X POST https://test-backoffice.paymentiq.io/paymentiq/oauth/token -H 'authorization: Basic YzU3YTNlOTlkODAzNDE4Njh' -H 'content-type: application/x-www-form-urlencoded' -d 'username=test&password=test&grant_type=password' <br/><br/>To make an api request provide your bearer token in the authorizaton header.<br/><br/>curl -X GET 'https://test-backoffice.paymentiq.io/paymentiq/admin/v1/payments?merchantId=100101999&limit=10' -H 'authorization: Bearer xxxx.xxxx.xxxxx' 
+  -H 'content-type: application/json' \
+  -d '{
+	"limit": 10
+}'<br/><br/>To issue a new access_token if expired provide your refresh_token.<br/><br/>curl -X POST 'https://test-backoffice.paymentiq.io/paymentiq/oauth/token?grant_type=refresh_token&refresh_token=xxx.xxxx.xxxx' -H 'authorization: Basic RDBHNlpLSFVHSjJWV0'
 
 Base URLs:
 
@@ -20,14 +23,14 @@ Base URLs:
 
 
 
-Email: <a href="mailto:technicalsupport@bambora.com">PaymentIQ</a> Web: <a href="https://backoffice.paymentiq.io">PaymentIQ</a> 
-License: <a href="https://backoffice.paymentiq.io">PaymentIQ 1.0</a>
+Email: <a href="mailto:technicalsupport@bambora.com">PaymentIQ</a> 
+ License: undefined
 
 # Authentication
 
 
 
-- oAuth2 authentication test 23. 
+- oAuth2 authentication. 
 
     - Flow: password
 
@@ -40,44 +43,2074 @@ License: <a href="https://backoffice.paymentiq.io">PaymentIQ 1.0</a>
 
 
 
-# Payment Admin
+# User Accounts
+
+## search_1
+
+`GET /admin/v1/accounts`
+
+*search*
+
+Search user psp account for a merchant and its submerchants.
+
+### Parameters
+
+Parameter|In|Type|Required|Description
+---|---|---|---|---|
+merchantId|query|string|true|merchantId
+merchants|query|array[string]|false|Array of merchant ids to filter on. By defaut will filter on all mids below current mid available
+statuses|query|array[string]|false|List of statuses
+providerTypes|query|array[string]|false|List of providerTypes
+limit|query|integer(int32)|false|Limit on how many transactions to return. Max limit is 1000. Default is 100.
+offset|query|integer(int32)|false|Offset useful for multi page results or pagination
+descOrder|query|boolean|false|Descending order
+id|query|integer(int32)|false|User account id
+firstUsedFrom|query|string(date-time)|false|First used range from
+firstUsedTo|query|string(date-time)|false|First used range to
+lastUsedFrom|query|string(date-time)|false|Last used range from
+lastUsedTo|query|string(date-time)|false|Last used range to
+lastSuccessFrom|query|string(date-time)|false|Last success range from
+lastSuccessTo|query|string(date-time)|false|Last success range to
+startFrom|query|string(date-time)|false|Start range from
+startTo|query|string(date-time)|false|Start range to
+expiryFrom|query|string(date-time)|false|Expired range from
+expiryTo|query|string(date-time)|false|Expired range to
+noSuccessfulTxMin|query|integer(int32)|false|Number of min successful transactions
+noSuccessfulTxMax|query|integer(int32)|false|Number of max successful transactions
+noFailedTxMin|query|integer(int32)|false|Number of min failed transactions
+noFailedTxMax|query|integer(int32)|false|Number of max failed transactions
+visible|query|boolean|false|User visibility
+accountUuid|query|string|false|User account uuid
+maskedAccount|query|string|false|User masked account
+merchantUserId|query|string|false|Merchant user id
+holder|query|string|false|Account holder
+
+
+#### Enumerated Values
+
+|Parameter|Value|
+|---|---|
+statuses|ACTIVE|
+statuses|INACTIVE|
+statuses|NEW|
+statuses|DELETED|
+statuses|BLOCKED|
+statuses|ACTIVE|
+statuses|INACTIVE|
+statuses|NEW|
+statuses|DELETED|
+statuses|BLOCKED|
+providerTypes|ACCENTPAY|
+providerTypes|BANK|
+providerTypes|BANKIBAN|
+providerTypes|BANKINTIBAN|
+providerTypes|BANKINTL|
+providerTypes|BANKLOCAL|
+providerTypes|CREDITCARD|
+providerTypes|NETELLER|
+providerTypes|SKRILL|
+providerTypes|ENVOY|
+providerTypes|PAYSAFECARD|
+providerTypes|UKASH|
+providerTypes|PAYBOX|
+providerTypes|PUGGLEPAY|
+providerTypes|CLICKANDBUY|
+providerTypes|PAYPAL|
+providerTypes|MBANKOMAT|
+providerTypes|PAYLEVO|
+providerTypes|SIRU|
+providerTypes|WORLDPAY|
+providerTypes|IBANQ|
+providerTypes|IDEAL|
+providerTypes|LAVAPAY|
+providerTypes|INSTADEBIT|
+providerTypes|IDEBIT|
+providerTypes|ECOPAYZ|
+providerTypes|FORTUMO|
+providerTypes|ASTROPAYCARD|
+providerTypes|ASTROPAYDIRECT|
+providerTypes|PPRO|
+providerTypes|YUUCOLLECT|
+providerTypes|BOKU|
+providerTypes|NEOSURFVOUCHER|
+providerTypes|CHINAUNIONPAY|
+providerTypes|CITADEL|
+providerTypes|PRZELEWY24|
+providerTypes|PAYGROUND|
+providerTypes|TELEINGRESO|
+providerTypes|VENUSPOINT|
+providerTypes|ENTROPAY|
+providerTypes|MOBILEGIRO|
+providerTypes|SMSVOUCHER|
+providerTypes|TODITOCASH|
+providerTypes|TICKETPREMIUM|
+providerTypes|QIWI|
+providerTypes|ICARD|
+providerTypes|TOLAMOBILE|
+providerTypes|FLEXEPIN|
+providerTypes|FUNANGA|
+providerTypes|VISAVOUCHER|
+providerTypes|GIFTCARD|
+providerTypes|MIFINITY|
+providerTypes|OXXO|
+providerTypes|IWALLET|
+providerTypes|SEQR|
+providerTypes|BOLETO|
+providerTypes|CRYPTOCURRENCY|
+providerTypes|MUCHBETTER|
+providerTypes|KLUWP|
+providerTypes|ASTROPAYBANK|
+providerTypes|INTERNAL_CORRECTION|
+providerTypes|EXTERNAL_CORRECTION|
+providerTypes|INTERNAL|
+providerTypes|EUTELLER|
+providerTypes|TRUSTLY|
+providerTypes|EPRO|
+providerTypes|CASHLIB|
+providerTypes|APCO|
+providerTypes|SECURETRADING|
+providerTypes|DOTPAY|
+providerTypes|BLIK|
+providerTypes|UNKNOWN|
+providerTypes|ACCENTPAY|
+providerTypes|BANK|
+providerTypes|BANKIBAN|
+providerTypes|BANKINTIBAN|
+providerTypes|BANKINTL|
+providerTypes|BANKLOCAL|
+providerTypes|CREDITCARD|
+providerTypes|NETELLER|
+providerTypes|SKRILL|
+providerTypes|ENVOY|
+providerTypes|PAYSAFECARD|
+providerTypes|UKASH|
+providerTypes|PAYBOX|
+providerTypes|PUGGLEPAY|
+providerTypes|CLICKANDBUY|
+providerTypes|PAYPAL|
+providerTypes|MBANKOMAT|
+providerTypes|PAYLEVO|
+providerTypes|SIRU|
+providerTypes|WORLDPAY|
+providerTypes|IBANQ|
+providerTypes|IDEAL|
+providerTypes|LAVAPAY|
+providerTypes|INSTADEBIT|
+providerTypes|IDEBIT|
+providerTypes|ECOPAYZ|
+providerTypes|FORTUMO|
+providerTypes|ASTROPAYCARD|
+providerTypes|ASTROPAYDIRECT|
+providerTypes|PPRO|
+providerTypes|YUUCOLLECT|
+providerTypes|BOKU|
+providerTypes|NEOSURFVOUCHER|
+providerTypes|CHINAUNIONPAY|
+providerTypes|CITADEL|
+providerTypes|PRZELEWY24|
+providerTypes|PAYGROUND|
+providerTypes|TELEINGRESO|
+providerTypes|VENUSPOINT|
+providerTypes|ENTROPAY|
+providerTypes|MOBILEGIRO|
+providerTypes|SMSVOUCHER|
+providerTypes|TODITOCASH|
+providerTypes|TICKETPREMIUM|
+providerTypes|QIWI|
+providerTypes|ICARD|
+providerTypes|TOLAMOBILE|
+providerTypes|FLEXEPIN|
+providerTypes|FUNANGA|
+providerTypes|VISAVOUCHER|
+providerTypes|GIFTCARD|
+providerTypes|MIFINITY|
+providerTypes|OXXO|
+providerTypes|IWALLET|
+providerTypes|SEQR|
+providerTypes|BOLETO|
+providerTypes|CRYPTOCURRENCY|
+providerTypes|MUCHBETTER|
+providerTypes|KLUWP|
+providerTypes|ASTROPAYBANK|
+providerTypes|INTERNAL_CORRECTION|
+providerTypes|EXTERNAL_CORRECTION|
+providerTypes|INTERNAL|
+providerTypes|EUTELLER|
+providerTypes|TRUSTLY|
+providerTypes|EPRO|
+providerTypes|CASHLIB|
+providerTypes|APCO|
+providerTypes|SECURETRADING|
+providerTypes|DOTPAY|
+providerTypes|BLIK|
+providerTypes|UNKNOWN|
+
+> Example responses
+
+```json
+[
+  {
+    "id": 1,
+    "merchantId": 1234,
+    "accountUuid": "958acd6b-b386-4a2c-bead-e3ed49613d44",
+    "merchantUserId": "ENVOY",
+    "holder": "testuser",
+    "type": "CreditcardDeposit",
+    "providerType": "CREDITCARD",
+    "hashedAccount": "958acd6b-b386-4a2c-bead-e3ed49613d44",
+    "maskedAccount": "4444********1234",
+    "startDate": "2020-01-01 00:00:00",
+    "expiryDate": "2020-01-01 00:00:00",
+    "firstUsed": "2020-01-01 00:00:00",
+    "lastUsed": "2020-01-01 00:00:00",
+    "lastSuccess": "2020-01-01 00:00:00",
+    "noSuccessfulTx": 20,
+    "noFailedTx": 10,
+    "description": "string",
+    "status": "ACTIVE"
+  }
+]
+```
+```json
+{
+  "errorId": "657b10da-d2f9-4088-a948-bf190ef516b1-000002fd",
+  "errorMessage": "Details about the specified error..."
+}
+```
+```json
+{
+  "error": "invalid_token",
+  "error_description": "Cannot convert access token to JSON"
+}
+```
+```json
+{
+  "errorId": "657b10da-d2f9-4088-a948-bf190ef516b1-000002fd",
+  "errorMessage": "Details about the specified error..."
+}
+```
+### Responses
+
+Status|Meaning|Description|Schema
+---|---|---|---|
+200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successfully found user psp accounts|Inline
+400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad Request|[ErrorResponse](#schemaerrorresponse)
+401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized authentication|[UnauthorizedResponse](#schemaunauthorizedresponse)
+403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|User is not permitted to requested operation|None
+404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Transaction not found for search request|[ErrorResponse](#schemaerrorresponse)
+500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error|None
+
+### Response Schema
+
+Status Code **200**
+
+Name|Type|Required|Description
+---|---|---|---|---|
+anonymous|[[UserAccountResponse](#schemauseraccountresponse)]|false|No description
+» id|integer(int64)|false|User account id
+» merchantId|integer(int32)|false|Merchant id
+» accountUuid|string|false|Account UUID
+» merchantUserId|string|false|Merchant user id
+» holder|string|false|Card holder
+» type|string|false|Transaction type
+» providerType|string|false|Provider type
+» hashedAccount|string|false|Hashed account
+» maskedAccount|string|false|Masked account
+» startDate|string(date-time)|false|Date when account can first be used (if applicable)
+» expiryDate|string(date-time)|false|Date when account will expiry (if applicable)
+» firstUsed|string(date-time)|false|When account was first used
+» lastUsed|string(date-time)|false|When account was last used
+» lastSuccess|string(date-time)|false|When account had last successful tx
+» noSuccessfulTx|integer(int32)|false|No of successful transactions
+» noFailedTx|integer(int32)|false|No of failed transactions
+» description|string|false|Description for the use of psp account
+» status|string|false|User account status
+
+
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+oauth2 ( Scopes: default )
+</aside>
+
+# Payments
+
+## search
+
+`GET /admin/v1/payments`
+
+*search*
+
+Search transactions for a merchant and its submerchants.
+
+### Parameters
+
+Parameter|In|Type|Required|Description
+---|---|---|---|---|
+merchantId|query|string|true|merchantId
+currencies|query|array[string]|false|Array of ISO 3-letter currency, e.g. SEK,EUR,USD
+states|query|array[string]|false|Array of states, example SUCCESSFUL, REGISTERED
+statuses|query|array[string]|false|Array of statuses, example SUCCESS, WAITING_INPUT
+txTypes|query|array[string]|false|Array of transaction types, example CreditcardDeposit, CreditcardWithdrawal
+psps|query|array[string]|false|Array of psps, example Entropay, Realex, Pacnet
+initiatedPsps|query|array[string]|false|Array of initiated psps, example Entropay, Realex, Pacnet
+idList|query|array[integer]|false|List of transaction ids
+limit|query|integer(int32)|false|Limit on how many transactions to return. Max limit is 10 000. Default is 100.
+offset|query|integer(int32)|false|Offset useful for multi page results or pagination
+descOrder|query|boolean|false|Descending order
+id|query|integer(int64)|false|Transaction id
+originTxId|query|integer(int64)|false|Origin transaction id
+txRefId|query|string|false|Normally (for now) the user is only allowed to search on the currently logged-in users mid. Transaction ref id in format ${merchantId}A${id}
+pspStatusCode|query|string|false|Psp status code
+pspAccount|query|string|false|Psp account
+channelId|query|string|false|Channel id
+merchantUserCat|query|string|false|Merchant user cat
+merchantUserCountryCode|query|string|false|Merchant user country code, example PER = PERU
+merchantUserId|query|string|false|Merchant user id
+merchantUserEmail|query|string|false|Merchant user email
+maskedUserAccount|query|string|false|Masked user account
+ipAddr|query|string|false|Ip address
+pspRefId|query|string|false|Psp ref id
+includeRelated|query|boolean|false|Include related transactions
+txDateFrom|query|string(date-time)|false|Transaction date from yyyy-MM-dd HH:mm:ss
+txDateTo|query|string(date-time)|false|Transaction date to yyyy-MM-dd HH:mm:ss
+
+
+#### Enumerated Values
+
+|Parameter|Value|
+|---|---|
+currencies|AED|
+currencies|AFN|
+currencies|ALL|
+currencies|AMD|
+currencies|ANG|
+currencies|AOA|
+currencies|ARS|
+currencies|AUD|
+currencies|AWG|
+currencies|AZN|
+currencies|BAM|
+currencies|BBD|
+currencies|BDT|
+currencies|BGN|
+currencies|BHD|
+currencies|BIF|
+currencies|BMD|
+currencies|BND|
+currencies|BOB|
+currencies|BOV|
+currencies|BRL|
+currencies|BSD|
+currencies|BTN|
+currencies|BWP|
+currencies|BYR|
+currencies|BZD|
+currencies|CAD|
+currencies|CDF|
+currencies|CHE|
+currencies|CHF|
+currencies|CHW|
+currencies|CLF|
+currencies|CLP|
+currencies|CNY|
+currencies|COP|
+currencies|COU|
+currencies|CRC|
+currencies|CUC|
+currencies|CUP|
+currencies|CVE|
+currencies|CZK|
+currencies|DJF|
+currencies|DKK|
+currencies|DOP|
+currencies|DZD|
+currencies|EGP|
+currencies|ERN|
+currencies|ETB|
+currencies|EUR|
+currencies|FJD|
+currencies|FKP|
+currencies|GBP|
+currencies|GEL|
+currencies|GHS|
+currencies|GIP|
+currencies|GMD|
+currencies|GNF|
+currencies|GTQ|
+currencies|GYD|
+currencies|HKD|
+currencies|HNL|
+currencies|HRK|
+currencies|HTG|
+currencies|HUF|
+currencies|IDR|
+currencies|ILS|
+currencies|INR|
+currencies|IQD|
+currencies|IRR|
+currencies|ISK|
+currencies|JMD|
+currencies|JOD|
+currencies|JPY|
+currencies|KES|
+currencies|KGS|
+currencies|KHR|
+currencies|KMF|
+currencies|KPW|
+currencies|KRW|
+currencies|KWD|
+currencies|KYD|
+currencies|KZT|
+currencies|LAK|
+currencies|LBP|
+currencies|LKR|
+currencies|LRD|
+currencies|LSL|
+currencies|LTL|
+currencies|LVL|
+currencies|LYD|
+currencies|MAD|
+currencies|MDL|
+currencies|MGA|
+currencies|MKD|
+currencies|MMK|
+currencies|MNT|
+currencies|MOP|
+currencies|MRO|
+currencies|MUR|
+currencies|MVR|
+currencies|MWK|
+currencies|MXN|
+currencies|MXV|
+currencies|MYR|
+currencies|MZN|
+currencies|NAD|
+currencies|NGN|
+currencies|NIO|
+currencies|NOK|
+currencies|NPR|
+currencies|NZD|
+currencies|OMR|
+currencies|PAB|
+currencies|PEN|
+currencies|PGK|
+currencies|PHP|
+currencies|PKR|
+currencies|PLN|
+currencies|PYG|
+currencies|QAR|
+currencies|RON|
+currencies|RSD|
+currencies|RUB|
+currencies|RWF|
+currencies|SAR|
+currencies|SBD|
+currencies|SCR|
+currencies|SDG|
+currencies|SEK|
+currencies|SGD|
+currencies|SHP|
+currencies|SLL|
+currencies|SOS|
+currencies|SRD|
+currencies|STD|
+currencies|SYP|
+currencies|SZL|
+currencies|THB|
+currencies|TJS|
+currencies|TMT|
+currencies|TND|
+currencies|TOP|
+currencies|TRY|
+currencies|TTD|
+currencies|TWD|
+currencies|TZS|
+currencies|UAH|
+currencies|UGX|
+currencies|USD|
+currencies|USN|
+currencies|USS|
+currencies|UYU|
+currencies|UZS|
+currencies|VEF|
+currencies|VND|
+currencies|VUV|
+currencies|WST|
+currencies|XAF|
+currencies|XAG|
+currencies|XAU|
+currencies|XBA|
+currencies|XBB|
+currencies|XBC|
+currencies|XBD|
+currencies|XCD|
+currencies|XDR|
+currencies|XFU|
+currencies|XOF|
+currencies|XPD|
+currencies|XPF|
+currencies|XPT|
+currencies|XTS|
+currencies|XXX|
+currencies|YER|
+currencies|ZAR|
+currencies|ZMK|
+currencies|ZWL|
+currencies|AED|
+currencies|AFN|
+currencies|ALL|
+currencies|AMD|
+currencies|ANG|
+currencies|AOA|
+currencies|ARS|
+currencies|AUD|
+currencies|AWG|
+currencies|AZN|
+currencies|BAM|
+currencies|BBD|
+currencies|BDT|
+currencies|BGN|
+currencies|BHD|
+currencies|BIF|
+currencies|BMD|
+currencies|BND|
+currencies|BOB|
+currencies|BOV|
+currencies|BRL|
+currencies|BSD|
+currencies|BTN|
+currencies|BWP|
+currencies|BYR|
+currencies|BZD|
+currencies|CAD|
+currencies|CDF|
+currencies|CHE|
+currencies|CHF|
+currencies|CHW|
+currencies|CLF|
+currencies|CLP|
+currencies|CNY|
+currencies|COP|
+currencies|COU|
+currencies|CRC|
+currencies|CUC|
+currencies|CUP|
+currencies|CVE|
+currencies|CZK|
+currencies|DJF|
+currencies|DKK|
+currencies|DOP|
+currencies|DZD|
+currencies|EGP|
+currencies|ERN|
+currencies|ETB|
+currencies|EUR|
+currencies|FJD|
+currencies|FKP|
+currencies|GBP|
+currencies|GEL|
+currencies|GHS|
+currencies|GIP|
+currencies|GMD|
+currencies|GNF|
+currencies|GTQ|
+currencies|GYD|
+currencies|HKD|
+currencies|HNL|
+currencies|HRK|
+currencies|HTG|
+currencies|HUF|
+currencies|IDR|
+currencies|ILS|
+currencies|INR|
+currencies|IQD|
+currencies|IRR|
+currencies|ISK|
+currencies|JMD|
+currencies|JOD|
+currencies|JPY|
+currencies|KES|
+currencies|KGS|
+currencies|KHR|
+currencies|KMF|
+currencies|KPW|
+currencies|KRW|
+currencies|KWD|
+currencies|KYD|
+currencies|KZT|
+currencies|LAK|
+currencies|LBP|
+currencies|LKR|
+currencies|LRD|
+currencies|LSL|
+currencies|LTL|
+currencies|LVL|
+currencies|LYD|
+currencies|MAD|
+currencies|MDL|
+currencies|MGA|
+currencies|MKD|
+currencies|MMK|
+currencies|MNT|
+currencies|MOP|
+currencies|MRO|
+currencies|MUR|
+currencies|MVR|
+currencies|MWK|
+currencies|MXN|
+currencies|MXV|
+currencies|MYR|
+currencies|MZN|
+currencies|NAD|
+currencies|NGN|
+currencies|NIO|
+currencies|NOK|
+currencies|NPR|
+currencies|NZD|
+currencies|OMR|
+currencies|PAB|
+currencies|PEN|
+currencies|PGK|
+currencies|PHP|
+currencies|PKR|
+currencies|PLN|
+currencies|PYG|
+currencies|QAR|
+currencies|RON|
+currencies|RSD|
+currencies|RUB|
+currencies|RWF|
+currencies|SAR|
+currencies|SBD|
+currencies|SCR|
+currencies|SDG|
+currencies|SEK|
+currencies|SGD|
+currencies|SHP|
+currencies|SLL|
+currencies|SOS|
+currencies|SRD|
+currencies|STD|
+currencies|SYP|
+currencies|SZL|
+currencies|THB|
+currencies|TJS|
+currencies|TMT|
+currencies|TND|
+currencies|TOP|
+currencies|TRY|
+currencies|TTD|
+currencies|TWD|
+currencies|TZS|
+currencies|UAH|
+currencies|UGX|
+currencies|USD|
+currencies|USN|
+currencies|USS|
+currencies|UYU|
+currencies|UZS|
+currencies|VEF|
+currencies|VND|
+currencies|VUV|
+currencies|WST|
+currencies|XAF|
+currencies|XAG|
+currencies|XAU|
+currencies|XBA|
+currencies|XBB|
+currencies|XBC|
+currencies|XBD|
+currencies|XCD|
+currencies|XDR|
+currencies|XFU|
+currencies|XOF|
+currencies|XPD|
+currencies|XPF|
+currencies|XPT|
+currencies|XTS|
+currencies|XXX|
+currencies|YER|
+currencies|ZAR|
+currencies|ZMK|
+currencies|ZWL|
+states|SUCCESSFUL|
+states|REGISTERED|
+states|PROCESSING|
+states|WAITING_INPUT|
+states|WAITING_APPROVAL|
+states|FAILED|
+states|INCONSISTENT|
+states|CANCELLED|
+states|REPROCESSING|
+states|SUCCESSFUL|
+states|REGISTERED|
+states|PROCESSING|
+states|WAITING_INPUT|
+states|WAITING_APPROVAL|
+states|FAILED|
+states|INCONSISTENT|
+states|CANCELLED|
+states|REPROCESSING|
+statuses|SUCCESS|
+statuses|SUCCESS_WITHDRAWAL_APPROVAL|
+statuses|SUCCESS_WITHDRAWAL_AUTO_APPROVAL|
+statuses|SUCCESS_WAITING_CAPTURE|
+statuses|SUCCESS_WAITING_AUTO_CAPTURE|
+statuses|SUCCESS_AUTO_CAPTURED|
+statuses|SUCCESS_CAPTURED|
+statuses|REGISTERED|
+statuses|PROCESSING_PROVIDER|
+statuses|PROCESSING_MERCHANT|
+statuses|CONT_WITH_N3DS|
+statuses|REPROCESSING_PROVIDER|
+statuses|REPROCESSING_MERCHANT|
+statuses|WAITING_INPUT|
+statuses|WAITING_3D_SECURE|
+statuses|WAITING_DEPOSIT_CONFIRMATION|
+statuses|WAITING_NOTIFICATION|
+statuses|WAITING_DEPOSIT_APPROVAL|
+statuses|WAITING_WITHDRAWAL_APPROVAL|
+statuses|WAITING_DEPOSIT_AUTO_APPROVAL|
+statuses|WAITING_WITHDRAWAL_AUTO_APPROVAL|
+statuses|WAITING_DEPOSIT_ON_HOLD_APPROVAL|
+statuses|WAITING_WITHDRAWAL_ON_HOLD_APPROVAL|
+statuses|ERR_READ_TIMEOUT|
+statuses|ERR_REFERENCE_MISMATCH|
+statuses|ERR_INCONSISTENT_TRANSACTION|
+statuses|ERR_UNKNOWN_CALLBACK|
+statuses|ERR_IO_EXCEPTION|
+statuses|ERR_UNKNOWN_RESPONSE|
+statuses|ERR_SYSTEM_ERROR|
+statuses|ERR_FAILED_TO_CONNECT|
+statuses|ERR_DECLINED_BAD_REQUEST|
+statuses|ERR_DECLINED_FRAUD|
+statuses|ERR_DECLINED_NO_FUNDS|
+statuses|ERR_DECLINED_ACCOUNT_SUSPENDED|
+statuses|ERR_DECLINED_OTHER_REASON|
+statuses|ERR_DECLINED_CONTACT_SUPPORT|
+statuses|ERR_DECLINED_CONFIG_ERROR|
+statuses|ERR_NOT_AUTHENTICATED|
+statuses|ERR_INVALID_RESPONSE|
+statuses|ERR_DECLINED_REQ_BLOCKED|
+statuses|ERR_PSP_OUT_OF_SERVICE|
+statuses|ERR_DECLINED_NOT_AUTHORIZED|
+statuses|ERR_RESPONSE_CODE_UNKNOWN|
+statuses|ERR_PSP_ACCOUNT_USED_BY_OTHER_USER|
+statuses|ERR_PSP_ACCOUNT_NOT_USED|
+statuses|ERR_TOO_MANY_PSP_ACCOUNTS|
+statuses|ERR_DECLINED_DUPLICATE_TX_ID|
+statuses|ERR_DECLINED_INVALID_ACCOUNT_NUMBER|
+statuses|ERR_MERCHANT_OUT_OF_SERVICE|
+statuses|ERR_DECLINED_LIMIT_OVERDRAWN|
+statuses|ERR_MERCHANT_RESPONSE_CODE_UNKNOWN|
+statuses|ERR_DECLINED_NO_PROVIDER_FOUND|
+statuses|ERR_DECLINED_PROVIDER_ACCOUNT_CONFIG_ERROR|
+statuses|ERR_MERCHANT_INVALID_RESPONSE|
+statuses|ERR_DECLINED_3D_VALIDATION_FAILED|
+statuses|ERR_DECLINED_3D_EXPIRED|
+statuses|ERR_VAULTIQ_OUT_OF_SERVICE|
+statuses|ERR_DECLINED_IP_BLOCKED|
+statuses|ERR_DECLINED_BIN_BLOCKED|
+statuses|ERR_VAULTIQ_UNKNOWN_ACCOUNT|
+statuses|ERR_DECLINED_KYC_BLOCK|
+statuses|ERR_DECLINED_KYC_USER_UNDER_AGE|
+statuses|ERR_DECLINED_KYC_CHECK_FAILED|
+statuses|ERR_DECLINED_BIC_BLOCK|
+statuses|ERR_DECLINED_EXPIRED|
+statuses|ERR_DECLINED_REPEAT_CANCELLED|
+statuses|ERR_DECLINED_CURRENCY_NOT_SUPPORTED|
+statuses|ERR_DECLINED_FRAUD_SCORE_THRESHOLD_EXCEEDED|
+statuses|ERR_DECLINED_MERCHANT_NOT_FOUND|
+statuses|ERR_DECLINED_MERCHANT_NOT_ENABLED|
+statuses|ERR_DECLINED_PROVIDER_NOT_ENABLED|
+statuses|ERR_DECLINED_UNDER_MAINTENANCE|
+statuses|ERR_NO_REFERRAL_TX_FOUND|
+statuses|ERR_DECLINE_TX_NOT_FOUND|
+statuses|ERR_DECLINE_COUNTRY_NOT_SUPPORTED|
+statuses|ERR_DECLINED_NOT_SUPPORTED_PAYMENT_METHOD_FRAUD|
+statuses|ERR_DECLINED_FRAUD_PROVIDER_ACCOUNT_CONFIG_ERROR|
+statuses|ERR_CANCELLED_BY_USER|
+statuses|ERR_CANCELLED_BY_MERCHANT|
+statuses|ERR_CANCELLED_BY_PSP|
+statuses|SUCCESS|
+statuses|SUCCESS_WITHDRAWAL_APPROVAL|
+statuses|SUCCESS_WITHDRAWAL_AUTO_APPROVAL|
+statuses|SUCCESS_WAITING_CAPTURE|
+statuses|SUCCESS_WAITING_AUTO_CAPTURE|
+statuses|SUCCESS_AUTO_CAPTURED|
+statuses|SUCCESS_CAPTURED|
+statuses|REGISTERED|
+statuses|PROCESSING_PROVIDER|
+statuses|PROCESSING_MERCHANT|
+statuses|CONT_WITH_N3DS|
+statuses|REPROCESSING_PROVIDER|
+statuses|REPROCESSING_MERCHANT|
+statuses|WAITING_INPUT|
+statuses|WAITING_3D_SECURE|
+statuses|WAITING_DEPOSIT_CONFIRMATION|
+statuses|WAITING_NOTIFICATION|
+statuses|WAITING_DEPOSIT_APPROVAL|
+statuses|WAITING_WITHDRAWAL_APPROVAL|
+statuses|WAITING_DEPOSIT_AUTO_APPROVAL|
+statuses|WAITING_WITHDRAWAL_AUTO_APPROVAL|
+statuses|WAITING_DEPOSIT_ON_HOLD_APPROVAL|
+statuses|WAITING_WITHDRAWAL_ON_HOLD_APPROVAL|
+statuses|ERR_READ_TIMEOUT|
+statuses|ERR_REFERENCE_MISMATCH|
+statuses|ERR_INCONSISTENT_TRANSACTION|
+statuses|ERR_UNKNOWN_CALLBACK|
+statuses|ERR_IO_EXCEPTION|
+statuses|ERR_UNKNOWN_RESPONSE|
+statuses|ERR_SYSTEM_ERROR|
+statuses|ERR_FAILED_TO_CONNECT|
+statuses|ERR_DECLINED_BAD_REQUEST|
+statuses|ERR_DECLINED_FRAUD|
+statuses|ERR_DECLINED_NO_FUNDS|
+statuses|ERR_DECLINED_ACCOUNT_SUSPENDED|
+statuses|ERR_DECLINED_OTHER_REASON|
+statuses|ERR_DECLINED_CONTACT_SUPPORT|
+statuses|ERR_DECLINED_CONFIG_ERROR|
+statuses|ERR_NOT_AUTHENTICATED|
+statuses|ERR_INVALID_RESPONSE|
+statuses|ERR_DECLINED_REQ_BLOCKED|
+statuses|ERR_PSP_OUT_OF_SERVICE|
+statuses|ERR_DECLINED_NOT_AUTHORIZED|
+statuses|ERR_RESPONSE_CODE_UNKNOWN|
+statuses|ERR_PSP_ACCOUNT_USED_BY_OTHER_USER|
+statuses|ERR_PSP_ACCOUNT_NOT_USED|
+statuses|ERR_TOO_MANY_PSP_ACCOUNTS|
+statuses|ERR_DECLINED_DUPLICATE_TX_ID|
+statuses|ERR_DECLINED_INVALID_ACCOUNT_NUMBER|
+statuses|ERR_MERCHANT_OUT_OF_SERVICE|
+statuses|ERR_DECLINED_LIMIT_OVERDRAWN|
+statuses|ERR_MERCHANT_RESPONSE_CODE_UNKNOWN|
+statuses|ERR_DECLINED_NO_PROVIDER_FOUND|
+statuses|ERR_DECLINED_PROVIDER_ACCOUNT_CONFIG_ERROR|
+statuses|ERR_MERCHANT_INVALID_RESPONSE|
+statuses|ERR_DECLINED_3D_VALIDATION_FAILED|
+statuses|ERR_DECLINED_3D_EXPIRED|
+statuses|ERR_VAULTIQ_OUT_OF_SERVICE|
+statuses|ERR_DECLINED_IP_BLOCKED|
+statuses|ERR_DECLINED_BIN_BLOCKED|
+statuses|ERR_VAULTIQ_UNKNOWN_ACCOUNT|
+statuses|ERR_DECLINED_KYC_BLOCK|
+statuses|ERR_DECLINED_KYC_USER_UNDER_AGE|
+statuses|ERR_DECLINED_KYC_CHECK_FAILED|
+statuses|ERR_DECLINED_BIC_BLOCK|
+statuses|ERR_DECLINED_EXPIRED|
+statuses|ERR_DECLINED_REPEAT_CANCELLED|
+statuses|ERR_DECLINED_CURRENCY_NOT_SUPPORTED|
+statuses|ERR_DECLINED_FRAUD_SCORE_THRESHOLD_EXCEEDED|
+statuses|ERR_DECLINED_MERCHANT_NOT_FOUND|
+statuses|ERR_DECLINED_MERCHANT_NOT_ENABLED|
+statuses|ERR_DECLINED_PROVIDER_NOT_ENABLED|
+statuses|ERR_DECLINED_UNDER_MAINTENANCE|
+statuses|ERR_NO_REFERRAL_TX_FOUND|
+statuses|ERR_DECLINE_TX_NOT_FOUND|
+statuses|ERR_DECLINE_COUNTRY_NOT_SUPPORTED|
+statuses|ERR_DECLINED_NOT_SUPPORTED_PAYMENT_METHOD_FRAUD|
+statuses|ERR_DECLINED_FRAUD_PROVIDER_ACCOUNT_CONFIG_ERROR|
+statuses|ERR_CANCELLED_BY_USER|
+statuses|ERR_CANCELLED_BY_MERCHANT|
+statuses|ERR_CANCELLED_BY_PSP|
+txTypes|CreditcardDeposit|
+txTypes|CreditcardWithdrawal|
+txTypes|EntropayDeposit|
+txTypes|ICardDeposit|
+txTypes|ICardWithdrawal|
+txTypes|NetellerDeposit|
+txTypes|NetellerWithdrawal|
+txTypes|SkrillDeposit|
+txTypes|SkrillWithdrawal|
+txTypes|PayboxDeposit|
+txTypes|ClickandBuyDeposit|
+txTypes|ClickandBuyWithdrawal|
+txTypes|PayPalDeposit|
+txTypes|PayPalWithdrawal|
+txTypes|MbankomatDeposit|
+txTypes|IBanqDeposit|
+txTypes|IBanqWithdrawal|
+txTypes|LavaPayDeposit|
+txTypes|LavaPayWithdrawal|
+txTypes|InstadebitDeposit|
+txTypes|InstadebitWithdrawal|
+txTypes|IDebitDeposit|
+txTypes|IDebitWithdrawal|
+txTypes|EcoPayzDeposit|
+txTypes|EcoPayzWithdrawal|
+txTypes|AstroPayCardWithdrawal|
+txTypes|AstroPayDirectDeposit|
+txTypes|AstroPayDirectWithdrawal|
+txTypes|VenusPointDeposit|
+txTypes|VenusPointWithdrawal|
+txTypes|MiFinityEWalletDeposit|
+txTypes|MiFinityEWalletWithdrawal|
+txTypes|IWalletDeposit|
+txTypes|IWalletWithdrawal|
+txTypes|MuchBetterDeposit|
+txTypes|MuchBetterWithdrawal|
+txTypes|AstroPayBankWithdrawal|
+txTypes|EutellerDeposit|
+txTypes|EnvoyDeposit|
+txTypes|EnvoyWithdrawal|
+txTypes|TrustlyDeposit|
+txTypes|TrustlyWithdrawal|
+txTypes|BankDeposit|
+txTypes|BankLocalWithdrawal|
+txTypes|BankIBANWithdrawal|
+txTypes|BankIntIBANWithdrawal|
+txTypes|IdealDeposit|
+txTypes|ChinaUnionPayDeposit|
+txTypes|BankIntlWithdrawal|
+txTypes|ChinaUnionPayWithdrawal|
+txTypes|BoletoBancarioDeposit|
+txTypes|PaysafecardDeposit|
+txTypes|UkashDeposit|
+txTypes|UkashWithdrawal|
+txTypes|PaysafecardWithdrawal|
+txTypes|CashlibDeposit|
+txTypes|TicketPremiumDeposit|
+txTypes|FlexepinDeposit|
+txTypes|FunangaDeposit|
+txTypes|VisaVoucherDeposit|
+txTypes|GiftcardDeposit|
+txTypes|PugglePayDeposit|
+txTypes|PaylevoDeposit|
+txTypes|YuuCollectDeposit|
+txTypes|NeosurfVoucherDeposit|
+txTypes|OxxoDeposit|
+txTypes|SeqrDeposit|
+txTypes|CryptoCurrencyDeposit|
+txTypes|SeqrWithdrawal|
+txTypes|SiruDeposit|
+txTypes|SiruStatus|
+txTypes|SiruPriceCalc|
+txTypes|FortumoDeposit|
+txTypes|BokuDeposit|
+txTypes|BlikDeposit|
+txTypes|PayGroundDeposit|
+txTypes|SmsVoucherDeposit|
+txTypes|QiwiDeposit|
+txTypes|QiwiWithdrawal|
+txTypes|AccentPayDeposit|
+txTypes|AccentPayWithdrawal|
+txTypes|WorldPayDeposit|
+txTypes|WorldPayWithdrawal|
+txTypes|PProDeposit|
+txTypes|PProWithdrawal|
+txTypes|EProPaymentWallDeposit|
+txTypes|ApcoDeposit|
+txTypes|SecureTradingDeposit|
+txTypes|DotpayDeposit|
+txTypes|Przelewy24Deposit|
+txTypes|SweGiroDeposit|
+txTypes|ToditoCashDeposit|
+txTypes|TolaMobileDeposit|
+txTypes|KluwpDeposit|
+txTypes|TeleingresoDeposit|
+txTypes|ManualChargeback|
+txTypes|ManualRefund|
+txTypes|ManualCancel|
+txTypes|ManualVoid|
+txTypes|ManualChargeBackWon|
+txTypes|Refund|
+txTypes|Cancel|
+txTypes|Void|
+txTypes|Capture|
+txTypes|CreditcardDeposit|
+txTypes|CreditcardWithdrawal|
+txTypes|EntropayDeposit|
+txTypes|ICardDeposit|
+txTypes|ICardWithdrawal|
+txTypes|NetellerDeposit|
+txTypes|NetellerWithdrawal|
+txTypes|SkrillDeposit|
+txTypes|SkrillWithdrawal|
+txTypes|PayboxDeposit|
+txTypes|ClickandBuyDeposit|
+txTypes|ClickandBuyWithdrawal|
+txTypes|PayPalDeposit|
+txTypes|PayPalWithdrawal|
+txTypes|MbankomatDeposit|
+txTypes|IBanqDeposit|
+txTypes|IBanqWithdrawal|
+txTypes|LavaPayDeposit|
+txTypes|LavaPayWithdrawal|
+txTypes|InstadebitDeposit|
+txTypes|InstadebitWithdrawal|
+txTypes|IDebitDeposit|
+txTypes|IDebitWithdrawal|
+txTypes|EcoPayzDeposit|
+txTypes|EcoPayzWithdrawal|
+txTypes|AstroPayCardWithdrawal|
+txTypes|AstroPayDirectDeposit|
+txTypes|AstroPayDirectWithdrawal|
+txTypes|VenusPointDeposit|
+txTypes|VenusPointWithdrawal|
+txTypes|MiFinityEWalletDeposit|
+txTypes|MiFinityEWalletWithdrawal|
+txTypes|IWalletDeposit|
+txTypes|IWalletWithdrawal|
+txTypes|MuchBetterDeposit|
+txTypes|MuchBetterWithdrawal|
+txTypes|AstroPayBankWithdrawal|
+txTypes|EutellerDeposit|
+txTypes|EnvoyDeposit|
+txTypes|EnvoyWithdrawal|
+txTypes|TrustlyDeposit|
+txTypes|TrustlyWithdrawal|
+txTypes|BankDeposit|
+txTypes|BankLocalWithdrawal|
+txTypes|BankIBANWithdrawal|
+txTypes|BankIntIBANWithdrawal|
+txTypes|IdealDeposit|
+txTypes|ChinaUnionPayDeposit|
+txTypes|BankIntlWithdrawal|
+txTypes|ChinaUnionPayWithdrawal|
+txTypes|BoletoBancarioDeposit|
+txTypes|PaysafecardDeposit|
+txTypes|UkashDeposit|
+txTypes|UkashWithdrawal|
+txTypes|PaysafecardWithdrawal|
+txTypes|CashlibDeposit|
+txTypes|TicketPremiumDeposit|
+txTypes|FlexepinDeposit|
+txTypes|FunangaDeposit|
+txTypes|VisaVoucherDeposit|
+txTypes|GiftcardDeposit|
+txTypes|PugglePayDeposit|
+txTypes|PaylevoDeposit|
+txTypes|YuuCollectDeposit|
+txTypes|NeosurfVoucherDeposit|
+txTypes|OxxoDeposit|
+txTypes|SeqrDeposit|
+txTypes|CryptoCurrencyDeposit|
+txTypes|SeqrWithdrawal|
+txTypes|SiruDeposit|
+txTypes|SiruStatus|
+txTypes|SiruPriceCalc|
+txTypes|FortumoDeposit|
+txTypes|BokuDeposit|
+txTypes|BlikDeposit|
+txTypes|PayGroundDeposit|
+txTypes|SmsVoucherDeposit|
+txTypes|QiwiDeposit|
+txTypes|QiwiWithdrawal|
+txTypes|AccentPayDeposit|
+txTypes|AccentPayWithdrawal|
+txTypes|WorldPayDeposit|
+txTypes|WorldPayWithdrawal|
+txTypes|PProDeposit|
+txTypes|PProWithdrawal|
+txTypes|EProPaymentWallDeposit|
+txTypes|ApcoDeposit|
+txTypes|SecureTradingDeposit|
+txTypes|DotpayDeposit|
+txTypes|Przelewy24Deposit|
+txTypes|SweGiroDeposit|
+txTypes|ToditoCashDeposit|
+txTypes|TolaMobileDeposit|
+txTypes|KluwpDeposit|
+txTypes|TeleingresoDeposit|
+txTypes|ManualChargeback|
+txTypes|ManualRefund|
+txTypes|ManualCancel|
+txTypes|ManualVoid|
+txTypes|ManualChargeBackWon|
+txTypes|Refund|
+txTypes|Cancel|
+txTypes|Void|
+txTypes|Capture|
+psps|Entropay|
+psps|PayPoint|
+psps|PayLine|
+psps|Realex|
+psps|TicketSurf|
+psps|Payvision|
+psps|SwiftVoucher|
+psps|Neosurf|
+psps|Credorax|
+psps|Wirecard|
+psps|NxPay|
+psps|EMP|
+psps|Vamex|
+psps|Payon|
+psps|Pacnet|
+psps|Borgun|
+psps|WorldPay|
+psps|PayEx|
+psps|CC247|
+psps|Computop|
+psps|Ilixium|
+psps|AstroPayCard|
+psps|EMerchantPay|
+psps|YuuPay|
+psps|AlliedWallet|
+psps|WorldPayHCG|
+psps|Ochapay|
+psps|Redbaron|
+psps|Payr|
+psps|Argus|
+psps|Valitor|
+psps|SafeCharge|
+psps|Bambora|
+psps|Dibs|
+psps|Apco|
+psps|ASTech|
+psps|Fibonatix|
+psps|DreamsPay|
+psps|Clearhaus|
+psps|Citigate|
+psps|CreditGuard|
+psps|Powerpay21|
+psps|EMerchantPayWs|
+psps|Kluwp|
+psps|MiFinity|
+psps|Ingenico|
+psps|AltPayNet|
+psps|BamboraGa|
+psps|Payneteasy|
+psps|EPay|
+psps|CcMock|
+psps|Neteller|
+psps|Skrill|
+psps|Paybox|
+psps|ClickandBuy|
+psps|PayPal|
+psps|Mbankomat|
+psps|Siru|
+psps|IBanq|
+psps|LavaPay|
+psps|VenusPoint|
+psps|IWallet|
+psps|MuchBetter|
+psps|Paysafecard|
+psps|Ukash|
+psps|Instadebit|
+psps|IDebit|
+psps|EcoPayz|
+psps|Fortumo|
+psps|AstroPayDirect|
+psps|Boku|
+psps|NeosurfVoucher|
+psps|PayGround|
+psps|SmsVoucher|
+psps|Flexepin|
+psps|Funanga|
+psps|Trustly|
+psps|Envoy|
+psps|Euteller|
+psps|Entercash|
+psps|InPay|
+psps|Poli|
+psps|Sofort|
+psps|Transferuj|
+psps|Adyen|
+psps|RapidPaymentsNetwork|
+psps|ManualBanking|
+psps|Citadel|
+psps|Safetypay|
+psps|EasyEft|
+psps|Interac|
+psps|AstroPayBank|
+psps|PugglePay|
+psps|Paylevo|
+psps|Seqr|
+psps|AccentPay|
+psps|PPro|
+psps|SecureTrading|
+psps|Dotpay|
+psps|Przelewy24|
+psps|MobileGiro|
+psps|ToditoCash|
+psps|TolaMobile|
+psps|Teleingreso|
+psps|Bitpay|
+psps|FraudGuard|
+psps|FeatureSpace|
+psps|Undefined|
+psps|Unknown|
+psps|Entropay|
+psps|PayPoint|
+psps|PayLine|
+psps|Realex|
+psps|TicketSurf|
+psps|Payvision|
+psps|SwiftVoucher|
+psps|Neosurf|
+psps|Credorax|
+psps|Wirecard|
+psps|NxPay|
+psps|EMP|
+psps|Vamex|
+psps|Payon|
+psps|Pacnet|
+psps|Borgun|
+psps|WorldPay|
+psps|PayEx|
+psps|CC247|
+psps|Computop|
+psps|Ilixium|
+psps|AstroPayCard|
+psps|EMerchantPay|
+psps|YuuPay|
+psps|AlliedWallet|
+psps|WorldPayHCG|
+psps|Ochapay|
+psps|Redbaron|
+psps|Payr|
+psps|Argus|
+psps|Valitor|
+psps|SafeCharge|
+psps|Bambora|
+psps|Dibs|
+psps|Apco|
+psps|ASTech|
+psps|Fibonatix|
+psps|DreamsPay|
+psps|Clearhaus|
+psps|Citigate|
+psps|CreditGuard|
+psps|Powerpay21|
+psps|EMerchantPayWs|
+psps|Kluwp|
+psps|MiFinity|
+psps|Ingenico|
+psps|AltPayNet|
+psps|BamboraGa|
+psps|Payneteasy|
+psps|EPay|
+psps|CcMock|
+psps|Neteller|
+psps|Skrill|
+psps|Paybox|
+psps|ClickandBuy|
+psps|PayPal|
+psps|Mbankomat|
+psps|Siru|
+psps|IBanq|
+psps|LavaPay|
+psps|VenusPoint|
+psps|IWallet|
+psps|MuchBetter|
+psps|Paysafecard|
+psps|Ukash|
+psps|Instadebit|
+psps|IDebit|
+psps|EcoPayz|
+psps|Fortumo|
+psps|AstroPayDirect|
+psps|Boku|
+psps|NeosurfVoucher|
+psps|PayGround|
+psps|SmsVoucher|
+psps|Flexepin|
+psps|Funanga|
+psps|Trustly|
+psps|Envoy|
+psps|Euteller|
+psps|Entercash|
+psps|InPay|
+psps|Poli|
+psps|Sofort|
+psps|Transferuj|
+psps|Adyen|
+psps|RapidPaymentsNetwork|
+psps|ManualBanking|
+psps|Citadel|
+psps|Safetypay|
+psps|EasyEft|
+psps|Interac|
+psps|AstroPayBank|
+psps|PugglePay|
+psps|Paylevo|
+psps|Seqr|
+psps|AccentPay|
+psps|PPro|
+psps|SecureTrading|
+psps|Dotpay|
+psps|Przelewy24|
+psps|MobileGiro|
+psps|ToditoCash|
+psps|TolaMobile|
+psps|Teleingreso|
+psps|Bitpay|
+psps|FraudGuard|
+psps|FeatureSpace|
+psps|Undefined|
+psps|Unknown|
+initiatedPsps|Entropay|
+initiatedPsps|PayPoint|
+initiatedPsps|PayLine|
+initiatedPsps|Realex|
+initiatedPsps|TicketSurf|
+initiatedPsps|Payvision|
+initiatedPsps|SwiftVoucher|
+initiatedPsps|Neosurf|
+initiatedPsps|Credorax|
+initiatedPsps|Wirecard|
+initiatedPsps|NxPay|
+initiatedPsps|EMP|
+initiatedPsps|Vamex|
+initiatedPsps|Payon|
+initiatedPsps|Pacnet|
+initiatedPsps|Borgun|
+initiatedPsps|WorldPay|
+initiatedPsps|PayEx|
+initiatedPsps|CC247|
+initiatedPsps|Computop|
+initiatedPsps|Ilixium|
+initiatedPsps|AstroPayCard|
+initiatedPsps|EMerchantPay|
+initiatedPsps|YuuPay|
+initiatedPsps|AlliedWallet|
+initiatedPsps|WorldPayHCG|
+initiatedPsps|Ochapay|
+initiatedPsps|Redbaron|
+initiatedPsps|Payr|
+initiatedPsps|Argus|
+initiatedPsps|Valitor|
+initiatedPsps|SafeCharge|
+initiatedPsps|Bambora|
+initiatedPsps|Dibs|
+initiatedPsps|Apco|
+initiatedPsps|ASTech|
+initiatedPsps|Fibonatix|
+initiatedPsps|DreamsPay|
+initiatedPsps|Clearhaus|
+initiatedPsps|Citigate|
+initiatedPsps|CreditGuard|
+initiatedPsps|Powerpay21|
+initiatedPsps|EMerchantPayWs|
+initiatedPsps|Kluwp|
+initiatedPsps|MiFinity|
+initiatedPsps|Ingenico|
+initiatedPsps|AltPayNet|
+initiatedPsps|BamboraGa|
+initiatedPsps|Payneteasy|
+initiatedPsps|EPay|
+initiatedPsps|CcMock|
+initiatedPsps|Neteller|
+initiatedPsps|Skrill|
+initiatedPsps|Paybox|
+initiatedPsps|ClickandBuy|
+initiatedPsps|PayPal|
+initiatedPsps|Mbankomat|
+initiatedPsps|Siru|
+initiatedPsps|IBanq|
+initiatedPsps|LavaPay|
+initiatedPsps|VenusPoint|
+initiatedPsps|IWallet|
+initiatedPsps|MuchBetter|
+initiatedPsps|Paysafecard|
+initiatedPsps|Ukash|
+initiatedPsps|Instadebit|
+initiatedPsps|IDebit|
+initiatedPsps|EcoPayz|
+initiatedPsps|Fortumo|
+initiatedPsps|AstroPayDirect|
+initiatedPsps|Boku|
+initiatedPsps|NeosurfVoucher|
+initiatedPsps|PayGround|
+initiatedPsps|SmsVoucher|
+initiatedPsps|Flexepin|
+initiatedPsps|Funanga|
+initiatedPsps|Trustly|
+initiatedPsps|Envoy|
+initiatedPsps|Euteller|
+initiatedPsps|Entercash|
+initiatedPsps|InPay|
+initiatedPsps|Poli|
+initiatedPsps|Sofort|
+initiatedPsps|Transferuj|
+initiatedPsps|Adyen|
+initiatedPsps|RapidPaymentsNetwork|
+initiatedPsps|ManualBanking|
+initiatedPsps|Citadel|
+initiatedPsps|Safetypay|
+initiatedPsps|EasyEft|
+initiatedPsps|Interac|
+initiatedPsps|AstroPayBank|
+initiatedPsps|PugglePay|
+initiatedPsps|Paylevo|
+initiatedPsps|Seqr|
+initiatedPsps|AccentPay|
+initiatedPsps|PPro|
+initiatedPsps|SecureTrading|
+initiatedPsps|Dotpay|
+initiatedPsps|Przelewy24|
+initiatedPsps|MobileGiro|
+initiatedPsps|ToditoCash|
+initiatedPsps|TolaMobile|
+initiatedPsps|Teleingreso|
+initiatedPsps|Bitpay|
+initiatedPsps|FraudGuard|
+initiatedPsps|FeatureSpace|
+initiatedPsps|Undefined|
+initiatedPsps|Unknown|
+initiatedPsps|Entropay|
+initiatedPsps|PayPoint|
+initiatedPsps|PayLine|
+initiatedPsps|Realex|
+initiatedPsps|TicketSurf|
+initiatedPsps|Payvision|
+initiatedPsps|SwiftVoucher|
+initiatedPsps|Neosurf|
+initiatedPsps|Credorax|
+initiatedPsps|Wirecard|
+initiatedPsps|NxPay|
+initiatedPsps|EMP|
+initiatedPsps|Vamex|
+initiatedPsps|Payon|
+initiatedPsps|Pacnet|
+initiatedPsps|Borgun|
+initiatedPsps|WorldPay|
+initiatedPsps|PayEx|
+initiatedPsps|CC247|
+initiatedPsps|Computop|
+initiatedPsps|Ilixium|
+initiatedPsps|AstroPayCard|
+initiatedPsps|EMerchantPay|
+initiatedPsps|YuuPay|
+initiatedPsps|AlliedWallet|
+initiatedPsps|WorldPayHCG|
+initiatedPsps|Ochapay|
+initiatedPsps|Redbaron|
+initiatedPsps|Payr|
+initiatedPsps|Argus|
+initiatedPsps|Valitor|
+initiatedPsps|SafeCharge|
+initiatedPsps|Bambora|
+initiatedPsps|Dibs|
+initiatedPsps|Apco|
+initiatedPsps|ASTech|
+initiatedPsps|Fibonatix|
+initiatedPsps|DreamsPay|
+initiatedPsps|Clearhaus|
+initiatedPsps|Citigate|
+initiatedPsps|CreditGuard|
+initiatedPsps|Powerpay21|
+initiatedPsps|EMerchantPayWs|
+initiatedPsps|Kluwp|
+initiatedPsps|MiFinity|
+initiatedPsps|Ingenico|
+initiatedPsps|AltPayNet|
+initiatedPsps|BamboraGa|
+initiatedPsps|Payneteasy|
+initiatedPsps|EPay|
+initiatedPsps|CcMock|
+initiatedPsps|Neteller|
+initiatedPsps|Skrill|
+initiatedPsps|Paybox|
+initiatedPsps|ClickandBuy|
+initiatedPsps|PayPal|
+initiatedPsps|Mbankomat|
+initiatedPsps|Siru|
+initiatedPsps|IBanq|
+initiatedPsps|LavaPay|
+initiatedPsps|VenusPoint|
+initiatedPsps|IWallet|
+initiatedPsps|MuchBetter|
+initiatedPsps|Paysafecard|
+initiatedPsps|Ukash|
+initiatedPsps|Instadebit|
+initiatedPsps|IDebit|
+initiatedPsps|EcoPayz|
+initiatedPsps|Fortumo|
+initiatedPsps|AstroPayDirect|
+initiatedPsps|Boku|
+initiatedPsps|NeosurfVoucher|
+initiatedPsps|PayGround|
+initiatedPsps|SmsVoucher|
+initiatedPsps|Flexepin|
+initiatedPsps|Funanga|
+initiatedPsps|Trustly|
+initiatedPsps|Envoy|
+initiatedPsps|Euteller|
+initiatedPsps|Entercash|
+initiatedPsps|InPay|
+initiatedPsps|Poli|
+initiatedPsps|Sofort|
+initiatedPsps|Transferuj|
+initiatedPsps|Adyen|
+initiatedPsps|RapidPaymentsNetwork|
+initiatedPsps|ManualBanking|
+initiatedPsps|Citadel|
+initiatedPsps|Safetypay|
+initiatedPsps|EasyEft|
+initiatedPsps|Interac|
+initiatedPsps|AstroPayBank|
+initiatedPsps|PugglePay|
+initiatedPsps|Paylevo|
+initiatedPsps|Seqr|
+initiatedPsps|AccentPay|
+initiatedPsps|PPro|
+initiatedPsps|SecureTrading|
+initiatedPsps|Dotpay|
+initiatedPsps|Przelewy24|
+initiatedPsps|MobileGiro|
+initiatedPsps|ToditoCash|
+initiatedPsps|TolaMobile|
+initiatedPsps|Teleingreso|
+initiatedPsps|Bitpay|
+initiatedPsps|FraudGuard|
+initiatedPsps|FeatureSpace|
+initiatedPsps|Undefined|
+initiatedPsps|Unknown|
+
+> Example responses
+
+```json
+[
+  {
+    "accountHolderName": "test test",
+    "amount": {
+      "amount": 0,
+      "amountInFractionUnit": 0,
+      "currency": "string",
+      "currencyCode": "string",
+      "currencyNumeric3Code": "string",
+      "fractionDigits": 0,
+      "negative": true,
+      "positive": true,
+      "zero": true
+    },
+    "amountBase": {
+      "amount": 0,
+      "amountInFractionUnit": 0,
+      "currency": "string",
+      "currencyCode": "string",
+      "currencyNumeric3Code": "string",
+      "fractionDigits": 0,
+      "negative": true,
+      "positive": true,
+      "zero": true
+    },
+    "authAmount": {
+      "amount": 0,
+      "amountInFractionUnit": 0,
+      "currency": "string",
+      "currencyCode": "string",
+      "currencyNumeric3Code": "string",
+      "fractionDigits": 0,
+      "negative": true,
+      "positive": true,
+      "zero": true
+    },
+    "authAmountBase": {
+      "amount": 0,
+      "amountInFractionUnit": 0,
+      "currency": "string",
+      "currencyCode": "string",
+      "currencyNumeric3Code": "string",
+      "fractionDigits": 0,
+      "negative": true,
+      "positive": true,
+      "zero": true
+    },
+    "blockedAccountReason": "250EAO",
+    "bonusCode": "1111",
+    "channelId": "12345",
+    "created": "2017-04-27 14:10:38",
+    "depositType": "Standard",
+    "fee": {
+      "amount": 0,
+      "amountInFractionUnit": 0,
+      "currency": "string",
+      "currencyCode": "string",
+      "currencyNumeric3Code": "string",
+      "fractionDigits": 0,
+      "negative": true,
+      "positive": true,
+      "zero": true
+    },
+    "feeBase": {
+      "amount": 0,
+      "amountInFractionUnit": 0,
+      "currency": "string",
+      "currencyCode": "string",
+      "currencyNumeric3Code": "string",
+      "fractionDigits": 0,
+      "negative": true,
+      "positive": true,
+      "zero": true
+    },
+    "info": {},
+    "initiatedPspAccount": "3DS",
+    "initiatedPspId": 108,
+    "ipAddr": "141.8.92.216",
+    "ipCity": "Msida",
+    "ipCountry": "MLT",
+    "ipRegion": "string",
+    "issuerCountry": "ZZZ",
+    "kycStatus": "Accept",
+    "lastUpdated": "2017-04-27 14:10:40",
+    "maskedUserAccount": "23232*****232",
+    "merchantAuthCode": "cc3056ec-735c-4ef6-8126-0b0d94b96b49",
+    "merchantErrCode": "1001",
+    "merchantId": 1980,
+    "merchantTxId": "c15eef34-1f37-43a4-a19b-473dbef541ed",
+    "merchantUserBal": {
+      "amount": 0,
+      "amountInFractionUnit": 0,
+      "currency": "string",
+      "currencyCode": "string",
+      "currencyNumeric3Code": "string",
+      "fractionDigits": 0,
+      "negative": true,
+      "positive": true,
+      "zero": true
+    },
+    "merchantUserCat": "TEST",
+    "merchantUserCountry": "AUS",
+    "merchantUserEmail": "test@example.com",
+    "merchantUserId": "TEST_USER",
+    "originTxId": 193027,
+    "pspAccount": "3DS",
+    "pspFee": {
+      "amount": 0,
+      "amountInFractionUnit": 0,
+      "currency": "string",
+      "currencyCode": "string",
+      "currencyNumeric3Code": "string",
+      "fractionDigits": 0,
+      "negative": true,
+      "positive": true,
+      "zero": true
+    },
+    "pspFeeBase": {
+      "amount": 0,
+      "amountInFractionUnit": 0,
+      "currency": "string",
+      "currencyCode": "string",
+      "currencyNumeric3Code": "string",
+      "fractionDigits": 0,
+      "negative": true,
+      "positive": true,
+      "zero": true
+    },
+    "pspFraudScore": 0.02,
+    "pspId": 108,
+    "pspRefId": "C873789149330223994317",
+    "pspService": "250EAO",
+    "pspStatusCode": "PENDING",
+    "pspTxAmount": {
+      "amount": 0,
+      "amountInFractionUnit": 0,
+      "currency": "string",
+      "currencyCode": "string",
+      "currencyNumeric3Code": "string",
+      "fractionDigits": 0,
+      "negative": true,
+      "positive": true,
+      "zero": true
+    },
+    "pspUserRef": "1111",
+    "reversedMerchantTxId": "250EAO",
+    "reversedTxId": 1000,
+    "rules": [
+      "string"
+    ],
+    "statusCode": "SUCCESS",
+    "suspectedAbuseReason": "250EAO",
+    "txAmount": {
+      "amount": 0,
+      "amountInFractionUnit": 0,
+      "currency": "string",
+      "currencyCode": "string",
+      "currencyNumeric3Code": "string",
+      "fractionDigits": 0,
+      "negative": true,
+      "positive": true,
+      "zero": true
+    },
+    "txAmountBase": {
+      "amount": 0,
+      "amountInFractionUnit": 0,
+      "currency": "string",
+      "currencyCode": "string",
+      "currencyNumeric3Code": "string",
+      "fractionDigits": 0,
+      "negative": true,
+      "positive": true,
+      "zero": true
+    },
+    "updatedBy": "user1",
+    "userPspAccountDetails": {
+      "accountUuid": "string",
+      "blockReason": "string",
+      "description": "string",
+      "directDebit": true,
+      "expiryDate": "2017-11-06T10:24:36Z",
+      "extAccountRefId": "string",
+      "firstUsed": "2017-11-06T10:24:36Z",
+      "hashedAccount": "string",
+      "holder": "string",
+      "id": 0,
+      "lastSuccess": "2017-11-06T10:24:36Z",
+      "lastUsed": "2017-11-06T10:24:36Z",
+      "maskedAccount": "string",
+      "merchantId": 0,
+      "merchantUserId": "string",
+      "new": true,
+      "noFailedTx": 0,
+      "noSuccessfulTx": 0,
+      "providerType": "string",
+      "startDate": "2017-11-06T10:24:36Z",
+      "status": "ACTIVE",
+      "storeAccount": true,
+      "type": "CreditcardDeposit",
+      "vaultData": {
+        "property1": "string",
+        "property2": "string"
+      },
+      "vaultIQData": {
+        "property1": "string",
+        "property2": "string"
+      },
+      "vaultIQUuid": "string",
+      "vaultUuid": "string",
+      "visibilityResetAllowed": true,
+      "visible": true
+    },
+    "userPspAccountId": "404200******8008",
+    "id": 193027,
+    "txTypeInt": 108,
+    "state": "SUCCESSFUL"
+  }
+]
+```
+```json
+{
+  "errorId": "657b10da-d2f9-4088-a948-bf190ef516b1-000002fd",
+  "errorMessage": "Details about the specified error..."
+}
+```
+```json
+{
+  "error": "invalid_token",
+  "error_description": "Cannot convert access token to JSON"
+}
+```
+```json
+{
+  "errorId": "657b10da-d2f9-4088-a948-bf190ef516b1-000002fd",
+  "errorMessage": "Details about the specified error..."
+}
+```
+```json
+{
+  "id": 256616,
+  "merchantId": 100000000,
+  "statusCode": "ERR_SYSTEM_ERROR",
+  "pspStatusCode": "0_00",
+  "state": "FAILED",
+  "errorMessage": "Invalid transaction state, found current transaction status: FAILED. Expected transaction state to be SUCCESSFUL.",
+  "created": "2017-09-15 00:00:00",
+  "lastUpdated": "2017-09-16 00:00:00"
+}
+```
+### Responses
+
+Status|Meaning|Description|Schema
+---|---|---|---|
+200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successfully found transactions|Inline
+400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad Request|[ErrorResponse](#schemaerrorresponse)
+401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized authentication|[UnauthorizedResponse](#schemaunauthorizedresponse)
+403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|User is not permitted to requested operation|None
+404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Transaction not found for search request|[ErrorResponse](#schemaerrorresponse)
+409|[Conflict](https://tools.ietf.org/html/rfc7231#section-6.5.8)|Syntactically correct requests that still cannot be performed|[PaymentsErrorResponse](#schemapaymentserrorresponse)
+500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error|None
+
+### Response Schema
+
+Status Code **200**
+
+Name|Type|Required|Description
+---|---|---|---|---|
+anonymous|[[PaymentResponse](#schemapaymentresponse)]|false|No description
+» accountHolderName|string|false|Account holder name
+» amount|[Money](#schemamoney)|false|No description
+»» amount|number|false|No description
+»» amountInFractionUnit|integer(int64)|false|No description
+»» currency|string|false|No description
+»» currencyCode|string|false|No description
+»» currencyNumeric3Code|string|false|No description
+»» fractionDigits|integer(int32)|false|No description
+»» negative|boolean|false|No description
+»» positive|boolean|false|No description
+»» zero|boolean|false|No description
+» amountBase|[Money](#schemamoney)|false|No description
+»» amount|number|false|No description
+»» amountInFractionUnit|integer(int64)|false|No description
+»» currency|string|false|No description
+»» currencyCode|string|false|No description
+»» currencyNumeric3Code|string|false|No description
+»» fractionDigits|integer(int32)|false|No description
+»» negative|boolean|false|No description
+»» positive|boolean|false|No description
+»» zero|boolean|false|No description
+» authAmount|[Money](#schemamoney)|false|No description
+»» amount|number|false|No description
+»» amountInFractionUnit|integer(int64)|false|No description
+»» currency|string|false|No description
+»» currencyCode|string|false|No description
+»» currencyNumeric3Code|string|false|No description
+»» fractionDigits|integer(int32)|false|No description
+»» negative|boolean|false|No description
+»» positive|boolean|false|No description
+»» zero|boolean|false|No description
+» authAmountBase|[Money](#schemamoney)|false|No description
+»» amount|number|false|No description
+»» amountInFractionUnit|integer(int64)|false|No description
+»» currency|string|false|No description
+»» currencyCode|string|false|No description
+»» currencyNumeric3Code|string|false|No description
+»» fractionDigits|integer(int32)|false|No description
+»» negative|boolean|false|No description
+»» positive|boolean|false|No description
+»» zero|boolean|false|No description
+» blockedAccountReason|string|false|Blocked Account Reason
+» bonusCode|string|false|Optional bonus code.
+» channelId|string|false|Optional channel-id provided by merchant
+» created|string(date-time)|false|Date and time when transaction was created
+» depositType|string|false|Deposit Type
+» fee|[Money](#schemamoney)|false|No description
+»» amount|number|false|No description
+»» amountInFractionUnit|integer(int64)|false|No description
+»» currency|string|false|No description
+»» currencyCode|string|false|No description
+»» currencyNumeric3Code|string|false|No description
+»» fractionDigits|integer(int32)|false|No description
+»» negative|boolean|false|No description
+»» positive|boolean|false|No description
+»» zero|boolean|false|No description
+» feeBase|[Money](#schemamoney)|false|No description
+»» amount|number|false|No description
+»» amountInFractionUnit|integer(int64)|false|No description
+»» currency|string|false|No description
+»» currencyCode|string|false|No description
+»» currencyNumeric3Code|string|false|No description
+»» fractionDigits|integer(int32)|false|No description
+»» negative|boolean|false|No description
+»» positive|boolean|false|No description
+»» zero|boolean|false|No description
+» info|[StringBuilder](#schemastringbuilder)|false|No description
+» initiatedPspAccount|string|false|Provider account used in the transaction
+» initiatedPspId|integer(int32)|false|Representation of provider who initiated the transaction, e.g. Skrill, Neteller or PayPoint
+» ipAddr|string|false|IP Address
+» ipCity|string|false|IP City
+» ipCountry|string|false|IP Country
+» ipRegion|string|false|IP Region
+» issuerCountry|string|false|Optional info for credit cards .. Three letter iso standard
+» kycStatus|string|false|Know Your Customer (KYC) status. Value returned by merchant. Used for checking tx
+» lastUpdated|string(date-time)|false|Last date and time when transaction was updated
+» maskedUserAccount|string|false|User's account masked
+» merchantAuthCode|string|false|Merchant's authorization code from the authorize request
+» merchantErrCode|string|false|Merchant error code, e.g. verify user failed
+» merchantId|integer(int32)|false|Merchant id
+» merchantTxId|string|false|Merchant's tx id.
+» merchantUserBal|[Money](#schemamoney)|false|No description
+»» amount|number|false|No description
+»» amountInFractionUnit|integer(int64)|false|No description
+»» currency|string|false|No description
+»» currencyCode|string|false|No description
+»» currencyNumeric3Code|string|false|No description
+»» fractionDigits|integer(int32)|false|No description
+»» negative|boolean|false|No description
+»» positive|boolean|false|No description
+»» zero|boolean|false|No description
+» merchantUserCat|string|false|Merchant's user category
+» merchantUserCountry|string|false|Merchant user country
+» merchantUserEmail|string|false|Merchant user email
+» merchantUserId|string|false|Merchant's user id
+» originTxId|integer(int64)|false|Transaction id that is origin to this transaction
+» pspAccount|string|false|Provider account used in the transaction
+» pspFee|[Money](#schemamoney)|false|No description
+»» amount|number|false|No description
+»» amountInFractionUnit|integer(int64)|false|No description
+»» currency|string|false|No description
+»» currencyCode|string|false|No description
+»» currencyNumeric3Code|string|false|No description
+»» fractionDigits|integer(int32)|false|No description
+»» negative|boolean|false|No description
+»» positive|boolean|false|No description
+»» zero|boolean|false|No description
+» pspFeeBase|[Money](#schemamoney)|false|No description
+»» amount|number|false|No description
+»» amountInFractionUnit|integer(int64)|false|No description
+»» currency|string|false|No description
+»» currencyCode|string|false|No description
+»» currencyNumeric3Code|string|false|No description
+»» fractionDigits|integer(int32)|false|No description
+»» negative|boolean|false|No description
+»» positive|boolean|false|No description
+»» zero|boolean|false|No description
+» pspFraudScore|number(double)|false|Normalized PSP fraud score (0-10).
+» pspId|integer(int32)|false|Representation of provider who has processed the transaction, e.g. Skrill, Neteller or PayPoint
+» pspRefId|string|false|Provider reference id
+» pspService|string|false|Representation of provider's sub service which will be used to do a payment
+» pspStatusCode|string|false|Provider specific status code
+» pspTxAmount|[Money](#schemamoney)|false|No description
+»» amount|number|false|No description
+»» amountInFractionUnit|integer(int64)|false|No description
+»» currency|string|false|No description
+»» currencyCode|string|false|No description
+»» currencyNumeric3Code|string|false|No description
+»» fractionDigits|integer(int32)|false|No description
+»» negative|boolean|false|No description
+»» positive|boolean|false|No description
+»» zero|boolean|false|No description
+» pspUserRef|string|false|PSP User ref 
+» reversedMerchantTxId|string|false|Merchant transaction that have been reversed by this transaction 
+» reversedTxId|integer(int64)|false|Transaction id that have been reversed by this transaction
+» statusCode|string|false|Status code
+» suspectedAbuseReason|string|false|Suspected Abused Reason
+» txAmount|[Money](#schemamoney)|false|No description
+»» amount|number|false|No description
+»» amountInFractionUnit|integer(int64)|false|No description
+»» currency|string|false|No description
+»» currencyCode|string|false|No description
+»» currencyNumeric3Code|string|false|No description
+»» fractionDigits|integer(int32)|false|No description
+»» negative|boolean|false|No description
+»» positive|boolean|false|No description
+»» zero|boolean|false|No description
+» txAmountBase|[Money](#schemamoney)|false|No description
+»» amount|number|false|No description
+»» amountInFractionUnit|integer(int64)|false|No description
+»» currency|string|false|No description
+»» currencyCode|string|false|No description
+»» currencyNumeric3Code|string|false|No description
+»» fractionDigits|integer(int32)|false|No description
+»» negative|boolean|false|No description
+»» positive|boolean|false|No description
+»» zero|boolean|false|No description
+» updatedBy|string|false|Optional last user took same action on the transactions
+» userPspAccountDetails|[UserPspAccountDetails](#schemauserpspaccountdetails)|false|No description
+»» accountUuid|string|false|No description
+»» blockReason|string|false|No description
+»» description|string|false|No description
+»» directDebit|boolean|false|No description
+»» expiryDate|string(date-time)|false|No description
+»» extAccountRefId|string|false|No description
+»» firstUsed|string(date-time)|false|No description
+»» hashedAccount|string|false|No description
+»» holder|string|false|No description
+»» id|integer(int64)|false|No description
+»» lastSuccess|string(date-time)|false|No description
+»» lastUsed|string(date-time)|false|No description
+»» maskedAccount|string|false|No description
+»» merchantId|integer(int32)|false|No description
+»» merchantUserId|string|false|No description
+»» new|boolean|false|No description
+»» noFailedTx|integer(int32)|false|No description
+»» noSuccessfulTx|integer(int32)|false|No description
+»» providerType|string|false|No description
+»» startDate|string(date-time)|false|No description
+»» status|string|false|No description
+»» storeAccount|boolean|false|No description
+»» type|string|false|No description
+»» vaultData|object|false|No description
+»» vaultIQData|object|false|No description
+»» vaultIQUuid|string|false|No description
+»» vaultUuid|string|false|No description
+»» visibilityResetAllowed|boolean|false|No description
+»» visible|boolean|false|No description
+» userPspAccountId|integer(int64)|false|User PSP account unique id, reference to table 'user_psp_account.id
+» id|integer(int64)|false|Unique transaction id
+» txTypeInt|integer(int32)|false|Representation of transaction type, e.g. Skrill deposit, Neteller
+» state|string|false|Transaction state
+» rules|[string]|false|No description
+
+
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+oauth2 ( Scopes: default )
+</aside>
 
 ## approve
 
-`POST /backoffice/api/v2/paymenttx/approve/{txId}`
+`POST /admin/v1/payments/approve/{txId}`
 
 *approve*
 
+This method is called to approve a transaction. This will send it on to the payment processor.
+
+> Body parameter
+
+```json
+{
+  "info": "Approve reason...",
+  "tagId": "CP-1"
+}
+```
 ### Parameters
 
 Parameter|In|Type|Required|Description
 ---|---|---|---|---|
 txId|path|integer(int64)|true|txId
-merchantId|query|integer(int32)|true|merchantId
+merchantId|query|string|true|merchantId
+body|body|[ApproveRequest](#schemaapproverequest)|false|request
+» info|body|string|false|Any additional information to provide reason for approve. Maximum limit 200 characters.
+» tagId|body|string|false|Tag id, you need to predefine tags in MerchantConfig.The tag must be named Approve, an example is <tags><entry><string>Approve</string><list><tag><id>CP-1</id><name>Other reason</name></tag></list></entry></tags>
 
 
 > Example responses
 
 ```json
 {
-  "created": "2017-09-15",
-  "errorMessage": "Failed transaction",
-  "id": "250EAO",
-  "lastUpdated": "2017-09-16",
+  "id": 256616,
   "merchantId": 100000000,
-  "pspStatusCode": "10001",
-  "state": "0",
-  "statusCode": "500"
+  "statusCode": "SUCCESS",
+  "pspStatusCode": "0_00",
+  "state": "SUCCESSFUL",
+  "created": "2017-09-15 00:00:00",
+  "lastUpdated": "2017-09-16 00:00:00"
+}
+```
+```json
+{
+  "errorId": "657b10da-d2f9-4088-a948-bf190ef516b1-000002fd",
+  "errorMessage": "Details about the specified error..."
+}
+```
+```json
+{
+  "error": "invalid_token",
+  "error_description": "Cannot convert access token to JSON"
+}
+```
+```json
+{
+  "errorId": "657b10da-d2f9-4088-a948-bf190ef516b1-000002fd",
+  "errorMessage": "Details about the specified error..."
+}
+```
+```json
+{
+  "id": 256616,
+  "merchantId": 100000000,
+  "statusCode": "ERR_SYSTEM_ERROR",
+  "pspStatusCode": "0_00",
+  "state": "FAILED",
+  "errorMessage": "Invalid transaction state, found current transaction status: FAILED. Expected transaction state to be SUCCESSFUL.",
+  "created": "2017-09-15 00:00:00",
+  "lastUpdated": "2017-09-16 00:00:00"
 }
 ```
 ### Responses
 
 Status|Meaning|Description|Schema
 ---|---|---|---|
-200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success|[PaymentActionResponse](#schemapaymentactionresponse)
-401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None
-403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Forbidden|None
-404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Transaction not found|None
+200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful approve|[PaymentsResponse](#schemapaymentsresponse)
+400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad Request|[ErrorResponse](#schemaerrorresponse)
+401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized authentication|[UnauthorizedResponse](#schemaunauthorizedresponse)
+403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|User is not permitted to requested operation|None
+404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Transaction not found for refund request|[ErrorResponse](#schemaerrorresponse)
+409|[Conflict](https://tools.ietf.org/html/rfc7231#section-6.5.8)|Syntactically correct requests that still cannot be performed|[PaymentsErrorResponse](#schemapaymentserrorresponse)
 500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error|None
 
 <aside class="warning">
@@ -85,23 +2118,23 @@ To perform this operation, you must be authenticated by means of one of the foll
 oauth2 ( Scopes: default )
 </aside>
 
-## cancel
+## doCapture
 
-`POST /backoffice/api/v2/paymenttx/cancel/{txId}`
+`POST /admin/v1/payments/capture/{txId}`
 
-*cancel*
+*doCapture*
+
+Manually  capture  the  amount  of  an  authorized  transaction.  The
+transaction  must  have  the  following  status  code:
+SUCCESS_AUTO_CAPTURED  or
+SUCCESS_CAPTURED  to  able  to  be  captured
 
 > Body parameter
 
 ```json
 {
-  "amount": "16.22",
-  "authAmount": "123.2",
-  "feeAmount": "32.32",
-  "force": false,
-  "info": "Suspect fraud behaviour",
-  "tagId": "100",
-  "txAmount": "14.00"
+  "info": "Capture reason...",
+  "tagId": "CP-1"
 }
 ```
 ### Parameters
@@ -109,423 +2142,65 @@ oauth2 ( Scopes: default )
 Parameter|In|Type|Required|Description
 ---|---|---|---|---|
 txId|path|integer(int64)|true|txId
-merchantId|query|integer(int32)|true|merchantId
-body|body|[CorrectionDetailsRequest](#schemacorrectiondetailsrequest)|false|details
-» amount|body|string|true|Amount
-» authAmount|body|string|true|Auth amount
-» feeAmount|body|string|true|Fee amount
-» force|body|boolean|true|Force correction
-» info|body|string|true|Information to provide reason
-» tagId|body|string|true|Tag id
-» txAmount|body|string|true|Transaction amount
+merchantId|query|string|true|merchantId
+body|body|[CaptureRequest](#schemacapturerequest)|false|request
+» info|body|string|false|Any additional information to provide reason for capture. Maximum limit 200 characters.
+» tagId|body|string|false|Tag id, you need to predefine tags in MerchantConfig.The tag must be named Capture, an example is <tags><entry><string>Capture</string><list><tag><id>CP-1</id><name>Other reason</name></tag></list></entry></tags>
 
 
 > Example responses
 
 ```json
 {
-  "created": "2017-09-15",
-  "errorMessage": "Failed transaction",
-  "id": "250EAO",
-  "lastUpdated": "2017-09-16",
+  "id": 256616,
   "merchantId": 100000000,
-  "pspStatusCode": "10001",
-  "state": "0",
-  "statusCode": "500"
+  "statusCode": "SUCCESS",
+  "pspStatusCode": "0_00",
+  "state": "SUCCESSFUL",
+  "created": "2017-09-15 00:00:00",
+  "lastUpdated": "2017-09-16 00:00:00"
+}
+```
+```json
+{
+  "errorId": "657b10da-d2f9-4088-a948-bf190ef516b1-000002fd",
+  "errorMessage": "Details about the specified error..."
+}
+```
+```json
+{
+  "error": "invalid_token",
+  "error_description": "Cannot convert access token to JSON"
+}
+```
+```json
+{
+  "errorId": "657b10da-d2f9-4088-a948-bf190ef516b1-000002fd",
+  "errorMessage": "Details about the specified error..."
+}
+```
+```json
+{
+  "id": 256616,
+  "merchantId": 100000000,
+  "statusCode": "ERR_SYSTEM_ERROR",
+  "pspStatusCode": "0_00",
+  "state": "FAILED",
+  "errorMessage": "Invalid transaction state, found current transaction status: FAILED. Expected transaction state to be SUCCESSFUL.",
+  "created": "2017-09-15 00:00:00",
+  "lastUpdated": "2017-09-16 00:00:00"
 }
 ```
 ### Responses
 
 Status|Meaning|Description|Schema
 ---|---|---|---|
-200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success|[PaymentActionResponse](#schemapaymentactionresponse)
-401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None
-403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Forbidden|None
-404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Transaction not found|None
-500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error|None
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-oauth2 ( Scopes: default )
-</aside>
-
-## capture
-
-`POST /backoffice/api/v2/paymenttx/capture/{txId}`
-
-*capture*
-
-> Body parameter
-
-```json
-{
-  "amount": "16.22",
-  "authAmount": "123.2",
-  "feeAmount": "32.32",
-  "force": false,
-  "info": "Suspect fraud behaviour",
-  "tagId": "100",
-  "txAmount": "14.00"
-}
-```
-### Parameters
-
-Parameter|In|Type|Required|Description
----|---|---|---|---|
-txId|path|integer(int64)|true|txId
-merchantId|query|integer(int32)|true|merchantId
-body|body|[CorrectionDetailsRequest](#schemacorrectiondetailsrequest)|true|details
-» amount|body|string|true|Amount
-» authAmount|body|string|true|Auth amount
-» feeAmount|body|string|true|Fee amount
-» force|body|boolean|true|Force correction
-» info|body|string|true|Information to provide reason
-» tagId|body|string|true|Tag id
-» txAmount|body|string|true|Transaction amount
-
-
-> Example responses
-
-```json
-{
-  "created": "2017-09-15",
-  "errorMessage": "Failed transaction",
-  "id": "250EAO",
-  "lastUpdated": "2017-09-16",
-  "merchantId": 100000000,
-  "pspStatusCode": "10001",
-  "state": "0",
-  "statusCode": "500"
-}
-```
-### Responses
-
-Status|Meaning|Description|Schema
----|---|---|---|
-200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success|[PaymentActionResponse](#schemapaymentactionresponse)
-401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None
-403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Forbidden|None
-404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Transaction not found|None
-500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error|None
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-oauth2 ( Scopes: default )
-</aside>
-
-## correctionChargeback
-
-`POST /backoffice/api/v2/paymenttx/correction/chargeback/{txId}`
-
-*correctionChargeback*
-
-> Body parameter
-
-```json
-{
-  "amount": "16.22",
-  "authAmount": "123.2",
-  "feeAmount": "32.32",
-  "force": false,
-  "info": "Suspect fraud behaviour",
-  "tagId": "100",
-  "txAmount": "14.00"
-}
-```
-### Parameters
-
-Parameter|In|Type|Required|Description
----|---|---|---|---|
-txId|path|integer(int64)|true|txId
-merchantId|query|integer(int32)|true|merchantId
-body|body|[CorrectionDetailsRequest](#schemacorrectiondetailsrequest)|true|details
-» amount|body|string|true|Amount
-» authAmount|body|string|true|Auth amount
-» feeAmount|body|string|true|Fee amount
-» force|body|boolean|true|Force correction
-» info|body|string|true|Information to provide reason
-» tagId|body|string|true|Tag id
-» txAmount|body|string|true|Transaction amount
-
-
-> Example responses
-
-```json
-{
-  "created": "2017-09-15",
-  "errorMessage": "Failed transaction",
-  "id": "250EAO",
-  "lastUpdated": "2017-09-16",
-  "merchantId": 100000000,
-  "pspStatusCode": "10001",
-  "state": "0",
-  "statusCode": "500"
-}
-```
-### Responses
-
-Status|Meaning|Description|Schema
----|---|---|---|
-200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success|[PaymentActionResponse](#schemapaymentactionresponse)
-401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None
-403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Forbidden|None
-404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Transaction not found|None
-500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error|None
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-oauth2 ( Scopes: default )
-</aside>
-
-## correctionChargebackWon
-
-`POST /backoffice/api/v2/paymenttx/correction/chargebackwon/{txId}`
-
-*correctionChargebackWon*
-
-> Body parameter
-
-```json
-{
-  "amount": "16.22",
-  "authAmount": "123.2",
-  "feeAmount": "32.32",
-  "force": false,
-  "info": "Suspect fraud behaviour",
-  "tagId": "100",
-  "txAmount": "14.00"
-}
-```
-### Parameters
-
-Parameter|In|Type|Required|Description
----|---|---|---|---|
-txId|path|integer(int64)|true|txId
-merchantId|query|integer(int32)|true|merchantId
-body|body|[CorrectionDetailsRequest](#schemacorrectiondetailsrequest)|true|details
-» amount|body|string|true|Amount
-» authAmount|body|string|true|Auth amount
-» feeAmount|body|string|true|Fee amount
-» force|body|boolean|true|Force correction
-» info|body|string|true|Information to provide reason
-» tagId|body|string|true|Tag id
-» txAmount|body|string|true|Transaction amount
-
-
-> Example responses
-
-```json
-{
-  "created": "2017-09-15",
-  "errorMessage": "Failed transaction",
-  "id": "250EAO",
-  "lastUpdated": "2017-09-16",
-  "merchantId": 100000000,
-  "pspStatusCode": "10001",
-  "state": "0",
-  "statusCode": "500"
-}
-```
-### Responses
-
-Status|Meaning|Description|Schema
----|---|---|---|
-200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success|[PaymentActionResponse](#schemapaymentactionresponse)
-401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None
-403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Forbidden|None
-404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Transaction not found|None
-500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error|None
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-oauth2 ( Scopes: default )
-</aside>
-
-## correctionPartialRefund
-
-`POST /backoffice/api/v2/paymenttx/correction/partialrefund/{txId}`
-
-*correctionPartialRefund*
-
-> Body parameter
-
-```json
-{
-  "amount": "16.22",
-  "authAmount": "123.2",
-  "feeAmount": "32.32",
-  "force": false,
-  "info": "Suspect fraud behaviour",
-  "tagId": "100",
-  "txAmount": "14.00"
-}
-```
-### Parameters
-
-Parameter|In|Type|Required|Description
----|---|---|---|---|
-txId|path|integer(int64)|true|txId
-merchantId|query|integer(int32)|true|merchantId
-body|body|[CorrectionDetailsRequest](#schemacorrectiondetailsrequest)|true|details
-» amount|body|string|true|Amount
-» authAmount|body|string|true|Auth amount
-» feeAmount|body|string|true|Fee amount
-» force|body|boolean|true|Force correction
-» info|body|string|true|Information to provide reason
-» tagId|body|string|true|Tag id
-» txAmount|body|string|true|Transaction amount
-
-
-> Example responses
-
-```json
-{
-  "created": "2017-09-15",
-  "errorMessage": "Failed transaction",
-  "id": "250EAO",
-  "lastUpdated": "2017-09-16",
-  "merchantId": 100000000,
-  "pspStatusCode": "10001",
-  "state": "0",
-  "statusCode": "500"
-}
-```
-### Responses
-
-Status|Meaning|Description|Schema
----|---|---|---|
-200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success|[PaymentActionResponse](#schemapaymentactionresponse)
-401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None
-403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Forbidden|None
-404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Transaction not found|None
-500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error|None
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-oauth2 ( Scopes: default )
-</aside>
-
-## correctionRefund
-
-`POST /backoffice/api/v2/paymenttx/correction/refund/{txId}`
-
-*correctionRefund*
-
-> Body parameter
-
-```json
-{
-  "amount": "16.22",
-  "authAmount": "123.2",
-  "feeAmount": "32.32",
-  "force": false,
-  "info": "Suspect fraud behaviour",
-  "tagId": "100",
-  "txAmount": "14.00"
-}
-```
-### Parameters
-
-Parameter|In|Type|Required|Description
----|---|---|---|---|
-txId|path|integer(int64)|true|txId
-merchantId|query|integer(int32)|true|merchantId
-body|body|[CorrectionDetailsRequest](#schemacorrectiondetailsrequest)|true|details
-» amount|body|string|true|Amount
-» authAmount|body|string|true|Auth amount
-» feeAmount|body|string|true|Fee amount
-» force|body|boolean|true|Force correction
-» info|body|string|true|Information to provide reason
-» tagId|body|string|true|Tag id
-» txAmount|body|string|true|Transaction amount
-
-
-> Example responses
-
-```json
-{
-  "created": "2017-09-15",
-  "errorMessage": "Failed transaction",
-  "id": "250EAO",
-  "lastUpdated": "2017-09-16",
-  "merchantId": 100000000,
-  "pspStatusCode": "10001",
-  "state": "0",
-  "statusCode": "500"
-}
-```
-### Responses
-
-Status|Meaning|Description|Schema
----|---|---|---|
-200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success|[PaymentActionResponse](#schemapaymentactionresponse)
-401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None
-403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Forbidden|None
-404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Transaction not found|None
-500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error|None
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-oauth2 ( Scopes: default )
-</aside>
-
-## correctionVoid
-
-`POST /backoffice/api/v2/paymenttx/correction/void/{txId}`
-
-*correctionVoid*
-
-> Body parameter
-
-```json
-{
-  "amount": "16.22",
-  "authAmount": "123.2",
-  "feeAmount": "32.32",
-  "force": false,
-  "info": "Suspect fraud behaviour",
-  "tagId": "100",
-  "txAmount": "14.00"
-}
-```
-### Parameters
-
-Parameter|In|Type|Required|Description
----|---|---|---|---|
-txId|path|integer(int64)|true|txId
-merchantId|query|integer(int32)|true|merchantId
-body|body|[CorrectionDetailsRequest](#schemacorrectiondetailsrequest)|true|details
-» amount|body|string|true|Amount
-» authAmount|body|string|true|Auth amount
-» feeAmount|body|string|true|Fee amount
-» force|body|boolean|true|Force correction
-» info|body|string|true|Information to provide reason
-» tagId|body|string|true|Tag id
-» txAmount|body|string|true|Transaction amount
-
-
-> Example responses
-
-```json
-{
-  "created": "2017-09-15",
-  "errorMessage": "Failed transaction",
-  "id": "250EAO",
-  "lastUpdated": "2017-09-16",
-  "merchantId": 100000000,
-  "pspStatusCode": "10001",
-  "state": "0",
-  "statusCode": "500"
-}
-```
-### Responses
-
-Status|Meaning|Description|Schema
----|---|---|---|
-200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success|[PaymentActionResponse](#schemapaymentactionresponse)
-401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None
-403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Forbidden|None
-404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Transaction not found|None
+200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful capture|[PaymentsResponse](#schemapaymentsresponse)
+400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad Request|[ErrorResponse](#schemaerrorresponse)
+401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized authentication|[UnauthorizedResponse](#schemaunauthorizedresponse)
+403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|User is not permitted to requested operation|None
+404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Transaction not found for capture request|[ErrorResponse](#schemaerrorresponse)
+409|[Conflict](https://tools.ietf.org/html/rfc7231#section-6.5.8)|Syntactically correct requests that still cannot be performed|[PaymentsErrorResponse](#schemapaymentserrorresponse)
 500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error|None
 
 <aside class="warning">
@@ -535,181 +2210,18 @@ oauth2 ( Scopes: default )
 
 ## deny
 
-`POST /backoffice/api/v2/paymenttx/deny/{txId}`
+`POST /admin/v1/payments/deny/{txId}`
 
 *deny*
 
-### Parameters
-
-Parameter|In|Type|Required|Description
----|---|---|---|---|
-txId|path|integer(int64)|true|txId
-merchantId|query|integer(int32)|true|merchantId
-
-
-> Example responses
-
-```json
-{
-  "created": "2017-09-15",
-  "errorMessage": "Failed transaction",
-  "id": "250EAO",
-  "lastUpdated": "2017-09-16",
-  "merchantId": 100000000,
-  "pspStatusCode": "10001",
-  "state": "0",
-  "statusCode": "500"
-}
-```
-### Responses
-
-Status|Meaning|Description|Schema
----|---|---|---|
-200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success|[PaymentActionResponse](#schemapaymentactionresponse)
-401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None
-403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Forbidden|None
-404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Transaction not found|None
-500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error|None
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-oauth2 ( Scopes: default )
-</aside>
-
-## forceFailed
-
-`POST /backoffice/api/v2/paymenttx/force/failed/{txId}`
-
-*forceFailed*
-
-### Parameters
-
-Parameter|In|Type|Required|Description
----|---|---|---|---|
-txId|path|integer(int64)|true|txId
-merchantId|query|integer(int32)|true|merchantId
-
-
-> Example responses
-
-```json
-{
-  "created": "2017-09-15",
-  "errorMessage": "Failed transaction",
-  "id": "250EAO",
-  "lastUpdated": "2017-09-16",
-  "merchantId": 100000000,
-  "pspStatusCode": "10001",
-  "state": "0",
-  "statusCode": "500"
-}
-```
-### Responses
-
-Status|Meaning|Description|Schema
----|---|---|---|
-200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success|[PaymentActionResponse](#schemapaymentactionresponse)
-401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None
-403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Forbidden|None
-404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Transaction not found|None
-500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error|None
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-oauth2 ( Scopes: default )
-</aside>
-
-## forceInconsistent
-
-`POST /backoffice/api/v2/paymenttx/force/inconsistent/{txId}`
-
-*forceInconsistent*
-
-### Parameters
-
-Parameter|In|Type|Required|Description
----|---|---|---|---|
-txId|path|integer(int64)|true|txId
-merchantId|query|integer(int32)|true|merchantId
-
-
-> Example responses
-
-### Responses
-
-Status|Meaning|Description|Schema
----|---|---|---|
-200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success|[PaymentActionResponse](#schemapaymentactionresponse)
-401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None
-403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Forbidden|None
-404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Transaction not found|None
-500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error|None
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-oauth2 ( Scopes: default )
-</aside>
-
-## forceSuccessful
-
-`POST /backoffice/api/v2/paymenttx/force/successful/{txId}`
-
-*forceSuccessful*
-
-### Parameters
-
-Parameter|In|Type|Required|Description
----|---|---|---|---|
-txId|path|integer(int64)|true|txId
-merchantId|query|integer(int32)|true|merchantId
-
-
-> Example responses
-
-```json
-{
-  "created": "2017-09-15",
-  "errorMessage": "Failed transaction",
-  "id": "250EAO",
-  "lastUpdated": "2017-09-16",
-  "merchantId": 100000000,
-  "pspStatusCode": "10001",
-  "state": "0",
-  "statusCode": "500"
-}
-```
-### Responses
-
-Status|Meaning|Description|Schema
----|---|---|---|
-200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success|[PaymentActionResponse](#schemapaymentactionresponse)
-401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None
-403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Forbidden|None
-404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Transaction not found|None
-500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error|None
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-oauth2 ( Scopes: default )
-</aside>
-
-## refund
-
-`POST /backoffice/api/v2/paymenttx/partialrefund/{txId}`
-
-*refund*
+This method is called to deny a transaction.
 
 > Body parameter
 
 ```json
 {
-  "amount": "16.22",
-  "authAmount": "123.2",
-  "feeAmount": "32.32",
-  "force": false,
-  "info": "Suspect fraud behaviour",
-  "tagId": "100",
-  "txAmount": "14.00"
+  "info": "Deny reason...",
+  "tagId": "CP-1"
 }
 ```
 ### Parameters
@@ -717,39 +2229,65 @@ oauth2 ( Scopes: default )
 Parameter|In|Type|Required|Description
 ---|---|---|---|---|
 txId|path|integer(int64)|true|txId
-merchantId|query|integer(int32)|true|merchantId
-body|body|[CorrectionDetailsRequest](#schemacorrectiondetailsrequest)|false|details
-» amount|body|string|true|Amount
-» authAmount|body|string|true|Auth amount
-» feeAmount|body|string|true|Fee amount
-» force|body|boolean|true|Force correction
-» info|body|string|true|Information to provide reason
-» tagId|body|string|true|Tag id
-» txAmount|body|string|true|Transaction amount
+merchantId|query|string|true|merchantId
+body|body|[DenyRequest](#schemadenyrequest)|false|request
+» info|body|string|false|Any additional information to provide reason for deny. Maximum limit 200 characters.
+» tagId|body|string|false|Tag id, you need to predefine tags in MerchantConfig.The tag must be named Deny, an example is <tags><entry><string>Deny</string><list><tag><id>CP-1</id><name>Other reason</name></tag></list></entry></tags>
 
 
 > Example responses
 
 ```json
 {
-  "created": "2017-09-15",
-  "errorMessage": "Failed transaction",
-  "id": "250EAO",
-  "lastUpdated": "2017-09-16",
+  "id": 256616,
   "merchantId": 100000000,
-  "pspStatusCode": "10001",
-  "state": "0",
-  "statusCode": "500"
+  "statusCode": "SUCCESS",
+  "pspStatusCode": "0_00",
+  "state": "SUCCESSFUL",
+  "created": "2017-09-15 00:00:00",
+  "lastUpdated": "2017-09-16 00:00:00"
+}
+```
+```json
+{
+  "errorId": "657b10da-d2f9-4088-a948-bf190ef516b1-000002fd",
+  "errorMessage": "Details about the specified error..."
+}
+```
+```json
+{
+  "error": "invalid_token",
+  "error_description": "Cannot convert access token to JSON"
+}
+```
+```json
+{
+  "errorId": "657b10da-d2f9-4088-a948-bf190ef516b1-000002fd",
+  "errorMessage": "Details about the specified error..."
+}
+```
+```json
+{
+  "id": 256616,
+  "merchantId": 100000000,
+  "statusCode": "ERR_SYSTEM_ERROR",
+  "pspStatusCode": "0_00",
+  "state": "FAILED",
+  "errorMessage": "Invalid transaction state, found current transaction status: FAILED. Expected transaction state to be SUCCESSFUL.",
+  "created": "2017-09-15 00:00:00",
+  "lastUpdated": "2017-09-16 00:00:00"
 }
 ```
 ### Responses
 
 Status|Meaning|Description|Schema
 ---|---|---|---|
-200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success|[PaymentActionResponse](#schemapaymentactionresponse)
-401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None
-403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Forbidden|None
-404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Transaction not found|None
+200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful deny|[PaymentsResponse](#schemapaymentsresponse)
+400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad Request|[ErrorResponse](#schemaerrorresponse)
+401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized authentication|[UnauthorizedResponse](#schemaunauthorizedresponse)
+403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|User is not permitted to requested operation|None
+404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Transaction not found for refund request|[ErrorResponse](#schemaerrorresponse)
+409|[Conflict](https://tools.ietf.org/html/rfc7231#section-6.5.8)|Syntactically correct requests that still cannot be performed|[PaymentsErrorResponse](#schemapaymentserrorresponse)
 500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error|None
 
 <aside class="warning">
@@ -757,23 +2295,20 @@ To perform this operation, you must be authenticated by means of one of the foll
 oauth2 ( Scopes: default )
 </aside>
 
-## remainingRefund
+## onHold
 
-`GET /backoffice/api/v2/paymenttx/refund/summary/{txId}`
+`POST /admin/v1/payments/onhold/{txId}`
 
-*remainingRefund*
+*onHold*
+
+This method is called to set a transaction on hold
 
 > Body parameter
 
 ```json
 {
-  "amount": "16.22",
-  "authAmount": "123.2",
-  "feeAmount": "32.32",
-  "force": false,
-  "info": "Suspect fraud behaviour",
-  "tagId": "100",
-  "txAmount": "14.00"
+  "info": "On Hold reason...",
+  "tagId": "CP-1"
 }
 ```
 ### Parameters
@@ -781,75 +2316,65 @@ oauth2 ( Scopes: default )
 Parameter|In|Type|Required|Description
 ---|---|---|---|---|
 txId|path|integer(int64)|true|txId
-merchantId|query|integer(int32)|true|merchantId
-body|body|[CorrectionDetailsRequest](#schemacorrectiondetailsrequest)|false|details
-» amount|body|string|true|Amount
-» authAmount|body|string|true|Auth amount
-» feeAmount|body|string|true|Fee amount
-» force|body|boolean|true|Force correction
-» info|body|string|true|Information to provide reason
-» tagId|body|string|true|Tag id
-» txAmount|body|string|true|Transaction amount
+merchantId|query|string|true|merchantId
+body|body|[OnHoldRequest](#schemaonholdrequest)|false|request
+» info|body|string|false|Any additional information to provide reason for on hold. Maximum limit 200 characters.
+» tagId|body|string|false|Tag id, you need to predefine tags in MerchantConfig.The tag must be named On-Hold, an example is <tags><entry><string>On-Hold</string><list><tag><id>CP-1</id><name>Other reason</name></tag></list></entry></tags>
 
 
 > Example responses
 
 ```json
 {
-  "originalAmount": {
-    "amount": 0,
-    "amountInFractionUnit": 0,
-    "currency": "string",
-    "currencyCode": "string",
-    "currencyNumeric3Code": "string",
-    "fractionDigits": 0,
-    "negative": true,
-    "positive": true,
-    "zero": true
-  },
-  "originalTxAmount": {
-    "amount": 0,
-    "amountInFractionUnit": 0,
-    "currency": "string",
-    "currencyCode": "string",
-    "currencyNumeric3Code": "string",
-    "fractionDigits": 0,
-    "negative": true,
-    "positive": true,
-    "zero": true
-  },
-  "refundedTxAmount": {
-    "amount": 0,
-    "amountInFractionUnit": 0,
-    "currency": "string",
-    "currencyCode": "string",
-    "currencyNumeric3Code": "string",
-    "fractionDigits": 0,
-    "negative": true,
-    "positive": true,
-    "zero": true
-  },
-  "remainingTxAmount": {
-    "amount": 0,
-    "amountInFractionUnit": 0,
-    "currency": "string",
-    "currencyCode": "string",
-    "currencyNumeric3Code": "string",
-    "fractionDigits": 0,
-    "negative": true,
-    "positive": true,
-    "zero": true
-  }
+  "id": 256616,
+  "merchantId": 100000000,
+  "statusCode": "SUCCESS",
+  "pspStatusCode": "0_00",
+  "state": "SUCCESSFUL",
+  "created": "2017-09-15 00:00:00",
+  "lastUpdated": "2017-09-16 00:00:00"
+}
+```
+```json
+{
+  "errorId": "657b10da-d2f9-4088-a948-bf190ef516b1-000002fd",
+  "errorMessage": "Details about the specified error..."
+}
+```
+```json
+{
+  "error": "invalid_token",
+  "error_description": "Cannot convert access token to JSON"
+}
+```
+```json
+{
+  "errorId": "657b10da-d2f9-4088-a948-bf190ef516b1-000002fd",
+  "errorMessage": "Details about the specified error..."
+}
+```
+```json
+{
+  "id": 256616,
+  "merchantId": 100000000,
+  "statusCode": "ERR_SYSTEM_ERROR",
+  "pspStatusCode": "0_00",
+  "state": "FAILED",
+  "errorMessage": "Invalid transaction state, found current transaction status: FAILED. Expected transaction state to be SUCCESSFUL.",
+  "created": "2017-09-15 00:00:00",
+  "lastUpdated": "2017-09-16 00:00:00"
 }
 ```
 ### Responses
 
 Status|Meaning|Description|Schema
 ---|---|---|---|
-200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success|[RefundSummaryResponse](#schemarefundsummaryresponse)
-401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None
-403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Forbidden|None
-404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Transaction not found|None
+200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful onHold|[PaymentsResponse](#schemapaymentsresponse)
+400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad Request|[ErrorResponse](#schemaerrorresponse)
+401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized authentication|[UnauthorizedResponse](#schemaunauthorizedresponse)
+403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|User is not permitted to requested operation|None
+404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Transaction not found for refund request|[ErrorResponse](#schemaerrorresponse)
+409|[Conflict](https://tools.ietf.org/html/rfc7231#section-6.5.8)|Syntactically correct requests that still cannot be performed|[PaymentsErrorResponse](#schemapaymentserrorresponse)
 500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error|None
 
 <aside class="warning">
@@ -857,23 +2382,28 @@ To perform this operation, you must be authenticated by means of one of the foll
 oauth2 ( Scopes: default )
 </aside>
 
-## refund_1
+## doRefund
 
-`POST /backoffice/api/v2/paymenttx/refund/{txId}`
+`POST /admin/v1/payments/refund/{txId}`
 
-*refund*
+*doRefund*
+
+This  will  attempt  to  refund or partial refund (if txAmount is set) the transaction back to the customer by
+sending  an  instruction  to  the  Payment  provider.  When  you  make  a
+refund,  PaymentIQ  does  various  checks  to  ensure  that  the  financial
+institution  accepts  refund  instructions  and  that  the  amount  to  be
+refunded  is  still  available  for  that  payment.  If  it  is  permitted,  the
+refund  request  is  scheduled  and  sent  to  the  appropriate  financial
+institution.  Once  a  payment  is  processed,  the  customer  receives  the
+refund  amount  requested.
 
 > Body parameter
 
 ```json
 {
-  "amount": "16.22",
-  "authAmount": "123.2",
-  "feeAmount": "32.32",
-  "force": false,
-  "info": "Suspect fraud behaviour",
-  "tagId": "100",
-  "txAmount": "14.00"
+  "info": "Refund reason...",
+  "tagId": "CP-1",
+  "txAmount": "2.35"
 }
 ```
 ### Parameters
@@ -881,39 +2411,66 @@ oauth2 ( Scopes: default )
 Parameter|In|Type|Required|Description
 ---|---|---|---|---|
 txId|path|integer(int64)|true|txId
-merchantId|query|integer(int32)|true|merchantId
-body|body|[CorrectionDetailsRequest](#schemacorrectiondetailsrequest)|false|details
-» amount|body|string|true|Amount
-» authAmount|body|string|true|Auth amount
-» feeAmount|body|string|true|Fee amount
-» force|body|boolean|true|Force correction
-» info|body|string|true|Information to provide reason
-» tagId|body|string|true|Tag id
-» txAmount|body|string|true|Transaction amount
+merchantId|query|string|true|merchantId
+body|body|[RefundRequest](#schemarefundrequest)|false|request
+» info|body|string|false|Any additional information to provide reason for capture. Maximum limit 200 characters.
+» tagId|body|string|false|Tag id, you need to predefine tags in MerchantConfig.The tag must be named Refund, an example is <tags><entry><string>Refund</string><list><tag><id>CP-1</id><name>Other reason</name></tag></list></entry></tags>
+» txAmount|body|string|false|The amount to partial refund
 
 
 > Example responses
 
 ```json
 {
-  "created": "2017-09-15",
-  "errorMessage": "Failed transaction",
-  "id": "250EAO",
-  "lastUpdated": "2017-09-16",
+  "id": 256616,
   "merchantId": 100000000,
-  "pspStatusCode": "10001",
-  "state": "0",
-  "statusCode": "500"
+  "statusCode": "SUCCESS",
+  "pspStatusCode": "0_00",
+  "state": "SUCCESSFUL",
+  "created": "2017-09-15 00:00:00",
+  "lastUpdated": "2017-09-16 00:00:00"
+}
+```
+```json
+{
+  "errorId": "657b10da-d2f9-4088-a948-bf190ef516b1-000002fd",
+  "errorMessage": "Details about the specified error..."
+}
+```
+```json
+{
+  "error": "invalid_token",
+  "error_description": "Cannot convert access token to JSON"
+}
+```
+```json
+{
+  "errorId": "657b10da-d2f9-4088-a948-bf190ef516b1-000002fd",
+  "errorMessage": "Details about the specified error..."
+}
+```
+```json
+{
+  "id": 256616,
+  "merchantId": 100000000,
+  "statusCode": "ERR_SYSTEM_ERROR",
+  "pspStatusCode": "0_00",
+  "state": "FAILED",
+  "errorMessage": "Invalid transaction state, found current transaction status: FAILED. Expected transaction state to be SUCCESSFUL.",
+  "created": "2017-09-15 00:00:00",
+  "lastUpdated": "2017-09-16 00:00:00"
 }
 ```
 ### Responses
 
 Status|Meaning|Description|Schema
 ---|---|---|---|
-200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success|[PaymentActionResponse](#schemapaymentactionresponse)
-401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None
-403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Forbidden|None
-404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Transaction not found|None
+200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful refund|[PaymentsResponse](#schemapaymentsresponse)
+400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad Request|[ErrorResponse](#schemaerrorresponse)
+401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized authentication|[UnauthorizedResponse](#schemaunauthorizedresponse)
+403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|User is not permitted to requested operation|None
+404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Transaction not found for refund request|[ErrorResponse](#schemaerrorresponse)
+409|[Conflict](https://tools.ietf.org/html/rfc7231#section-6.5.8)|Syntactically correct requests that still cannot be performed|[PaymentsErrorResponse](#schemapaymentserrorresponse)
 500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error|None
 
 <aside class="warning">
@@ -923,21 +2480,21 @@ oauth2 ( Scopes: default )
 
 ## doVoid
 
-`POST /backoffice/api/v2/paymenttx/void/{txId}`
+`POST /admin/v1/payments/void/{txId}`
 
 *doVoid*
+
+Credit  card  transactions  can  be  cancelled  (void)  before  they  are
+captured.  If  a  payment  is  captured,  the  customer  has  been  charged
+and  you  cannot  use  this  process  and  should  consider  making  a  refund
+instead.
 
 > Body parameter
 
 ```json
 {
-  "amount": "16.22",
-  "authAmount": "123.2",
-  "feeAmount": "32.32",
-  "force": false,
-  "info": "Suspect fraud behaviour",
-  "tagId": "100",
-  "txAmount": "14.00"
+  "info": "Void reason...",
+  "tagId": "CP-1"
 }
 ```
 ### Parameters
@@ -945,71 +2502,65 @@ oauth2 ( Scopes: default )
 Parameter|In|Type|Required|Description
 ---|---|---|---|---|
 txId|path|integer(int64)|true|txId
-merchantId|query|integer(int32)|true|merchantId
-body|body|[CorrectionDetailsRequest](#schemacorrectiondetailsrequest)|false|details
-» amount|body|string|true|Amount
-» authAmount|body|string|true|Auth amount
-» feeAmount|body|string|true|Fee amount
-» force|body|boolean|true|Force correction
-» info|body|string|true|Information to provide reason
-» tagId|body|string|true|Tag id
-» txAmount|body|string|true|Transaction amount
+merchantId|query|string|true|merchantId
+body|body|[VoidRequest](#schemavoidrequest)|false|request
+» info|body|string|false|Any additional information to provide reason for capture. Maximum limit 200 characters.
+» tagId|body|string|false|Tag id, you need to predefine tags in MerchantConfig.The tag must be named Void, an example is <tags><entry><string>Void</string><list><tag><id>CP-1</id><name>Other reason</name></tag></list></entry></tags>
 
 
 > Example responses
 
 ```json
 {
-  "created": "2017-09-15",
-  "errorMessage": "Failed transaction",
-  "id": "250EAO",
-  "lastUpdated": "2017-09-16",
+  "id": 256616,
   "merchantId": 100000000,
-  "pspStatusCode": "10001",
-  "state": "0",
-  "statusCode": "500"
+  "statusCode": "SUCCESS",
+  "pspStatusCode": "0_00",
+  "state": "SUCCESSFUL",
+  "created": "2017-09-15 00:00:00",
+  "lastUpdated": "2017-09-16 00:00:00"
+}
+```
+```json
+{
+  "errorId": "657b10da-d2f9-4088-a948-bf190ef516b1-000002fd",
+  "errorMessage": "Details about the specified error..."
+}
+```
+```json
+{
+  "error": "invalid_token",
+  "error_description": "Cannot convert access token to JSON"
+}
+```
+```json
+{
+  "errorId": "657b10da-d2f9-4088-a948-bf190ef516b1-000002fd",
+  "errorMessage": "Details about the specified error..."
+}
+```
+```json
+{
+  "id": 256616,
+  "merchantId": 100000000,
+  "statusCode": "ERR_SYSTEM_ERROR",
+  "pspStatusCode": "0_00",
+  "state": "FAILED",
+  "errorMessage": "Invalid transaction state, found current transaction status: FAILED. Expected transaction state to be SUCCESSFUL.",
+  "created": "2017-09-15 00:00:00",
+  "lastUpdated": "2017-09-16 00:00:00"
 }
 ```
 ### Responses
 
 Status|Meaning|Description|Schema
 ---|---|---|---|
-200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success|[PaymentActionResponse](#schemapaymentactionresponse)
-401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None
-403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Forbidden|None
-404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Transaction not found|None
-500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error|None
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-oauth2 ( Scopes: default )
-</aside>
-
-# Payment
-
-## findByQuery
-
-`GET /backoffice/api/v2/paymenttx/findByQuery`
-
-*findByQuery*
-
-### Parameters
-
-Parameter|In|Type|Required|Description
----|---|---|---|---|
-merchantId|query|integer(int32)|true|merchantId
-
-
-> Example responses
-
-### Responses
-
-Status|Meaning|Description|Schema
----|---|---|---|
-200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success|[PaymentResponse](#schemapaymentresponse)
-401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None
-403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Forbidden|None
-404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Transaction not found|None
+200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful void|[PaymentsResponse](#schemapaymentsresponse)
+400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad Request|[ErrorResponse](#schemaerrorresponse)
+401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized authentication|[UnauthorizedResponse](#schemaunauthorizedresponse)
+403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|User is not permitted to requested operation|None
+404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Transaction not found for void request|[ErrorResponse](#schemaerrorresponse)
+409|[Conflict](https://tools.ietf.org/html/rfc7231#section-6.5.8)|Syntactically correct requests that still cannot be performed|[PaymentsErrorResponse](#schemapaymentserrorresponse)
 500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error|None
 
 <aside class="warning">
@@ -1019,15 +2570,14 @@ oauth2 ( Scopes: default )
 
 # Schemas
 
-## AbstractTxCmd
+## ApproveRequest
 
-<a name="schemaabstracttxcmd"></a>
+<a name="schemaapproverequest"></a>
 
 ```json
 {
-  "created": "2017-09-27T16:16:27Z",
-  "fault": true,
-  "retry": true
+  "info": "Approve reason...",
+  "tagId": "CP-1"
 } 
 ```
 
@@ -1035,41 +2585,19 @@ oauth2 ( Scopes: default )
 
 Name|Type|Required|Description
 ---|---|---|---|
-created|string(date-time)|false|No description
-fault|boolean|false|No description
-retry|boolean|false|No description
+info|string|false|Any additional information to provide reason for approve. Maximum limit 200 characters.
+tagId|string|false|Tag id, you need to predefine tags in MerchantConfig.The tag must be named Approve, an example is <tags><entry><string>Approve</string><list><tag><id>CP-1</id><name>Other reason</name></tag></list></entry></tags>
 
 
 
-## Character
+## CaptureRequest
 
-<a name="schemacharacter"></a>
-
-```json
-{} 
-```
-
-### Properties
-
-Name|Type|Required|Description
----|---|---|---|
-undefined|object|false|No description
-
-
-
-## CorrectionDetailsRequest
-
-<a name="schemacorrectiondetailsrequest"></a>
+<a name="schemacapturerequest"></a>
 
 ```json
 {
-  "amount": "16.22",
-  "authAmount": "123.2",
-  "feeAmount": "32.32",
-  "force": false,
-  "info": "Suspect fraud behaviour",
-  "tagId": "100",
-  "txAmount": "14.00"
+  "info": "Capture reason...",
+  "tagId": "CP-1"
 } 
 ```
 
@@ -1077,27 +2605,19 @@ undefined|object|false|No description
 
 Name|Type|Required|Description
 ---|---|---|---|
-amount|string|true|Amount
-authAmount|string|true|Auth amount
-feeAmount|string|true|Fee amount
-force|boolean|true|Force correction
-info|string|true|Information to provide reason
-tagId|string|true|Tag id
-txAmount|string|true|Transaction amount
+info|string|false|Any additional information to provide reason for capture. Maximum limit 200 characters.
+tagId|string|false|Tag id, you need to predefine tags in MerchantConfig.The tag must be named Capture, an example is <tags><entry><string>Capture</string><list><tag><id>CP-1</id><name>Other reason</name></tag></list></entry></tags>
 
 
 
-## CountryCode
+## DenyRequest
 
-<a name="schemacountrycode"></a>
+<a name="schemadenyrequest"></a>
 
 ```json
 {
-  "name": "string",
-  "threeAlphaCode": "string",
-  "threeDigitCode": "string",
-  "threeDigitCodeAsInteger": 0,
-  "twoAlphaCode": "string"
+  "info": "Deny reason...",
+  "tagId": "CP-1"
 } 
 ```
 
@@ -1105,27 +2625,19 @@ txAmount|string|true|Transaction amount
 
 Name|Type|Required|Description
 ---|---|---|---|
-name|string|false|No description
-threeAlphaCode|string|false|No description
-threeDigitCode|string|false|No description
-threeDigitCodeAsInteger|integer(int32)|false|No description
-twoAlphaCode|string|false|No description
+info|string|false|Any additional information to provide reason for deny. Maximum limit 200 characters.
+tagId|string|false|Tag id, you need to predefine tags in MerchantConfig.The tag must be named Deny, an example is <tags><entry><string>Deny</string><list><tag><id>CP-1</id><name>Other reason</name></tag></list></entry></tags>
 
 
 
-## KycProviderResult
+## ErrorResponse
 
-<a name="schemakycproviderresult"></a>
+<a name="schemaerrorresponse"></a>
 
 ```json
 {
-  "ageStatus": "ERROR",
-  "idStatus": "ERROR",
-  "provider": "CALLCREDIT",
-  "score": 0,
-  "status": "VERIFIED",
-  "txId": 0,
-  "updated": "2017-09-27T16:16:27Z"
+  "errorId": "657b10da-d2f9-4088-a948-bf190ef516b1-000002fd",
+  "errorMessage": "Details about the specified error..."
 } 
 ```
 
@@ -1133,333 +2645,9 @@ twoAlphaCode|string|false|No description
 
 Name|Type|Required|Description
 ---|---|---|---|
-ageStatus|string|false|No description
-idStatus|string|false|No description
-provider|string|false|No description
-score|integer(int32)|false|No description
-status|string|false|No description
-txId|integer(int64)|false|No description
-updated|string(date-time)|false|No description
+errorId|string|false|Unique reference, for debugging purposes, of this error response
+errorMessage|string|false|Provides details description about the error.
 
-
-#### Enumerated Values
-
-|Property|Value|
-|---|---|
-ageStatus|ERROR|
-ageStatus|UNDER_AGE|
-ageStatus|NOT_VERIFIED|
-ageStatus|VERIFIED|
-idStatus|ERROR|
-idStatus|UNDER_AGE|
-idStatus|NOT_VERIFIED|
-idStatus|VERIFIED|
-provider|CALLCREDIT|
-provider|GBG|
-status|VERIFIED|
-status|VERIFICATION_IN_PROGRESS|
-status|VERIFICATION_FAILED|
-status|VERIFICATION_EXTERNAL_FAILURE|
-status|VERIFICATION_FAILED_INVALID_USER_DATA|
-status|NOT_VERIFIED|
-status|BLOCKED|
-status|UNDER_AGE|
-status|UNKNOWN|
-status|UNKNOWN_AGE|
-
-
-## KycResult
-
-<a name="schemakycresult"></a>
-
-```json
-{
-  "created": "2017-09-27T16:16:27Z",
-  "fault": true,
-  "mostRecentResult": {
-    "ageStatus": "ERROR",
-    "idStatus": "ERROR",
-    "provider": "CALLCREDIT",
-    "score": 0,
-    "status": "VERIFIED",
-    "txId": 0,
-    "updated": "2017-09-27T16:16:27Z"
-  },
-  "results": [
-    {
-      "ageStatus": "ERROR",
-      "idStatus": "ERROR",
-      "provider": "CALLCREDIT",
-      "score": 0,
-      "status": "VERIFIED",
-      "txId": 0,
-      "updated": "2017-09-27T16:16:27Z"
-    }
-  ],
-  "retry": true
-} 
-```
-
-### Properties
-
-Name|Type|Required|Description
----|---|---|---|
-created|string(date-time)|false|No description
-fault|boolean|false|No description
-mostRecentResult|[KycProviderResult](#schemakycproviderresult)|false|No description
-» ageStatus|string|false|No description
-» idStatus|string|false|No description
-» provider|string|false|No description
-» score|integer(int32)|false|No description
-» status|string|false|No description
-» txId|integer(int64)|false|No description
-» updated|string(date-time)|false|No description
-retry|boolean|false|No description
-results|[[KycProviderResult](#schemakycproviderresult)]|false|No description
-» ageStatus|string|false|No description
-» idStatus|string|false|No description
-» provider|string|false|No description
-» score|integer(int32)|false|No description
-» status|string|false|No description
-» txId|integer(int64)|false|No description
-» updated|string(date-time)|false|No description
-
-
-#### Enumerated Values
-
-|Property|Value|
-|---|---|
-» ageStatus|ERROR|
-» ageStatus|UNDER_AGE|
-» ageStatus|NOT_VERIFIED|
-» ageStatus|VERIFIED|
-» idStatus|ERROR|
-» idStatus|UNDER_AGE|
-» idStatus|NOT_VERIFIED|
-» idStatus|VERIFIED|
-» provider|CALLCREDIT|
-» provider|GBG|
-» status|VERIFIED|
-» status|VERIFICATION_IN_PROGRESS|
-» status|VERIFICATION_FAILED|
-» status|VERIFICATION_EXTERNAL_FAILURE|
-» status|VERIFICATION_FAILED_INVALID_USER_DATA|
-» status|NOT_VERIFIED|
-» status|BLOCKED|
-» status|UNDER_AGE|
-» status|UNKNOWN|
-» status|UNKNOWN_AGE|
-» ageStatus|ERROR|
-» ageStatus|UNDER_AGE|
-» ageStatus|NOT_VERIFIED|
-» ageStatus|VERIFIED|
-» idStatus|ERROR|
-» idStatus|UNDER_AGE|
-» idStatus|NOT_VERIFIED|
-» idStatus|VERIFIED|
-» provider|CALLCREDIT|
-» provider|GBG|
-» status|VERIFIED|
-» status|VERIFICATION_IN_PROGRESS|
-» status|VERIFICATION_FAILED|
-» status|VERIFICATION_EXTERNAL_FAILURE|
-» status|VERIFICATION_FAILED_INVALID_USER_DATA|
-» status|NOT_VERIFIED|
-» status|BLOCKED|
-» status|UNDER_AGE|
-» status|UNKNOWN|
-» status|UNKNOWN_AGE|
-
-
-## Locale
-
-<a name="schemalocale"></a>
-
-```json
-{
-  "country": "string",
-  "displayCountry": "string",
-  "displayLanguage": "string",
-  "displayName": "string",
-  "displayScript": "string",
-  "displayVariant": "string",
-  "extensionKeys": [
-    {}
-  ],
-  "iso3Country": "string",
-  "iso3Language": "string",
-  "language": "string",
-  "script": "string",
-  "unicodeLocaleAttributes": [
-    "string"
-  ],
-  "unicodeLocaleKeys": [
-    "string"
-  ],
-  "variant": "string"
-} 
-```
-
-### Properties
-
-Name|Type|Required|Description
----|---|---|---|
-country|string|false|No description
-displayCountry|string|false|No description
-displayLanguage|string|false|No description
-displayName|string|false|No description
-displayScript|string|false|No description
-displayVariant|string|false|No description
-iso3Country|string|false|No description
-iso3Language|string|false|No description
-language|string|false|No description
-script|string|false|No description
-variant|string|false|No description
-extensionKeys|[[Character](#schemacharacter)]|false|No description
-unicodeLocaleAttributes|[string]|false|No description
-unicodeLocaleKeys|[string]|false|No description
-
-
-
-## MerchantUser
-
-<a name="schemamerchantuser"></a>
-
-```json
-{
-  "addressAsOneLine": "string",
-  "attributes": {
-    "property1": "string",
-    "property2": "string"
-  },
-  "authenticated": true,
-  "balance": {
-    "amount": 0,
-    "amountInFractionUnit": 0,
-    "currency": "string",
-    "currencyCode": "string",
-    "currencyNumeric3Code": "string",
-    "fractionDigits": 0,
-    "negative": true,
-    "positive": true,
-    "zero": true
-  },
-  "city": "string",
-  "communicationChannel": [
-    "EMAIL"
-  ],
-  "countryCode": {
-    "name": "string",
-    "threeAlphaCode": "string",
-    "threeDigitCode": "string",
-    "threeDigitCodeAsInteger": 0,
-    "twoAlphaCode": "string"
-  },
-  "dob": "string",
-  "email": "string",
-  "firstName": "string",
-  "kycStatus": "string",
-  "lastName": "string",
-  "locale": {
-    "country": "string",
-    "displayCountry": "string",
-    "displayLanguage": "string",
-    "displayName": "string",
-    "displayScript": "string",
-    "displayVariant": "string",
-    "extensionKeys": [
-      {}
-    ],
-    "iso3Country": "string",
-    "iso3Language": "string",
-    "language": "string",
-    "script": "string",
-    "unicodeLocaleAttributes": [
-      "string"
-    ],
-    "unicodeLocaleKeys": [
-      "string"
-    ],
-    "variant": "string"
-  },
-  "mobile": "string",
-  "mobileDigits": "string",
-  "name": "string",
-  "sex": "FEMALE",
-  "state": "string",
-  "street": "string",
-  "userCat": "string",
-  "userId": "string",
-  "zip": "string"
-} 
-```
-
-### Properties
-
-Name|Type|Required|Description
----|---|---|---|
-addressAsOneLine|string|false|No description
-attributes|object|false|No description
-authenticated|boolean|false|No description
-balance|[Money](#schemamoney)|false|No description
-» amount|number|false|No description
-» amountInFractionUnit|integer(int64)|false|No description
-» currency|string|false|No description
-» currencyCode|string|false|No description
-» currencyNumeric3Code|string|false|No description
-» fractionDigits|integer(int32)|false|No description
-» negative|boolean|false|No description
-» positive|boolean|false|No description
-» zero|boolean|false|No description
-city|string|false|No description
-countryCode|[CountryCode](#schemacountrycode)|false|No description
-» name|string|false|No description
-» threeAlphaCode|string|false|No description
-» threeDigitCode|string|false|No description
-» threeDigitCodeAsInteger|integer(int32)|false|No description
-» twoAlphaCode|string|false|No description
-dob|string|false|No description
-email|string|false|No description
-firstName|string|false|No description
-kycStatus|string|false|No description
-lastName|string|false|No description
-locale|[Locale](#schemalocale)|false|No description
-» country|string|false|No description
-» displayCountry|string|false|No description
-» displayLanguage|string|false|No description
-» displayName|string|false|No description
-» displayScript|string|false|No description
-» displayVariant|string|false|No description
-» iso3Country|string|false|No description
-» iso3Language|string|false|No description
-» language|string|false|No description
-» script|string|false|No description
-» variant|string|false|No description
-» extensionKeys|[[Character](#schemacharacter)]|false|No description
-» unicodeLocaleAttributes|[string]|false|No description
-» unicodeLocaleKeys|[string]|false|No description
-mobile|string|false|No description
-mobileDigits|string|false|No description
-name|string|false|No description
-sex|string|false|No description
-state|string|false|No description
-street|string|false|No description
-userCat|string|false|No description
-userId|string|false|No description
-zip|string|false|No description
-communicationChannel|[string]|false|No description
-
-
-#### Enumerated Values
-
-|Property|Value|
-|---|---|
-sex|FEMALE|
-sex|MALE|
-sex|UNKNOWN|
-sex|X|
-communicationChannel|EMAIL|
-communicationChannel|SMS|
 
 
 ## Money
@@ -1496,20 +2684,14 @@ zero|boolean|false|No description
 
 
 
-## PaymentActionResponse
+## OnHoldRequest
 
-<a name="schemapaymentactionresponse"></a>
+<a name="schemaonholdrequest"></a>
 
 ```json
 {
-  "created": "2017-09-15",
-  "errorMessage": "Failed transaction",
-  "id": "250EAO",
-  "lastUpdated": "2017-09-16",
-  "merchantId": 100000000,
-  "pspStatusCode": "10001",
-  "state": "0",
-  "statusCode": "500"
+  "info": "On Hold reason...",
+  "tagId": "CP-1"
 } 
 ```
 
@@ -1517,108 +2699,9 @@ zero|boolean|false|No description
 
 Name|Type|Required|Description
 ---|---|---|---|
-created|string(date-time)|true|Timestamp for created
-errorMessage|string|false|Error message that describes what went wrong
-id|integer(int64)|true|Unique transaction id
-lastUpdated|string(date-time)|true|Unique identify a merchant
-merchantId|integer(int32)|true|Unique identify a merchant
-pspStatusCode|string|true|Unique identify a merchant
-state|string|true|Unique identify a merchant
-statusCode|string|true|System error
+info|string|false|Any additional information to provide reason for on hold. Maximum limit 200 characters.
+tagId|string|false|Tag id, you need to predefine tags in MerchantConfig.The tag must be named On-Hold, an example is <tags><entry><string>On-Hold</string><list><tag><id>CP-1</id><name>Other reason</name></tag></list></entry></tags>
 
-
-#### Enumerated Values
-
-|Property|Value|
-|---|---|
-state|SUCCESSFUL|
-state|REGISTERED|
-state|PROCESSING|
-state|WAITING_INPUT|
-state|WAITING_APPROVAL|
-state|FAILED|
-state|INCONSISTENT|
-state|CANCELLED|
-state|REPROCESSING|
-statusCode|SUCCESS|
-statusCode|SUCCESS_WITHDRAWAL_APPROVAL|
-statusCode|SUCCESS_WITHDRAWAL_AUTO_APPROVAL|
-statusCode|SUCCESS_WAITING_CAPTURE|
-statusCode|SUCCESS_WAITING_AUTO_CAPTURE|
-statusCode|SUCCESS_AUTO_CAPTURED|
-statusCode|SUCCESS_CAPTURED|
-statusCode|REGISTERED|
-statusCode|PROCESSING_PROVIDER|
-statusCode|PROCESSING_MERCHANT|
-statusCode|CONT_WITH_N3DS|
-statusCode|REPROCESSING_PROVIDER|
-statusCode|REPROCESSING_MERCHANT|
-statusCode|WAITING_INPUT|
-statusCode|WAITING_3D_SECURE|
-statusCode|WAITING_DEPOSIT_CONFIRMATION|
-statusCode|WAITING_NOTIFICATION|
-statusCode|WAITING_DEPOSIT_APPROVAL|
-statusCode|WAITING_WITHDRAWAL_APPROVAL|
-statusCode|WAITING_DEPOSIT_AUTO_APPROVAL|
-statusCode|WAITING_WITHDRAWAL_AUTO_APPROVAL|
-statusCode|ERR_READ_TIMEOUT|
-statusCode|ERR_REFERENCE_MISMATCH|
-statusCode|ERR_INCONSISTENT_TRANSACTION|
-statusCode|ERR_UNKNOWN_CALLBACK|
-statusCode|ERR_IO_EXCEPTION|
-statusCode|ERR_UNKNOWN_RESPONSE|
-statusCode|ERR_SYSTEM_ERROR|
-statusCode|ERR_FAILED_TO_CONNECT|
-statusCode|ERR_DECLINED_BAD_REQUEST|
-statusCode|ERR_DECLINED_FRAUD|
-statusCode|ERR_DECLINED_NO_FUNDS|
-statusCode|ERR_DECLINED_ACCOUNT_SUSPENDED|
-statusCode|ERR_DECLINED_OTHER_REASON|
-statusCode|ERR_DECLINED_CONTACT_SUPPORT|
-statusCode|ERR_DECLINED_CONFIG_ERROR|
-statusCode|ERR_NOT_AUTHENTICATED|
-statusCode|ERR_INVALID_RESPONSE|
-statusCode|ERR_DECLINED_REQ_BLOCKED|
-statusCode|ERR_PSP_OUT_OF_SERVICE|
-statusCode|ERR_DECLINED_NOT_AUTHORIZED|
-statusCode|ERR_RESPONSE_CODE_UNKNOWN|
-statusCode|ERR_PSP_ACCOUNT_USED_BY_OTHER_USER|
-statusCode|ERR_PSP_ACCOUNT_NOT_USED|
-statusCode|ERR_TOO_MANY_PSP_ACCOUNTS|
-statusCode|ERR_DECLINED_DUPLICATE_TX_ID|
-statusCode|ERR_DECLINED_INVALID_ACCOUNT_NUMBER|
-statusCode|ERR_MERCHANT_OUT_OF_SERVICE|
-statusCode|ERR_DECLINED_LIMIT_OVERDRAWN|
-statusCode|ERR_MERCHANT_RESPONSE_CODE_UNKNOWN|
-statusCode|ERR_DECLINED_NO_PROVIDER_FOUND|
-statusCode|ERR_DECLINED_PROVIDER_ACCOUNT_CONFIG_ERROR|
-statusCode|ERR_MERCHANT_INVALID_RESPONSE|
-statusCode|ERR_DECLINED_3D_VALIDATION_FAILED|
-statusCode|ERR_DECLINED_3D_EXPIRED|
-statusCode|ERR_VAULTIQ_OUT_OF_SERVICE|
-statusCode|ERR_DECLINED_IP_BLOCKED|
-statusCode|ERR_DECLINED_BIN_BLOCKED|
-statusCode|ERR_VAULTIQ_UNKNOWN_ACCOUNT|
-statusCode|ERR_DECLINED_KYC_BLOCK|
-statusCode|ERR_DECLINED_KYC_USER_UNDER_AGE|
-statusCode|ERR_DECLINED_KYC_CHECK_FAILED|
-statusCode|ERR_DECLINED_BIC_BLOCK|
-statusCode|ERR_DECLINED_EXPIRED|
-statusCode|ERR_DECLINED_REPEAT_CANCELLED|
-statusCode|ERR_DECLINED_CURRENCY_NOT_SUPPORTED|
-statusCode|ERR_DECLINED_FRAUD_SCORE_THRESHOLD_EXCEEDED|
-statusCode|ERR_DECLINED_MERCHANT_NOT_FOUND|
-statusCode|ERR_DECLINED_MERCHANT_NOT_ENABLED|
-statusCode|ERR_DECLINED_PROVIDER_NOT_ENABLED|
-statusCode|ERR_DECLINED_UNDER_MAINTENANCE|
-statusCode|ERR_NO_REFERRAL_TX_FOUND|
-statusCode|ERR_DECLINE_TX_NOT_FOUND|
-statusCode|ERR_DECLINE_COUNTRY_NOT_SUPPORTED|
-statusCode|ERR_DECLINED_NOT_SUPPORTED_PAYMENT_METHOD_FRAUD|
-statusCode|ERR_DECLINED_FRAUD_PROVIDER_ACCOUNT_CONFIG_ERROR|
-statusCode|ERR_CANCELLED_BY_USER|
-statusCode|ERR_CANCELLED_BY_MERCHANT|
-statusCode|ERR_CANCELLED_BY_PSP|
 
 
 ## PaymentResponse
@@ -1629,17 +2712,6 @@ statusCode|ERR_CANCELLED_BY_PSP|
 {
   "accountHolderName": "test test",
   "amount": {
-    "amount": 0,
-    "amountInFractionUnit": 0,
-    "currency": "string",
-    "currencyCode": "string",
-    "currencyNumeric3Code": "string",
-    "fractionDigits": 0,
-    "negative": true,
-    "positive": true,
-    "zero": true
-  },
-  "amountAbs": {
     "amount": 0,
     "amountInFractionUnit": 0,
     "currency": "string",
@@ -1661,7 +2733,6 @@ statusCode|ERR_CANCELLED_BY_PSP|
     "positive": true,
     "zero": true
   },
-  "attributes": {},
   "authAmount": {
     "amount": 0,
     "amountInFractionUnit": 0,
@@ -1684,18 +2755,11 @@ statusCode|ERR_CANCELLED_BY_PSP|
     "positive": true,
     "zero": true
   },
-  "authorized": true,
-  "bankWithdrawal": true,
   "blockedAccountReason": "250EAO",
   "bonusCode": "1111",
-  "captured": true,
   "channelId": "12345",
-  "contextMap": "12.00 EUR",
   "created": "2017-04-27 14:10:38",
-  "deposit": true,
   "depositType": "Standard",
-  "failure": true,
-  "failureOrInconsistent": true,
   "fee": {
     "amount": 0,
     "amountInFractionUnit": 0,
@@ -1718,10 +2782,7 @@ statusCode|ERR_CANCELLED_BY_PSP|
     "positive": true,
     "zero": true
   },
-  "finalState": true,
-  "id": 193027,
-  "info": "A system error prevented enrollment from completing. This card is not eligible for 3-D Secure processing.",
-  "initiatedPsp": "Entropay",
+  "info": {},
   "initiatedPspAccount": "3DS",
   "initiatedPspId": 108,
   "ipAddr": "141.8.92.216",
@@ -1729,116 +2790,13 @@ statusCode|ERR_CANCELLED_BY_PSP|
   "ipCountry": "MLT",
   "ipRegion": "string",
   "issuerCountry": "ZZZ",
-  "kycResult": {
-    "created": "2017-09-27T16:16:27Z",
-    "fault": true,
-    "mostRecentResult": {
-      "ageStatus": "ERROR",
-      "idStatus": "ERROR",
-      "provider": "CALLCREDIT",
-      "score": 0,
-      "status": "VERIFIED",
-      "txId": 0,
-      "updated": "2017-09-27T16:16:27Z"
-    },
-    "results": [
-      {
-        "ageStatus": "ERROR",
-        "idStatus": "ERROR",
-        "provider": "CALLCREDIT",
-        "score": 0,
-        "status": "VERIFIED",
-        "txId": 0,
-        "updated": "2017-09-27T16:16:27Z"
-      }
-    ],
-    "retry": true
-  },
   "kycStatus": "Accept",
   "lastUpdated": "2017-04-27 14:10:40",
-  "latestTxCmdMap": {
-    "property1": {
-      "created": "2017-09-27T16:16:27Z",
-      "fault": true,
-      "retry": true
-    },
-    "property2": {
-      "created": "2017-09-27T16:16:27Z",
-      "fault": true,
-      "retry": true
-    }
-  },
   "maskedUserAccount": "23232*****232",
   "merchantAuthCode": "cc3056ec-735c-4ef6-8126-0b0d94b96b49",
   "merchantErrCode": "1001",
   "merchantId": 1980,
   "merchantTxId": "c15eef34-1f37-43a4-a19b-473dbef541ed",
-  "merchantUser": {
-    "addressAsOneLine": "string",
-    "attributes": {
-      "property1": "string",
-      "property2": "string"
-    },
-    "authenticated": true,
-    "balance": {
-      "amount": 0,
-      "amountInFractionUnit": 0,
-      "currency": "string",
-      "currencyCode": "string",
-      "currencyNumeric3Code": "string",
-      "fractionDigits": 0,
-      "negative": true,
-      "positive": true,
-      "zero": true
-    },
-    "city": "string",
-    "communicationChannel": [
-      "EMAIL"
-    ],
-    "countryCode": {
-      "name": "string",
-      "threeAlphaCode": "string",
-      "threeDigitCode": "string",
-      "threeDigitCodeAsInteger": 0,
-      "twoAlphaCode": "string"
-    },
-    "dob": "string",
-    "email": "string",
-    "firstName": "string",
-    "kycStatus": "string",
-    "lastName": "string",
-    "locale": {
-      "country": "string",
-      "displayCountry": "string",
-      "displayLanguage": "string",
-      "displayName": "string",
-      "displayScript": "string",
-      "displayVariant": "string",
-      "extensionKeys": [
-        {}
-      ],
-      "iso3Country": "string",
-      "iso3Language": "string",
-      "language": "string",
-      "script": "string",
-      "unicodeLocaleAttributes": [
-        "string"
-      ],
-      "unicodeLocaleKeys": [
-        "string"
-      ],
-      "variant": "string"
-    },
-    "mobile": "string",
-    "mobileDigits": "string",
-    "name": "string",
-    "sex": "FEMALE",
-    "state": "string",
-    "street": "string",
-    "userCat": "string",
-    "userId": "string",
-    "zip": "string"
-  },
   "merchantUserBal": {
     "amount": 0,
     "amountInFractionUnit": 0,
@@ -1855,8 +2813,6 @@ statusCode|ERR_CANCELLED_BY_PSP|
   "merchantUserEmail": "test@example.com",
   "merchantUserId": "TEST_USER",
   "originTxId": 193027,
-  "processing": true,
-  "psp": "Entropay",
   "pspAccount": "3DS",
   "pspFee": {
     "amount": 0,
@@ -1896,30 +2852,15 @@ statusCode|ERR_CANCELLED_BY_PSP|
     "positive": true,
     "zero": true
   },
-  "pspUserRef": "string",
+  "pspUserRef": "1111",
   "reversedMerchantTxId": "250EAO",
   "reversedTxId": 1000,
   "rules": [
     "string"
   ],
-  "state": "SUCCESSFUL",
-  "stateInt": 0,
   "statusCode": "SUCCESS",
-  "statusCodeInt": 0,
-  "successful": true,
   "suspectedAbuseReason": "250EAO",
   "txAmount": {
-    "amount": 0,
-    "amountInFractionUnit": 0,
-    "currency": "string",
-    "currencyCode": "string",
-    "currencyNumeric3Code": "string",
-    "fractionDigits": 0,
-    "negative": true,
-    "positive": true,
-    "zero": true
-  },
-  "txAmountAbs": {
     "amount": 0,
     "amountInFractionUnit": 0,
     "currency": "string",
@@ -1941,30 +2882,20 @@ statusCode|ERR_CANCELLED_BY_PSP|
     "positive": true,
     "zero": true
   },
-  "txCmds": [
-    {
-      "created": "2017-09-27T16:16:27Z",
-      "fault": true,
-      "retry": true
-    }
-  ],
-  "txRefId": "string",
-  "txType": "CreditcardDeposit",
-  "txTypeInt": 108,
-  "updatedBy": "string",
+  "updatedBy": "user1",
   "userPspAccountDetails": {
     "accountUuid": "string",
     "blockReason": "string",
     "description": "string",
     "directDebit": true,
-    "expiryDate": "2017-09-27T16:16:27Z",
+    "expiryDate": "2017-11-06T10:24:37Z",
     "extAccountRefId": "string",
-    "firstUsed": "2017-09-27T16:16:27Z",
+    "firstUsed": "2017-11-06T10:24:37Z",
     "hashedAccount": "string",
     "holder": "string",
     "id": 0,
-    "lastSuccess": "2017-09-27T16:16:27Z",
-    "lastUsed": "2017-09-27T16:16:27Z",
+    "lastSuccess": "2017-11-06T10:24:37Z",
+    "lastUsed": "2017-11-06T10:24:37Z",
     "maskedAccount": "string",
     "merchantId": 0,
     "merchantUserId": "string",
@@ -1972,7 +2903,7 @@ statusCode|ERR_CANCELLED_BY_PSP|
     "noFailedTx": 0,
     "noSuccessfulTx": 0,
     "providerType": "string",
-    "startDate": "2017-09-27T16:16:27Z",
+    "startDate": "2017-11-06T10:24:37Z",
     "status": "ACTIVE",
     "storeAccount": true,
     "type": "CreditcardDeposit",
@@ -1990,15 +2921,9 @@ statusCode|ERR_CANCELLED_BY_PSP|
     "visible": true
   },
   "userPspAccountId": "404200******8008",
-  "viqStoredEntity": {
-    "accessKey": "string",
-    "alreadyStored": true,
-    "clientEncryptionKey": "string",
-    "localWrappedEncryptionKey": "string",
-    "maskedPan": "string",
-    "vaultiqKey": "string"
-  },
-  "withdrawal": true
+  "id": 193027,
+  "txTypeInt": 108,
+  "state": "SUCCESSFUL"
 } 
 ```
 
@@ -2006,8 +2931,8 @@ statusCode|ERR_CANCELLED_BY_PSP|
 
 Name|Type|Required|Description
 ---|---|---|---|
-accountHolderName|string|true|Account holder name
-amount|[Money](#schemamoney)|true|No description
+accountHolderName|string|false|Account holder name
+amount|[Money](#schemamoney)|false|No description
 » amount|number|false|No description
 » amountInFractionUnit|integer(int64)|false|No description
 » currency|string|false|No description
@@ -2017,7 +2942,7 @@ amount|[Money](#schemamoney)|true|No description
 » negative|boolean|false|No description
 » positive|boolean|false|No description
 » zero|boolean|false|No description
-amountAbs|[Money](#schemamoney)|false|No description
+amountBase|[Money](#schemamoney)|false|No description
 » amount|number|false|No description
 » amountInFractionUnit|integer(int64)|false|No description
 » currency|string|false|No description
@@ -2027,17 +2952,6 @@ amountAbs|[Money](#schemamoney)|false|No description
 » negative|boolean|false|No description
 » positive|boolean|false|No description
 » zero|boolean|false|No description
-amountBase|[Money](#schemamoney)|true|No description
-» amount|number|false|No description
-» amountInFractionUnit|integer(int64)|false|No description
-» currency|string|false|No description
-» currencyCode|string|false|No description
-» currencyNumeric3Code|string|false|No description
-» fractionDigits|integer(int32)|false|No description
-» negative|boolean|false|No description
-» positive|boolean|false|No description
-» zero|boolean|false|No description
-attributes|object|false|No description
 authAmount|[Money](#schemamoney)|false|No description
 » amount|number|false|No description
 » amountInFractionUnit|integer(int64)|false|No description
@@ -2058,19 +2972,12 @@ authAmountBase|[Money](#schemamoney)|false|No description
 » negative|boolean|false|No description
 » positive|boolean|false|No description
 » zero|boolean|false|No description
-authorized|boolean|false|No description
-bankWithdrawal|boolean|false|No description
 blockedAccountReason|string|false|Blocked Account Reason
-bonusCode|string|true|Optional bonus code.
-captured|boolean|false|No description
-channelId|string|true|Optional channel-id provided by merchant
-contextMap|object|true|Context map
-created|string(date-time)|true|Date and time when transaction was created
-deposit|boolean|false|No description
-depositType|string|true|Deposit Type
-failure|boolean|false|No description
-failureOrInconsistent|boolean|false|No description
-fee|[Money](#schemamoney)|true|No description
+bonusCode|string|false|Optional bonus code.
+channelId|string|false|Optional channel-id provided by merchant
+created|string(date-time)|false|Date and time when transaction was created
+depositType|string|false|Deposit Type
+fee|[Money](#schemamoney)|false|No description
 » amount|number|false|No description
 » amountInFractionUnit|integer(int64)|false|No description
 » currency|string|false|No description
@@ -2080,7 +2987,7 @@ fee|[Money](#schemamoney)|true|No description
 » negative|boolean|false|No description
 » positive|boolean|false|No description
 » zero|boolean|false|No description
-feeBase|[Money](#schemamoney)|true|No description
+feeBase|[Money](#schemamoney)|false|No description
 » amount|number|false|No description
 » amountInFractionUnit|integer(int64)|false|No description
 » currency|string|false|No description
@@ -2090,100 +2997,22 @@ feeBase|[Money](#schemamoney)|true|No description
 » negative|boolean|false|No description
 » positive|boolean|false|No description
 » zero|boolean|false|No description
-finalState|boolean|false|No description
-id|integer(int64)|true|Unique transaction id
-info|string|true|Misc payment info
-initiatedPsp|string|false|No description
-initiatedPspAccount|string|true|Provider account used in the transaction
-initiatedPspId|integer(int32)|true|Representation of provider who initiated the transaction, e.g. Skrill, Neteller or PayPoint
-ipAddr|string|true|IP Address
-ipCity|string|true|IP City
-ipCountry|string|true|IP Country
-ipRegion|string|true|IP Region
-issuerCountry|string|true|Optional info for credit cards .. Three letter iso standard
-kycResult|[KycResult](#schemakycresult)|false|No description
-» created|string(date-time)|false|No description
-» fault|boolean|false|No description
-» mostRecentResult|[KycProviderResult](#schemakycproviderresult)|false|No description
-»» ageStatus|string|false|No description
-»» idStatus|string|false|No description
-»» provider|string|false|No description
-»» score|integer(int32)|false|No description
-»» status|string|false|No description
-»» txId|integer(int64)|false|No description
-»» updated|string(date-time)|false|No description
-» retry|boolean|false|No description
-» results|[[KycProviderResult](#schemakycproviderresult)]|false|No description
-»» ageStatus|string|false|No description
-»» idStatus|string|false|No description
-»» provider|string|false|No description
-»» score|integer(int32)|false|No description
-»» status|string|false|No description
-»» txId|integer(int64)|false|No description
-»» updated|string(date-time)|false|No description
-kycStatus|string|true|Know Your Customer (KYC) status. Value returned by merchant. Used for checking tx
-lastUpdated|string(date-time)|true|Last date and time when transaction was updated
-latestTxCmdMap|object|false|No description
-» created|string(date-time)|false|No description
-» fault|boolean|false|No description
-» retry|boolean|false|No description
-maskedUserAccount|string|true|User's account masked
-merchantAuthCode|string|true|Merchant's authorization code from the authorize request
-merchantErrCode|string|true|Merchant error code, e.g. verify user failed
-merchantId|integer(int32)|true|Unique transaction id
-merchantTxId|string|true|Merchant's tx id.
-merchantUser|[MerchantUser](#schemamerchantuser)|false|No description
-» addressAsOneLine|string|false|No description
-» attributes|object|false|No description
-» authenticated|boolean|false|No description
-» balance|[Money](#schemamoney)|false|No description
-»» amount|number|false|No description
-»» amountInFractionUnit|integer(int64)|false|No description
-»» currency|string|false|No description
-»» currencyCode|string|false|No description
-»» currencyNumeric3Code|string|false|No description
-»» fractionDigits|integer(int32)|false|No description
-»» negative|boolean|false|No description
-»» positive|boolean|false|No description
-»» zero|boolean|false|No description
-» city|string|false|No description
-» countryCode|[CountryCode](#schemacountrycode)|false|No description
-»» name|string|false|No description
-»» threeAlphaCode|string|false|No description
-»» threeDigitCode|string|false|No description
-»» threeDigitCodeAsInteger|integer(int32)|false|No description
-»» twoAlphaCode|string|false|No description
-» dob|string|false|No description
-» email|string|false|No description
-» firstName|string|false|No description
-» kycStatus|string|false|No description
-» lastName|string|false|No description
-» locale|[Locale](#schemalocale)|false|No description
-»» country|string|false|No description
-»» displayCountry|string|false|No description
-»» displayLanguage|string|false|No description
-»» displayName|string|false|No description
-»» displayScript|string|false|No description
-»» displayVariant|string|false|No description
-»» iso3Country|string|false|No description
-»» iso3Language|string|false|No description
-»» language|string|false|No description
-»» script|string|false|No description
-»» variant|string|false|No description
-»» extensionKeys|[[Character](#schemacharacter)]|false|No description
-»» unicodeLocaleAttributes|[string]|false|No description
-»» unicodeLocaleKeys|[string]|false|No description
-» mobile|string|false|No description
-» mobileDigits|string|false|No description
-» name|string|false|No description
-» sex|string|false|No description
-» state|string|false|No description
-» street|string|false|No description
-» userCat|string|false|No description
-» userId|string|false|No description
-» zip|string|false|No description
-» communicationChannel|[string]|false|No description
-merchantUserBal|[Money](#schemamoney)|true|No description
+info|[StringBuilder](#schemastringbuilder)|false|No description
+initiatedPspAccount|string|false|Provider account used in the transaction
+initiatedPspId|integer(int32)|false|Representation of provider who initiated the transaction, e.g. Skrill, Neteller or PayPoint
+ipAddr|string|false|IP Address
+ipCity|string|false|IP City
+ipCountry|string|false|IP Country
+ipRegion|string|false|IP Region
+issuerCountry|string|false|Optional info for credit cards .. Three letter iso standard
+kycStatus|string|false|Know Your Customer (KYC) status. Value returned by merchant. Used for checking tx
+lastUpdated|string(date-time)|false|Last date and time when transaction was updated
+maskedUserAccount|string|false|User's account masked
+merchantAuthCode|string|false|Merchant's authorization code from the authorize request
+merchantErrCode|string|false|Merchant error code, e.g. verify user failed
+merchantId|integer(int32)|false|Merchant id
+merchantTxId|string|false|Merchant's tx id.
+merchantUserBal|[Money](#schemamoney)|false|No description
 » amount|number|false|No description
 » amountInFractionUnit|integer(int64)|false|No description
 » currency|string|false|No description
@@ -2193,14 +3022,12 @@ merchantUserBal|[Money](#schemamoney)|true|No description
 » negative|boolean|false|No description
 » positive|boolean|false|No description
 » zero|boolean|false|No description
-merchantUserCat|string|true|Merchant's user category
-merchantUserCountry|string|true|Merchant user country
-merchantUserEmail|string|true|Merchant user email
-merchantUserId|string|true|Merchant's user id
-originTxId|integer(int64)|true|Transaction id that is origin to this transaction
-processing|boolean|false|No description
-psp|string|false|No description
-pspAccount|string|true|Provider account used in the transaction
+merchantUserCat|string|false|Merchant's user category
+merchantUserCountry|string|false|Merchant user country
+merchantUserEmail|string|false|Merchant user email
+merchantUserId|string|false|Merchant's user id
+originTxId|integer(int64)|false|Transaction id that is origin to this transaction
+pspAccount|string|false|Provider account used in the transaction
 pspFee|[Money](#schemamoney)|false|No description
 » amount|number|false|No description
 » amountInFractionUnit|integer(int64)|false|No description
@@ -2222,11 +3049,11 @@ pspFeeBase|[Money](#schemamoney)|false|No description
 » positive|boolean|false|No description
 » zero|boolean|false|No description
 pspFraudScore|number(double)|false|Normalized PSP fraud score (0-10).
-pspId|integer(int32)|true|Representation of provider who has processed the transaction, e.g. Skrill, Neteller or PayPoint
-pspRefId|string|true|Provider reference id
+pspId|integer(int32)|false|Representation of provider who has processed the transaction, e.g. Skrill, Neteller or PayPoint
+pspRefId|string|false|Provider reference id
 pspService|string|false|Representation of provider's sub service which will be used to do a payment
-pspStatusCode|string|true|Provider specific status code
-pspTxAmount|[Money](#schemamoney)|true|No description
+pspStatusCode|string|false|Provider specific status code
+pspTxAmount|[Money](#schemamoney)|false|No description
 » amount|number|false|No description
 » amountInFractionUnit|integer(int64)|false|No description
 » currency|string|false|No description
@@ -2236,16 +3063,12 @@ pspTxAmount|[Money](#schemamoney)|true|No description
 » negative|boolean|false|No description
 » positive|boolean|false|No description
 » zero|boolean|false|No description
-pspUserRef|string|true|PSP User ref 
-reversedMerchantTxId|string|true|Merchant transaction that have been reversed by this transaction 
-reversedTxId|integer(int64)|true|Transaction id that have been reversed by this transaction
-state|string|true|Transaction state
-stateInt|integer(int32)|false|No description
-statusCode|string|true|Status code
-statusCodeInt|integer(int32)|false|No description
-successful|boolean|false|No description
+pspUserRef|string|false|PSP User ref 
+reversedMerchantTxId|string|false|Merchant transaction that have been reversed by this transaction 
+reversedTxId|integer(int64)|false|Transaction id that have been reversed by this transaction
+statusCode|string|false|Status code
 suspectedAbuseReason|string|false|Suspected Abused Reason
-txAmount|[Money](#schemamoney)|true|No description
+txAmount|[Money](#schemamoney)|false|No description
 » amount|number|false|No description
 » amountInFractionUnit|integer(int64)|false|No description
 » currency|string|false|No description
@@ -2255,7 +3078,7 @@ txAmount|[Money](#schemamoney)|true|No description
 » negative|boolean|false|No description
 » positive|boolean|false|No description
 » zero|boolean|false|No description
-txAmountAbs|[Money](#schemamoney)|false|No description
+txAmountBase|[Money](#schemamoney)|false|No description
 » amount|number|false|No description
 » amountInFractionUnit|integer(int64)|false|No description
 » currency|string|false|No description
@@ -2265,21 +3088,8 @@ txAmountAbs|[Money](#schemamoney)|false|No description
 » negative|boolean|false|No description
 » positive|boolean|false|No description
 » zero|boolean|false|No description
-txAmountBase|[Money](#schemamoney)|true|No description
-» amount|number|false|No description
-» amountInFractionUnit|integer(int64)|false|No description
-» currency|string|false|No description
-» currencyCode|string|false|No description
-» currencyNumeric3Code|string|false|No description
-» fractionDigits|integer(int32)|false|No description
-» negative|boolean|false|No description
-» positive|boolean|false|No description
-» zero|boolean|false|No description
-txRefId|string|false|No description
-txType|string|false|No description
-txTypeInt|integer(int32)|true|Representation of transaction type, e.g. Skrill deposit, Neteller
-updatedBy|string|true|Optional last user took same action on the transactions
-userPspAccountDetails|[UserPspAccountDetails](#schemauserpspaccountdetails)|true|No description
+updatedBy|string|false|Optional last user took same action on the transactions
+userPspAccountDetails|[UserPspAccountDetails](#schemauserpspaccountdetails)|false|No description
 » accountUuid|string|false|No description
 » blockReason|string|false|No description
 » description|string|false|No description
@@ -2309,287 +3119,17 @@ userPspAccountDetails|[UserPspAccountDetails](#schemauserpspaccountdetails)|true
 » vaultUuid|string|false|No description
 » visibilityResetAllowed|boolean|false|No description
 » visible|boolean|false|No description
-userPspAccountId|integer(int64)|true|User PSP account unique id, reference to table 'user_psp_account.id
-viqStoredEntity|[SuccessStoreEntity](#schemasuccessstoreentity)|true|No description
-» accessKey|string|false|No description
-» alreadyStored|boolean|false|No description
-» clientEncryptionKey|string|false|No description
-» localWrappedEncryptionKey|string|false|No description
-» maskedPan|string|false|No description
-» vaultiqKey|string|false|No description
-withdrawal|boolean|false|No description
+userPspAccountId|integer(int64)|false|User PSP account unique id, reference to table 'user_psp_account.id
+id|integer(int64)|false|Unique transaction id
+txTypeInt|integer(int32)|false|Representation of transaction type, e.g. Skrill deposit, Neteller
+state|string|false|Transaction state
 rules|[string]|false|No description
-txCmds|[[AbstractTxCmd](#schemaabstracttxcmd)]|false|No description
-» created|string(date-time)|false|No description
-» fault|boolean|false|No description
-» retry|boolean|false|No description
 
 
 #### Enumerated Values
 
 |Property|Value|
 |---|---|
-initiatedPsp|Entropay|
-initiatedPsp|PayPoint|
-initiatedPsp|PayLine|
-initiatedPsp|Realex|
-initiatedPsp|TicketSurf|
-initiatedPsp|Payvision|
-initiatedPsp|SwiftVoucher|
-initiatedPsp|Neosurf|
-initiatedPsp|Credorax|
-initiatedPsp|Wirecard|
-initiatedPsp|NxPay|
-initiatedPsp|EMP|
-initiatedPsp|Vamex|
-initiatedPsp|Payon|
-initiatedPsp|Pacnet|
-initiatedPsp|Borgun|
-initiatedPsp|WorldPay|
-initiatedPsp|PayEx|
-initiatedPsp|CC247|
-initiatedPsp|Computop|
-initiatedPsp|Ilixium|
-initiatedPsp|AstroPayCard|
-initiatedPsp|EMerchantPay|
-initiatedPsp|YuuPay|
-initiatedPsp|AlliedWallet|
-initiatedPsp|WorldPayHCG|
-initiatedPsp|Ochapay|
-initiatedPsp|Redbaron|
-initiatedPsp|Payr|
-initiatedPsp|Argus|
-initiatedPsp|Valitor|
-initiatedPsp|SafeCharge|
-initiatedPsp|Bambora|
-initiatedPsp|Dibs|
-initiatedPsp|Apco|
-initiatedPsp|ASTech|
-initiatedPsp|Fibonatix|
-initiatedPsp|DreamsPay|
-initiatedPsp|Clearhaus|
-initiatedPsp|Citigate|
-initiatedPsp|CreditGuard|
-initiatedPsp|Powerpay21|
-initiatedPsp|EMerchantPayWs|
-initiatedPsp|Kluwp|
-initiatedPsp|MiFinity|
-initiatedPsp|Ingenico|
-initiatedPsp|BamboraGa|
-initiatedPsp|AltPayNet|
-initiatedPsp|CcMock|
-initiatedPsp|Neteller|
-initiatedPsp|Skrill|
-initiatedPsp|Paybox|
-initiatedPsp|ClickandBuy|
-initiatedPsp|PayPal|
-initiatedPsp|Mbankomat|
-initiatedPsp|Siru|
-initiatedPsp|IBanq|
-initiatedPsp|LavaPay|
-initiatedPsp|VenusPoint|
-initiatedPsp|IWallet|
-initiatedPsp|Paysafecard|
-initiatedPsp|Ukash|
-initiatedPsp|Instadebit|
-initiatedPsp|IDebit|
-initiatedPsp|EcoPayz|
-initiatedPsp|Fortumo|
-initiatedPsp|AstroPayDirect|
-initiatedPsp|Boku|
-initiatedPsp|NeosurfVoucher|
-initiatedPsp|PayGround|
-initiatedPsp|SmsVoucher|
-initiatedPsp|Flexepin|
-initiatedPsp|Funanga|
-initiatedPsp|Trustly|
-initiatedPsp|Envoy|
-initiatedPsp|Euteller|
-initiatedPsp|Entercash|
-initiatedPsp|InPay|
-initiatedPsp|Poli|
-initiatedPsp|Sofort|
-initiatedPsp|Transferuj|
-initiatedPsp|Adyen|
-initiatedPsp|RapidPaymentsNetwork|
-initiatedPsp|ManualBanking|
-initiatedPsp|Citadel|
-initiatedPsp|Safetypay|
-initiatedPsp|EasyEft|
-initiatedPsp|PugglePay|
-initiatedPsp|Paylevo|
-initiatedPsp|Seqr|
-initiatedPsp|AccentPay|
-initiatedPsp|PPro|
-initiatedPsp|SecureTrading|
-initiatedPsp|Dotpay|
-initiatedPsp|Przelewy24|
-initiatedPsp|MobileGiro|
-initiatedPsp|ToditoCash|
-initiatedPsp|TolaMobile|
-initiatedPsp|Teleingreso|
-initiatedPsp|FraudGuard|
-initiatedPsp|FeatureSpace|
-initiatedPsp|Undefined|
-initiatedPsp|Unknown|
-»» ageStatus|ERROR|
-»» ageStatus|UNDER_AGE|
-»» ageStatus|NOT_VERIFIED|
-»» ageStatus|VERIFIED|
-»» idStatus|ERROR|
-»» idStatus|UNDER_AGE|
-»» idStatus|NOT_VERIFIED|
-»» idStatus|VERIFIED|
-»» provider|CALLCREDIT|
-»» provider|GBG|
-»» status|VERIFIED|
-»» status|VERIFICATION_IN_PROGRESS|
-»» status|VERIFICATION_FAILED|
-»» status|VERIFICATION_EXTERNAL_FAILURE|
-»» status|VERIFICATION_FAILED_INVALID_USER_DATA|
-»» status|NOT_VERIFIED|
-»» status|BLOCKED|
-»» status|UNDER_AGE|
-»» status|UNKNOWN|
-»» status|UNKNOWN_AGE|
-»» ageStatus|ERROR|
-»» ageStatus|UNDER_AGE|
-»» ageStatus|NOT_VERIFIED|
-»» ageStatus|VERIFIED|
-»» idStatus|ERROR|
-»» idStatus|UNDER_AGE|
-»» idStatus|NOT_VERIFIED|
-»» idStatus|VERIFIED|
-»» provider|CALLCREDIT|
-»» provider|GBG|
-»» status|VERIFIED|
-»» status|VERIFICATION_IN_PROGRESS|
-»» status|VERIFICATION_FAILED|
-»» status|VERIFICATION_EXTERNAL_FAILURE|
-»» status|VERIFICATION_FAILED_INVALID_USER_DATA|
-»» status|NOT_VERIFIED|
-»» status|BLOCKED|
-»» status|UNDER_AGE|
-»» status|UNKNOWN|
-»» status|UNKNOWN_AGE|
-» sex|FEMALE|
-» sex|MALE|
-» sex|UNKNOWN|
-» sex|X|
-» communicationChannel|EMAIL|
-» communicationChannel|SMS|
-psp|Entropay|
-psp|PayPoint|
-psp|PayLine|
-psp|Realex|
-psp|TicketSurf|
-psp|Payvision|
-psp|SwiftVoucher|
-psp|Neosurf|
-psp|Credorax|
-psp|Wirecard|
-psp|NxPay|
-psp|EMP|
-psp|Vamex|
-psp|Payon|
-psp|Pacnet|
-psp|Borgun|
-psp|WorldPay|
-psp|PayEx|
-psp|CC247|
-psp|Computop|
-psp|Ilixium|
-psp|AstroPayCard|
-psp|EMerchantPay|
-psp|YuuPay|
-psp|AlliedWallet|
-psp|WorldPayHCG|
-psp|Ochapay|
-psp|Redbaron|
-psp|Payr|
-psp|Argus|
-psp|Valitor|
-psp|SafeCharge|
-psp|Bambora|
-psp|Dibs|
-psp|Apco|
-psp|ASTech|
-psp|Fibonatix|
-psp|DreamsPay|
-psp|Clearhaus|
-psp|Citigate|
-psp|CreditGuard|
-psp|Powerpay21|
-psp|EMerchantPayWs|
-psp|Kluwp|
-psp|MiFinity|
-psp|Ingenico|
-psp|BamboraGa|
-psp|AltPayNet|
-psp|CcMock|
-psp|Neteller|
-psp|Skrill|
-psp|Paybox|
-psp|ClickandBuy|
-psp|PayPal|
-psp|Mbankomat|
-psp|Siru|
-psp|IBanq|
-psp|LavaPay|
-psp|VenusPoint|
-psp|IWallet|
-psp|Paysafecard|
-psp|Ukash|
-psp|Instadebit|
-psp|IDebit|
-psp|EcoPayz|
-psp|Fortumo|
-psp|AstroPayDirect|
-psp|Boku|
-psp|NeosurfVoucher|
-psp|PayGround|
-psp|SmsVoucher|
-psp|Flexepin|
-psp|Funanga|
-psp|Trustly|
-psp|Envoy|
-psp|Euteller|
-psp|Entercash|
-psp|InPay|
-psp|Poli|
-psp|Sofort|
-psp|Transferuj|
-psp|Adyen|
-psp|RapidPaymentsNetwork|
-psp|ManualBanking|
-psp|Citadel|
-psp|Safetypay|
-psp|EasyEft|
-psp|PugglePay|
-psp|Paylevo|
-psp|Seqr|
-psp|AccentPay|
-psp|PPro|
-psp|SecureTrading|
-psp|Dotpay|
-psp|Przelewy24|
-psp|MobileGiro|
-psp|ToditoCash|
-psp|TolaMobile|
-psp|Teleingreso|
-psp|FraudGuard|
-psp|FeatureSpace|
-psp|Undefined|
-psp|Unknown|
-state|SUCCESSFUL|
-state|REGISTERED|
-state|PROCESSING|
-state|WAITING_INPUT|
-state|WAITING_APPROVAL|
-state|FAILED|
-state|INCONSISTENT|
-state|CANCELLED|
-state|REPROCESSING|
 statusCode|SUCCESS|
 statusCode|SUCCESS_WITHDRAWAL_APPROVAL|
 statusCode|SUCCESS_WITHDRAWAL_AUTO_APPROVAL|
@@ -2611,6 +3151,8 @@ statusCode|WAITING_DEPOSIT_APPROVAL|
 statusCode|WAITING_WITHDRAWAL_APPROVAL|
 statusCode|WAITING_DEPOSIT_AUTO_APPROVAL|
 statusCode|WAITING_WITHDRAWAL_AUTO_APPROVAL|
+statusCode|WAITING_DEPOSIT_ON_HOLD_APPROVAL|
+statusCode|WAITING_WITHDRAWAL_ON_HOLD_APPROVAL|
 statusCode|ERR_READ_TIMEOUT|
 statusCode|ERR_REFERENCE_MISMATCH|
 statusCode|ERR_INCONSISTENT_TRANSACTION|
@@ -2669,104 +3211,6 @@ statusCode|ERR_DECLINED_FRAUD_PROVIDER_ACCOUNT_CONFIG_ERROR|
 statusCode|ERR_CANCELLED_BY_USER|
 statusCode|ERR_CANCELLED_BY_MERCHANT|
 statusCode|ERR_CANCELLED_BY_PSP|
-txType|CreditcardDeposit|
-txType|CreditcardWithdrawal|
-txType|EntropayDeposit|
-txType|ICardDeposit|
-txType|ICardWithdrawal|
-txType|NetellerDeposit|
-txType|NetellerWithdrawal|
-txType|SkrillDeposit|
-txType|SkrillWithdrawal|
-txType|PayboxDeposit|
-txType|ClickandBuyDeposit|
-txType|ClickandBuyWithdrawal|
-txType|PayPalDeposit|
-txType|PayPalWithdrawal|
-txType|MbankomatDeposit|
-txType|IBanqDeposit|
-txType|IBanqWithdrawal|
-txType|LavaPayDeposit|
-txType|LavaPayWithdrawal|
-txType|InstadebitDeposit|
-txType|InstadebitWithdrawal|
-txType|IDebitDeposit|
-txType|IDebitWithdrawal|
-txType|EcoPayzDeposit|
-txType|EcoPayzWithdrawal|
-txType|AstroPayCardWithdrawal|
-txType|AstroPayDirectDeposit|
-txType|AstroPayDirectWithdrawal|
-txType|VenusPointDeposit|
-txType|VenusPointWithdrawal|
-txType|MiFinityEWalletDeposit|
-txType|MiFinityEWalletWithdrawal|
-txType|IWalletDeposit|
-txType|IWalletWithdrawal|
-txType|EutellerDeposit|
-txType|EnvoyDeposit|
-txType|EnvoyWithdrawal|
-txType|TrustlyDeposit|
-txType|TrustlyWithdrawal|
-txType|BankDeposit|
-txType|BankLocalWithdrawal|
-txType|BankIBANWithdrawal|
-txType|BankIntIBANWithdrawal|
-txType|IdealDeposit|
-txType|ChinaUnionPayDeposit|
-txType|BankIntlWithdrawal|
-txType|ChinaUnionPayWithdrawal|
-txType|BoletoBancarioDeposit|
-txType|PaysafecardDeposit|
-txType|UkashDeposit|
-txType|UkashWithdrawal|
-txType|PaysafecardWithdrawal|
-txType|CashlibDeposit|
-txType|TicketPremiumDeposit|
-txType|FlexepinDeposit|
-txType|FunangaDeposit|
-txType|VisaVoucherDeposit|
-txType|GiftcardDeposit|
-txType|PugglePayDeposit|
-txType|PaylevoDeposit|
-txType|YuuCollectDeposit|
-txType|NeosurfVoucherDeposit|
-txType|OxxoDeposit|
-txType|SeqrDeposit|
-txType|SiruDeposit|
-txType|SiruStatus|
-txType|SiruPriceCalc|
-txType|FortumoDeposit|
-txType|BokuDeposit|
-txType|BlikDeposit|
-txType|PayGroundDeposit|
-txType|SmsVoucherDeposit|
-txType|QiwiDeposit|
-txType|QiwiWithdrawal|
-txType|AccentPayDeposit|
-txType|AccentPayWithdrawal|
-txType|WorldPayDeposit|
-txType|WorldPayWithdrawal|
-txType|PProDeposit|
-txType|PProWithdrawal|
-txType|EProPaymentWallDeposit|
-txType|ApcoDeposit|
-txType|SecureTradingDeposit|
-txType|DotpayDeposit|
-txType|Przelewy24Deposit|
-txType|SweGiroDeposit|
-txType|ToditoCashDeposit|
-txType|TolaMobileDeposit|
-txType|TeleingresoDeposit|
-txType|ManualChargeback|
-txType|ManualRefund|
-txType|ManualCancel|
-txType|ManualVoid|
-txType|ManualChargeBackWon|
-txType|Refund|
-txType|Cancel|
-txType|Void|
-txType|Capture|
 » status|ACTIVE|
 » status|INACTIVE|
 » status|NEW|
@@ -2806,6 +3250,9 @@ txType|Capture|
 » type|MiFinityEWalletWithdrawal|
 » type|IWalletDeposit|
 » type|IWalletWithdrawal|
+» type|MuchBetterDeposit|
+» type|MuchBetterWithdrawal|
+» type|AstroPayBankWithdrawal|
 » type|EutellerDeposit|
 » type|EnvoyDeposit|
 » type|EnvoyWithdrawal|
@@ -2836,6 +3283,8 @@ txType|Capture|
 » type|NeosurfVoucherDeposit|
 » type|OxxoDeposit|
 » type|SeqrDeposit|
+» type|CryptoCurrencyDeposit|
+» type|SeqrWithdrawal|
 » type|SiruDeposit|
 » type|SiruStatus|
 » type|SiruPriceCalc|
@@ -2860,6 +3309,7 @@ txType|Capture|
 » type|SweGiroDeposit|
 » type|ToditoCashDeposit|
 » type|TolaMobileDeposit|
+» type|KluwpDeposit|
 » type|TeleingresoDeposit|
 » type|ManualChargeback|
 » type|ManualRefund|
@@ -2870,58 +3320,31 @@ txType|Capture|
 » type|Cancel|
 » type|Void|
 » type|Capture|
+state|SUCCESSFUL|
+state|REGISTERED|
+state|PROCESSING|
+state|WAITING_INPUT|
+state|WAITING_APPROVAL|
+state|FAILED|
+state|INCONSISTENT|
+state|CANCELLED|
+state|REPROCESSING|
 
 
-## RefundSummaryResponse
+## PaymentsErrorResponse
 
-<a name="schemarefundsummaryresponse"></a>
+<a name="schemapaymentserrorresponse"></a>
 
 ```json
 {
-  "originalAmount": {
-    "amount": 0,
-    "amountInFractionUnit": 0,
-    "currency": "string",
-    "currencyCode": "string",
-    "currencyNumeric3Code": "string",
-    "fractionDigits": 0,
-    "negative": true,
-    "positive": true,
-    "zero": true
-  },
-  "originalTxAmount": {
-    "amount": 0,
-    "amountInFractionUnit": 0,
-    "currency": "string",
-    "currencyCode": "string",
-    "currencyNumeric3Code": "string",
-    "fractionDigits": 0,
-    "negative": true,
-    "positive": true,
-    "zero": true
-  },
-  "refundedTxAmount": {
-    "amount": 0,
-    "amountInFractionUnit": 0,
-    "currency": "string",
-    "currencyCode": "string",
-    "currencyNumeric3Code": "string",
-    "fractionDigits": 0,
-    "negative": true,
-    "positive": true,
-    "zero": true
-  },
-  "remainingTxAmount": {
-    "amount": 0,
-    "amountInFractionUnit": 0,
-    "currency": "string",
-    "currencyCode": "string",
-    "currencyNumeric3Code": "string",
-    "fractionDigits": 0,
-    "negative": true,
-    "positive": true,
-    "zero": true
-  }
+  "id": 256616,
+  "merchantId": 100000000,
+  "statusCode": "ERR_SYSTEM_ERROR",
+  "pspStatusCode": "0_00",
+  "state": "FAILED",
+  "errorMessage": "Invalid transaction state, found current transaction status: FAILED. Expected transaction state to be SUCCESSFUL.",
+  "created": "2017-09-15 00:00:00",
+  "lastUpdated": "2017-09-16 00:00:00"
 } 
 ```
 
@@ -2929,61 +3352,125 @@ txType|Capture|
 
 Name|Type|Required|Description
 ---|---|---|---|
-originalAmount|[Money](#schemamoney)|true|No description
-» amount|number|false|No description
-» amountInFractionUnit|integer(int64)|false|No description
-» currency|string|false|No description
-» currencyCode|string|false|No description
-» currencyNumeric3Code|string|false|No description
-» fractionDigits|integer(int32)|false|No description
-» negative|boolean|false|No description
-» positive|boolean|false|No description
-» zero|boolean|false|No description
-originalTxAmount|[Money](#schemamoney)|true|No description
-» amount|number|false|No description
-» amountInFractionUnit|integer(int64)|false|No description
-» currency|string|false|No description
-» currencyCode|string|false|No description
-» currencyNumeric3Code|string|false|No description
-» fractionDigits|integer(int32)|false|No description
-» negative|boolean|false|No description
-» positive|boolean|false|No description
-» zero|boolean|false|No description
-refundedTxAmount|[Money](#schemamoney)|true|No description
-» amount|number|false|No description
-» amountInFractionUnit|integer(int64)|false|No description
-» currency|string|false|No description
-» currencyCode|string|false|No description
-» currencyNumeric3Code|string|false|No description
-» fractionDigits|integer(int32)|false|No description
-» negative|boolean|false|No description
-» positive|boolean|false|No description
-» zero|boolean|false|No description
-remainingTxAmount|[Money](#schemamoney)|true|No description
-» amount|number|false|No description
-» amountInFractionUnit|integer(int64)|false|No description
-» currency|string|false|No description
-» currencyCode|string|false|No description
-» currencyNumeric3Code|string|false|No description
-» fractionDigits|integer(int32)|false|No description
-» negative|boolean|false|No description
-» positive|boolean|false|No description
-» zero|boolean|false|No description
+id|integer(int64)|false|Transaction id
+merchantId|integer(int32)|false|Merchant id
+statusCode|string|false|Generic status codes, common for all providers. The property PSP status code contains   * the provider specific code. 
+pspStatusCode|string|false|Psp status code
+state|string|false|Payment transaction states
+errorMessage|string|false|Error message that describes what went wrong
+created|string(date-time)|false|Timestamp for created
+lastUpdated|string(date-time)|false|Timestamp for updated
 
 
+#### Enumerated Values
 
-## SuccessStoreEntity
+|Property|Value|
+|---|---|
+statusCode|SUCCESS|
+statusCode|SUCCESS_WITHDRAWAL_APPROVAL|
+statusCode|SUCCESS_WITHDRAWAL_AUTO_APPROVAL|
+statusCode|SUCCESS_WAITING_CAPTURE|
+statusCode|SUCCESS_WAITING_AUTO_CAPTURE|
+statusCode|SUCCESS_AUTO_CAPTURED|
+statusCode|SUCCESS_CAPTURED|
+statusCode|REGISTERED|
+statusCode|PROCESSING_PROVIDER|
+statusCode|PROCESSING_MERCHANT|
+statusCode|CONT_WITH_N3DS|
+statusCode|REPROCESSING_PROVIDER|
+statusCode|REPROCESSING_MERCHANT|
+statusCode|WAITING_INPUT|
+statusCode|WAITING_3D_SECURE|
+statusCode|WAITING_DEPOSIT_CONFIRMATION|
+statusCode|WAITING_NOTIFICATION|
+statusCode|WAITING_DEPOSIT_APPROVAL|
+statusCode|WAITING_WITHDRAWAL_APPROVAL|
+statusCode|WAITING_DEPOSIT_AUTO_APPROVAL|
+statusCode|WAITING_WITHDRAWAL_AUTO_APPROVAL|
+statusCode|WAITING_DEPOSIT_ON_HOLD_APPROVAL|
+statusCode|WAITING_WITHDRAWAL_ON_HOLD_APPROVAL|
+statusCode|ERR_READ_TIMEOUT|
+statusCode|ERR_REFERENCE_MISMATCH|
+statusCode|ERR_INCONSISTENT_TRANSACTION|
+statusCode|ERR_UNKNOWN_CALLBACK|
+statusCode|ERR_IO_EXCEPTION|
+statusCode|ERR_UNKNOWN_RESPONSE|
+statusCode|ERR_SYSTEM_ERROR|
+statusCode|ERR_FAILED_TO_CONNECT|
+statusCode|ERR_DECLINED_BAD_REQUEST|
+statusCode|ERR_DECLINED_FRAUD|
+statusCode|ERR_DECLINED_NO_FUNDS|
+statusCode|ERR_DECLINED_ACCOUNT_SUSPENDED|
+statusCode|ERR_DECLINED_OTHER_REASON|
+statusCode|ERR_DECLINED_CONTACT_SUPPORT|
+statusCode|ERR_DECLINED_CONFIG_ERROR|
+statusCode|ERR_NOT_AUTHENTICATED|
+statusCode|ERR_INVALID_RESPONSE|
+statusCode|ERR_DECLINED_REQ_BLOCKED|
+statusCode|ERR_PSP_OUT_OF_SERVICE|
+statusCode|ERR_DECLINED_NOT_AUTHORIZED|
+statusCode|ERR_RESPONSE_CODE_UNKNOWN|
+statusCode|ERR_PSP_ACCOUNT_USED_BY_OTHER_USER|
+statusCode|ERR_PSP_ACCOUNT_NOT_USED|
+statusCode|ERR_TOO_MANY_PSP_ACCOUNTS|
+statusCode|ERR_DECLINED_DUPLICATE_TX_ID|
+statusCode|ERR_DECLINED_INVALID_ACCOUNT_NUMBER|
+statusCode|ERR_MERCHANT_OUT_OF_SERVICE|
+statusCode|ERR_DECLINED_LIMIT_OVERDRAWN|
+statusCode|ERR_MERCHANT_RESPONSE_CODE_UNKNOWN|
+statusCode|ERR_DECLINED_NO_PROVIDER_FOUND|
+statusCode|ERR_DECLINED_PROVIDER_ACCOUNT_CONFIG_ERROR|
+statusCode|ERR_MERCHANT_INVALID_RESPONSE|
+statusCode|ERR_DECLINED_3D_VALIDATION_FAILED|
+statusCode|ERR_DECLINED_3D_EXPIRED|
+statusCode|ERR_VAULTIQ_OUT_OF_SERVICE|
+statusCode|ERR_DECLINED_IP_BLOCKED|
+statusCode|ERR_DECLINED_BIN_BLOCKED|
+statusCode|ERR_VAULTIQ_UNKNOWN_ACCOUNT|
+statusCode|ERR_DECLINED_KYC_BLOCK|
+statusCode|ERR_DECLINED_KYC_USER_UNDER_AGE|
+statusCode|ERR_DECLINED_KYC_CHECK_FAILED|
+statusCode|ERR_DECLINED_BIC_BLOCK|
+statusCode|ERR_DECLINED_EXPIRED|
+statusCode|ERR_DECLINED_REPEAT_CANCELLED|
+statusCode|ERR_DECLINED_CURRENCY_NOT_SUPPORTED|
+statusCode|ERR_DECLINED_FRAUD_SCORE_THRESHOLD_EXCEEDED|
+statusCode|ERR_DECLINED_MERCHANT_NOT_FOUND|
+statusCode|ERR_DECLINED_MERCHANT_NOT_ENABLED|
+statusCode|ERR_DECLINED_PROVIDER_NOT_ENABLED|
+statusCode|ERR_DECLINED_UNDER_MAINTENANCE|
+statusCode|ERR_NO_REFERRAL_TX_FOUND|
+statusCode|ERR_DECLINE_TX_NOT_FOUND|
+statusCode|ERR_DECLINE_COUNTRY_NOT_SUPPORTED|
+statusCode|ERR_DECLINED_NOT_SUPPORTED_PAYMENT_METHOD_FRAUD|
+statusCode|ERR_DECLINED_FRAUD_PROVIDER_ACCOUNT_CONFIG_ERROR|
+statusCode|ERR_CANCELLED_BY_USER|
+statusCode|ERR_CANCELLED_BY_MERCHANT|
+statusCode|ERR_CANCELLED_BY_PSP|
+state|SUCCESSFUL|
+state|REGISTERED|
+state|PROCESSING|
+state|WAITING_INPUT|
+state|WAITING_APPROVAL|
+state|FAILED|
+state|INCONSISTENT|
+state|CANCELLED|
+state|REPROCESSING|
 
-<a name="schemasuccessstoreentity"></a>
+
+## PaymentsResponse
+
+<a name="schemapaymentsresponse"></a>
 
 ```json
 {
-  "accessKey": "string",
-  "alreadyStored": true,
-  "clientEncryptionKey": "string",
-  "localWrappedEncryptionKey": "string",
-  "maskedPan": "string",
-  "vaultiqKey": "string"
+  "id": 256616,
+  "merchantId": 100000000,
+  "statusCode": "SUCCESS",
+  "pspStatusCode": "0_00",
+  "state": "SUCCESSFUL",
+  "created": "2017-09-15 00:00:00",
+  "lastUpdated": "2017-09-16 00:00:00"
 } 
 ```
 
@@ -2991,13 +3478,405 @@ remainingTxAmount|[Money](#schemamoney)|true|No description
 
 Name|Type|Required|Description
 ---|---|---|---|
-accessKey|string|false|No description
-alreadyStored|boolean|false|No description
-clientEncryptionKey|string|false|No description
-localWrappedEncryptionKey|string|false|No description
-maskedPan|string|false|No description
-vaultiqKey|string|false|No description
+id|integer(int64)|false|Transaction id
+merchantId|integer(int32)|false|Merchant id
+statusCode|string|false|Generic status codes, common for all providers. The property PSP status code contains   * the provider specific code. 
+pspStatusCode|string|false|Psp status code
+state|string|false|Payment transaction states
+created|string(date-time)|false|Timestamp for created
+lastUpdated|string(date-time)|false|Timestamp for updated
 
+
+#### Enumerated Values
+
+|Property|Value|
+|---|---|
+statusCode|SUCCESS|
+statusCode|SUCCESS_WITHDRAWAL_APPROVAL|
+statusCode|SUCCESS_WITHDRAWAL_AUTO_APPROVAL|
+statusCode|SUCCESS_WAITING_CAPTURE|
+statusCode|SUCCESS_WAITING_AUTO_CAPTURE|
+statusCode|SUCCESS_AUTO_CAPTURED|
+statusCode|SUCCESS_CAPTURED|
+statusCode|REGISTERED|
+statusCode|PROCESSING_PROVIDER|
+statusCode|PROCESSING_MERCHANT|
+statusCode|CONT_WITH_N3DS|
+statusCode|REPROCESSING_PROVIDER|
+statusCode|REPROCESSING_MERCHANT|
+statusCode|WAITING_INPUT|
+statusCode|WAITING_3D_SECURE|
+statusCode|WAITING_DEPOSIT_CONFIRMATION|
+statusCode|WAITING_NOTIFICATION|
+statusCode|WAITING_DEPOSIT_APPROVAL|
+statusCode|WAITING_WITHDRAWAL_APPROVAL|
+statusCode|WAITING_DEPOSIT_AUTO_APPROVAL|
+statusCode|WAITING_WITHDRAWAL_AUTO_APPROVAL|
+statusCode|WAITING_DEPOSIT_ON_HOLD_APPROVAL|
+statusCode|WAITING_WITHDRAWAL_ON_HOLD_APPROVAL|
+statusCode|ERR_READ_TIMEOUT|
+statusCode|ERR_REFERENCE_MISMATCH|
+statusCode|ERR_INCONSISTENT_TRANSACTION|
+statusCode|ERR_UNKNOWN_CALLBACK|
+statusCode|ERR_IO_EXCEPTION|
+statusCode|ERR_UNKNOWN_RESPONSE|
+statusCode|ERR_SYSTEM_ERROR|
+statusCode|ERR_FAILED_TO_CONNECT|
+statusCode|ERR_DECLINED_BAD_REQUEST|
+statusCode|ERR_DECLINED_FRAUD|
+statusCode|ERR_DECLINED_NO_FUNDS|
+statusCode|ERR_DECLINED_ACCOUNT_SUSPENDED|
+statusCode|ERR_DECLINED_OTHER_REASON|
+statusCode|ERR_DECLINED_CONTACT_SUPPORT|
+statusCode|ERR_DECLINED_CONFIG_ERROR|
+statusCode|ERR_NOT_AUTHENTICATED|
+statusCode|ERR_INVALID_RESPONSE|
+statusCode|ERR_DECLINED_REQ_BLOCKED|
+statusCode|ERR_PSP_OUT_OF_SERVICE|
+statusCode|ERR_DECLINED_NOT_AUTHORIZED|
+statusCode|ERR_RESPONSE_CODE_UNKNOWN|
+statusCode|ERR_PSP_ACCOUNT_USED_BY_OTHER_USER|
+statusCode|ERR_PSP_ACCOUNT_NOT_USED|
+statusCode|ERR_TOO_MANY_PSP_ACCOUNTS|
+statusCode|ERR_DECLINED_DUPLICATE_TX_ID|
+statusCode|ERR_DECLINED_INVALID_ACCOUNT_NUMBER|
+statusCode|ERR_MERCHANT_OUT_OF_SERVICE|
+statusCode|ERR_DECLINED_LIMIT_OVERDRAWN|
+statusCode|ERR_MERCHANT_RESPONSE_CODE_UNKNOWN|
+statusCode|ERR_DECLINED_NO_PROVIDER_FOUND|
+statusCode|ERR_DECLINED_PROVIDER_ACCOUNT_CONFIG_ERROR|
+statusCode|ERR_MERCHANT_INVALID_RESPONSE|
+statusCode|ERR_DECLINED_3D_VALIDATION_FAILED|
+statusCode|ERR_DECLINED_3D_EXPIRED|
+statusCode|ERR_VAULTIQ_OUT_OF_SERVICE|
+statusCode|ERR_DECLINED_IP_BLOCKED|
+statusCode|ERR_DECLINED_BIN_BLOCKED|
+statusCode|ERR_VAULTIQ_UNKNOWN_ACCOUNT|
+statusCode|ERR_DECLINED_KYC_BLOCK|
+statusCode|ERR_DECLINED_KYC_USER_UNDER_AGE|
+statusCode|ERR_DECLINED_KYC_CHECK_FAILED|
+statusCode|ERR_DECLINED_BIC_BLOCK|
+statusCode|ERR_DECLINED_EXPIRED|
+statusCode|ERR_DECLINED_REPEAT_CANCELLED|
+statusCode|ERR_DECLINED_CURRENCY_NOT_SUPPORTED|
+statusCode|ERR_DECLINED_FRAUD_SCORE_THRESHOLD_EXCEEDED|
+statusCode|ERR_DECLINED_MERCHANT_NOT_FOUND|
+statusCode|ERR_DECLINED_MERCHANT_NOT_ENABLED|
+statusCode|ERR_DECLINED_PROVIDER_NOT_ENABLED|
+statusCode|ERR_DECLINED_UNDER_MAINTENANCE|
+statusCode|ERR_NO_REFERRAL_TX_FOUND|
+statusCode|ERR_DECLINE_TX_NOT_FOUND|
+statusCode|ERR_DECLINE_COUNTRY_NOT_SUPPORTED|
+statusCode|ERR_DECLINED_NOT_SUPPORTED_PAYMENT_METHOD_FRAUD|
+statusCode|ERR_DECLINED_FRAUD_PROVIDER_ACCOUNT_CONFIG_ERROR|
+statusCode|ERR_CANCELLED_BY_USER|
+statusCode|ERR_CANCELLED_BY_MERCHANT|
+statusCode|ERR_CANCELLED_BY_PSP|
+state|SUCCESSFUL|
+state|REGISTERED|
+state|PROCESSING|
+state|WAITING_INPUT|
+state|WAITING_APPROVAL|
+state|FAILED|
+state|INCONSISTENT|
+state|CANCELLED|
+state|REPROCESSING|
+
+
+## RefundRequest
+
+<a name="schemarefundrequest"></a>
+
+```json
+{
+  "info": "Refund reason...",
+  "tagId": "CP-1",
+  "txAmount": "2.35"
+} 
+```
+
+### Properties
+
+Name|Type|Required|Description
+---|---|---|---|
+info|string|false|Any additional information to provide reason for capture. Maximum limit 200 characters.
+tagId|string|false|Tag id, you need to predefine tags in MerchantConfig.The tag must be named Refund, an example is <tags><entry><string>Refund</string><list><tag><id>CP-1</id><name>Other reason</name></tag></list></entry></tags>
+txAmount|string|false|The amount to partial refund
+
+
+
+## StringBuilder
+
+<a name="schemastringbuilder"></a>
+
+```json
+{} 
+```
+
+### Properties
+
+Name|Type|Required|Description
+---|---|---|---|
+undefined|object|false|No description
+
+
+
+## UnauthorizedResponse
+
+<a name="schemaunauthorizedresponse"></a>
+
+```json
+{
+  "error": "invalid_token",
+  "error_description": "Cannot convert access token to JSON"
+} 
+```
+
+### Properties
+
+Name|Type|Required|Description
+---|---|---|---|
+error|string|false|Provides what type of error it is.
+error_description|string|false|Provides details description about the error.
+
+
+
+## UserAccountResponse
+
+<a name="schemauseraccountresponse"></a>
+
+```json
+{
+  "id": 1,
+  "merchantId": 1234,
+  "accountUuid": "958acd6b-b386-4a2c-bead-e3ed49613d44",
+  "merchantUserId": "ENVOY",
+  "holder": "testuser",
+  "type": "CreditcardDeposit",
+  "providerType": "CREDITCARD",
+  "hashedAccount": "958acd6b-b386-4a2c-bead-e3ed49613d44",
+  "maskedAccount": "4444********1234",
+  "startDate": "2020-01-01 00:00:00",
+  "expiryDate": "2020-01-01 00:00:00",
+  "firstUsed": "2020-01-01 00:00:00",
+  "lastUsed": "2020-01-01 00:00:00",
+  "lastSuccess": "2020-01-01 00:00:00",
+  "noSuccessfulTx": 20,
+  "noFailedTx": 10,
+  "description": "string",
+  "status": "ACTIVE"
+} 
+```
+
+### Properties
+
+Name|Type|Required|Description
+---|---|---|---|
+id|integer(int64)|false|User account id
+merchantId|integer(int32)|false|Merchant id
+accountUuid|string|false|Account UUID
+merchantUserId|string|false|Merchant user id
+holder|string|false|Card holder
+type|string|false|Transaction type
+providerType|string|false|Provider type
+hashedAccount|string|false|Hashed account
+maskedAccount|string|false|Masked account
+startDate|string(date-time)|false|Date when account can first be used (if applicable)
+expiryDate|string(date-time)|false|Date when account will expiry (if applicable)
+firstUsed|string(date-time)|false|When account was first used
+lastUsed|string(date-time)|false|When account was last used
+lastSuccess|string(date-time)|false|When account had last successful tx
+noSuccessfulTx|integer(int32)|false|No of successful transactions
+noFailedTx|integer(int32)|false|No of failed transactions
+description|string|false|Description for the use of psp account
+status|string|false|User account status
+
+
+#### Enumerated Values
+
+|Property|Value|
+|---|---|
+type|CreditcardDeposit|
+type|CreditcardWithdrawal|
+type|EntropayDeposit|
+type|ICardDeposit|
+type|ICardWithdrawal|
+type|NetellerDeposit|
+type|NetellerWithdrawal|
+type|SkrillDeposit|
+type|SkrillWithdrawal|
+type|PayboxDeposit|
+type|ClickandBuyDeposit|
+type|ClickandBuyWithdrawal|
+type|PayPalDeposit|
+type|PayPalWithdrawal|
+type|MbankomatDeposit|
+type|IBanqDeposit|
+type|IBanqWithdrawal|
+type|LavaPayDeposit|
+type|LavaPayWithdrawal|
+type|InstadebitDeposit|
+type|InstadebitWithdrawal|
+type|IDebitDeposit|
+type|IDebitWithdrawal|
+type|EcoPayzDeposit|
+type|EcoPayzWithdrawal|
+type|AstroPayCardWithdrawal|
+type|AstroPayDirectDeposit|
+type|AstroPayDirectWithdrawal|
+type|VenusPointDeposit|
+type|VenusPointWithdrawal|
+type|MiFinityEWalletDeposit|
+type|MiFinityEWalletWithdrawal|
+type|IWalletDeposit|
+type|IWalletWithdrawal|
+type|MuchBetterDeposit|
+type|MuchBetterWithdrawal|
+type|AstroPayBankWithdrawal|
+type|EutellerDeposit|
+type|EnvoyDeposit|
+type|EnvoyWithdrawal|
+type|TrustlyDeposit|
+type|TrustlyWithdrawal|
+type|BankDeposit|
+type|BankLocalWithdrawal|
+type|BankIBANWithdrawal|
+type|BankIntIBANWithdrawal|
+type|IdealDeposit|
+type|ChinaUnionPayDeposit|
+type|BankIntlWithdrawal|
+type|ChinaUnionPayWithdrawal|
+type|BoletoBancarioDeposit|
+type|PaysafecardDeposit|
+type|UkashDeposit|
+type|UkashWithdrawal|
+type|PaysafecardWithdrawal|
+type|CashlibDeposit|
+type|TicketPremiumDeposit|
+type|FlexepinDeposit|
+type|FunangaDeposit|
+type|VisaVoucherDeposit|
+type|GiftcardDeposit|
+type|PugglePayDeposit|
+type|PaylevoDeposit|
+type|YuuCollectDeposit|
+type|NeosurfVoucherDeposit|
+type|OxxoDeposit|
+type|SeqrDeposit|
+type|CryptoCurrencyDeposit|
+type|SeqrWithdrawal|
+type|SiruDeposit|
+type|SiruStatus|
+type|SiruPriceCalc|
+type|FortumoDeposit|
+type|BokuDeposit|
+type|BlikDeposit|
+type|PayGroundDeposit|
+type|SmsVoucherDeposit|
+type|QiwiDeposit|
+type|QiwiWithdrawal|
+type|AccentPayDeposit|
+type|AccentPayWithdrawal|
+type|WorldPayDeposit|
+type|WorldPayWithdrawal|
+type|PProDeposit|
+type|PProWithdrawal|
+type|EProPaymentWallDeposit|
+type|ApcoDeposit|
+type|SecureTradingDeposit|
+type|DotpayDeposit|
+type|Przelewy24Deposit|
+type|SweGiroDeposit|
+type|ToditoCashDeposit|
+type|TolaMobileDeposit|
+type|KluwpDeposit|
+type|TeleingresoDeposit|
+type|ManualChargeback|
+type|ManualRefund|
+type|ManualCancel|
+type|ManualVoid|
+type|ManualChargeBackWon|
+type|Refund|
+type|Cancel|
+type|Void|
+type|Capture|
+providerType|ACCENTPAY|
+providerType|BANK|
+providerType|BANKIBAN|
+providerType|BANKINTIBAN|
+providerType|BANKINTL|
+providerType|BANKLOCAL|
+providerType|CREDITCARD|
+providerType|NETELLER|
+providerType|SKRILL|
+providerType|ENVOY|
+providerType|PAYSAFECARD|
+providerType|UKASH|
+providerType|PAYBOX|
+providerType|PUGGLEPAY|
+providerType|CLICKANDBUY|
+providerType|PAYPAL|
+providerType|MBANKOMAT|
+providerType|PAYLEVO|
+providerType|SIRU|
+providerType|WORLDPAY|
+providerType|IBANQ|
+providerType|IDEAL|
+providerType|LAVAPAY|
+providerType|INSTADEBIT|
+providerType|IDEBIT|
+providerType|ECOPAYZ|
+providerType|FORTUMO|
+providerType|ASTROPAYCARD|
+providerType|ASTROPAYDIRECT|
+providerType|PPRO|
+providerType|YUUCOLLECT|
+providerType|BOKU|
+providerType|NEOSURFVOUCHER|
+providerType|CHINAUNIONPAY|
+providerType|CITADEL|
+providerType|PRZELEWY24|
+providerType|PAYGROUND|
+providerType|TELEINGRESO|
+providerType|VENUSPOINT|
+providerType|ENTROPAY|
+providerType|MOBILEGIRO|
+providerType|SMSVOUCHER|
+providerType|TODITOCASH|
+providerType|TICKETPREMIUM|
+providerType|QIWI|
+providerType|ICARD|
+providerType|TOLAMOBILE|
+providerType|FLEXEPIN|
+providerType|FUNANGA|
+providerType|VISAVOUCHER|
+providerType|GIFTCARD|
+providerType|MIFINITY|
+providerType|OXXO|
+providerType|IWALLET|
+providerType|SEQR|
+providerType|BOLETO|
+providerType|CRYPTOCURRENCY|
+providerType|MUCHBETTER|
+providerType|KLUWP|
+providerType|ASTROPAYBANK|
+providerType|INTERNAL_CORRECTION|
+providerType|EXTERNAL_CORRECTION|
+providerType|INTERNAL|
+providerType|EUTELLER|
+providerType|TRUSTLY|
+providerType|EPRO|
+providerType|CASHLIB|
+providerType|APCO|
+providerType|SECURETRADING|
+providerType|DOTPAY|
+providerType|BLIK|
+providerType|UNKNOWN|
+status|ACTIVE|
+status|INACTIVE|
+status|NEW|
+status|DELETED|
+status|BLOCKED|
 
 
 ## UserPspAccountDetails
@@ -3010,14 +3889,14 @@ vaultiqKey|string|false|No description
   "blockReason": "string",
   "description": "string",
   "directDebit": true,
-  "expiryDate": "2017-09-27T16:16:27Z",
+  "expiryDate": "2017-11-06T10:24:37Z",
   "extAccountRefId": "string",
-  "firstUsed": "2017-09-27T16:16:27Z",
+  "firstUsed": "2017-11-06T10:24:37Z",
   "hashedAccount": "string",
   "holder": "string",
   "id": 0,
-  "lastSuccess": "2017-09-27T16:16:27Z",
-  "lastUsed": "2017-09-27T16:16:27Z",
+  "lastSuccess": "2017-11-06T10:24:37Z",
+  "lastUsed": "2017-11-06T10:24:37Z",
   "maskedAccount": "string",
   "merchantId": 0,
   "merchantUserId": "string",
@@ -3025,7 +3904,7 @@ vaultiqKey|string|false|No description
   "noFailedTx": 0,
   "noSuccessfulTx": 0,
   "providerType": "string",
-  "startDate": "2017-09-27T16:16:27Z",
+  "startDate": "2017-11-06T10:24:37Z",
   "status": "ACTIVE",
   "storeAccount": true,
   "type": "CreditcardDeposit",
@@ -3122,6 +4001,9 @@ type|MiFinityEWalletDeposit|
 type|MiFinityEWalletWithdrawal|
 type|IWalletDeposit|
 type|IWalletWithdrawal|
+type|MuchBetterDeposit|
+type|MuchBetterWithdrawal|
+type|AstroPayBankWithdrawal|
 type|EutellerDeposit|
 type|EnvoyDeposit|
 type|EnvoyWithdrawal|
@@ -3152,6 +4034,8 @@ type|YuuCollectDeposit|
 type|NeosurfVoucherDeposit|
 type|OxxoDeposit|
 type|SeqrDeposit|
+type|CryptoCurrencyDeposit|
+type|SeqrWithdrawal|
 type|SiruDeposit|
 type|SiruStatus|
 type|SiruPriceCalc|
@@ -3176,6 +4060,7 @@ type|Przelewy24Deposit|
 type|SweGiroDeposit|
 type|ToditoCashDeposit|
 type|TolaMobileDeposit|
+type|KluwpDeposit|
 type|TeleingresoDeposit|
 type|ManualChargeback|
 type|ManualRefund|
@@ -3188,395 +4073,14 @@ type|Void|
 type|Capture|
 
 
-## JsonResult_List_PaymentResponse_
+## VoidRequest
 
-<a name="schemajsonresult_list_paymentresponse_"></a>
+<a name="schemavoidrequest"></a>
 
 ```json
 {
-  "errors": {
-    "property1": "string",
-    "property2": "string"
-  },
-  "message": "string",
-  "result": [
-    {
-      "accountHolderName": "test test",
-      "amount": {
-        "amount": 0,
-        "amountInFractionUnit": 0,
-        "currency": "string",
-        "currencyCode": "string",
-        "currencyNumeric3Code": "string",
-        "fractionDigits": 0,
-        "negative": true,
-        "positive": true,
-        "zero": true
-      },
-      "amountAbs": {
-        "amount": 0,
-        "amountInFractionUnit": 0,
-        "currency": "string",
-        "currencyCode": "string",
-        "currencyNumeric3Code": "string",
-        "fractionDigits": 0,
-        "negative": true,
-        "positive": true,
-        "zero": true
-      },
-      "amountBase": {
-        "amount": 0,
-        "amountInFractionUnit": 0,
-        "currency": "string",
-        "currencyCode": "string",
-        "currencyNumeric3Code": "string",
-        "fractionDigits": 0,
-        "negative": true,
-        "positive": true,
-        "zero": true
-      },
-      "attributes": {},
-      "authAmount": {
-        "amount": 0,
-        "amountInFractionUnit": 0,
-        "currency": "string",
-        "currencyCode": "string",
-        "currencyNumeric3Code": "string",
-        "fractionDigits": 0,
-        "negative": true,
-        "positive": true,
-        "zero": true
-      },
-      "authAmountBase": {
-        "amount": 0,
-        "amountInFractionUnit": 0,
-        "currency": "string",
-        "currencyCode": "string",
-        "currencyNumeric3Code": "string",
-        "fractionDigits": 0,
-        "negative": true,
-        "positive": true,
-        "zero": true
-      },
-      "authorized": true,
-      "bankWithdrawal": true,
-      "blockedAccountReason": "250EAO",
-      "bonusCode": "1111",
-      "captured": true,
-      "channelId": "12345",
-      "contextMap": "12.00 EUR",
-      "created": "2017-04-27 14:10:38",
-      "deposit": true,
-      "depositType": "Standard",
-      "failure": true,
-      "failureOrInconsistent": true,
-      "fee": {
-        "amount": 0,
-        "amountInFractionUnit": 0,
-        "currency": "string",
-        "currencyCode": "string",
-        "currencyNumeric3Code": "string",
-        "fractionDigits": 0,
-        "negative": true,
-        "positive": true,
-        "zero": true
-      },
-      "feeBase": {
-        "amount": 0,
-        "amountInFractionUnit": 0,
-        "currency": "string",
-        "currencyCode": "string",
-        "currencyNumeric3Code": "string",
-        "fractionDigits": 0,
-        "negative": true,
-        "positive": true,
-        "zero": true
-      },
-      "finalState": true,
-      "id": 193027,
-      "info": "A system error prevented enrollment from completing. This card is not eligible for 3-D Secure processing.",
-      "initiatedPsp": "Entropay",
-      "initiatedPspAccount": "3DS",
-      "initiatedPspId": 108,
-      "ipAddr": "141.8.92.216",
-      "ipCity": "Msida",
-      "ipCountry": "MLT",
-      "ipRegion": "string",
-      "issuerCountry": "ZZZ",
-      "kycResult": {
-        "created": "2017-09-27T16:16:27Z",
-        "fault": true,
-        "mostRecentResult": {
-          "ageStatus": "ERROR",
-          "idStatus": "ERROR",
-          "provider": "CALLCREDIT",
-          "score": 0,
-          "status": "VERIFIED",
-          "txId": 0,
-          "updated": "2017-09-27T16:16:27Z"
-        },
-        "results": [
-          {
-            "ageStatus": "ERROR",
-            "idStatus": "ERROR",
-            "provider": "CALLCREDIT",
-            "score": 0,
-            "status": "VERIFIED",
-            "txId": 0,
-            "updated": "2017-09-27T16:16:27Z"
-          }
-        ],
-        "retry": true
-      },
-      "kycStatus": "Accept",
-      "lastUpdated": "2017-04-27 14:10:40",
-      "latestTxCmdMap": {
-        "property1": {
-          "created": "2017-09-27T16:16:27Z",
-          "fault": true,
-          "retry": true
-        },
-        "property2": {
-          "created": "2017-09-27T16:16:27Z",
-          "fault": true,
-          "retry": true
-        }
-      },
-      "maskedUserAccount": "23232*****232",
-      "merchantAuthCode": "cc3056ec-735c-4ef6-8126-0b0d94b96b49",
-      "merchantErrCode": "1001",
-      "merchantId": 1980,
-      "merchantTxId": "c15eef34-1f37-43a4-a19b-473dbef541ed",
-      "merchantUser": {
-        "addressAsOneLine": "string",
-        "attributes": {
-          "property1": "string",
-          "property2": "string"
-        },
-        "authenticated": true,
-        "balance": {
-          "amount": 0,
-          "amountInFractionUnit": 0,
-          "currency": "string",
-          "currencyCode": "string",
-          "currencyNumeric3Code": "string",
-          "fractionDigits": 0,
-          "negative": true,
-          "positive": true,
-          "zero": true
-        },
-        "city": "string",
-        "communicationChannel": [
-          "EMAIL"
-        ],
-        "countryCode": {
-          "name": "string",
-          "threeAlphaCode": "string",
-          "threeDigitCode": "string",
-          "threeDigitCodeAsInteger": 0,
-          "twoAlphaCode": "string"
-        },
-        "dob": "string",
-        "email": "string",
-        "firstName": "string",
-        "kycStatus": "string",
-        "lastName": "string",
-        "locale": {
-          "country": "string",
-          "displayCountry": "string",
-          "displayLanguage": "string",
-          "displayName": "string",
-          "displayScript": "string",
-          "displayVariant": "string",
-          "extensionKeys": [
-            {}
-          ],
-          "iso3Country": "string",
-          "iso3Language": "string",
-          "language": "string",
-          "script": "string",
-          "unicodeLocaleAttributes": [
-            "string"
-          ],
-          "unicodeLocaleKeys": [
-            "string"
-          ],
-          "variant": "string"
-        },
-        "mobile": "string",
-        "mobileDigits": "string",
-        "name": "string",
-        "sex": "FEMALE",
-        "state": "string",
-        "street": "string",
-        "userCat": "string",
-        "userId": "string",
-        "zip": "string"
-      },
-      "merchantUserBal": {
-        "amount": 0,
-        "amountInFractionUnit": 0,
-        "currency": "string",
-        "currencyCode": "string",
-        "currencyNumeric3Code": "string",
-        "fractionDigits": 0,
-        "negative": true,
-        "positive": true,
-        "zero": true
-      },
-      "merchantUserCat": "TEST",
-      "merchantUserCountry": "AUS",
-      "merchantUserEmail": "test@example.com",
-      "merchantUserId": "TEST_USER",
-      "originTxId": 193027,
-      "processing": true,
-      "psp": "Entropay",
-      "pspAccount": "3DS",
-      "pspFee": {
-        "amount": 0,
-        "amountInFractionUnit": 0,
-        "currency": "string",
-        "currencyCode": "string",
-        "currencyNumeric3Code": "string",
-        "fractionDigits": 0,
-        "negative": true,
-        "positive": true,
-        "zero": true
-      },
-      "pspFeeBase": {
-        "amount": 0,
-        "amountInFractionUnit": 0,
-        "currency": "string",
-        "currencyCode": "string",
-        "currencyNumeric3Code": "string",
-        "fractionDigits": 0,
-        "negative": true,
-        "positive": true,
-        "zero": true
-      },
-      "pspFraudScore": 0.02,
-      "pspId": 108,
-      "pspRefId": "C873789149330223994317",
-      "pspService": "250EAO",
-      "pspStatusCode": "PENDING",
-      "pspTxAmount": {
-        "amount": 0,
-        "amountInFractionUnit": 0,
-        "currency": "string",
-        "currencyCode": "string",
-        "currencyNumeric3Code": "string",
-        "fractionDigits": 0,
-        "negative": true,
-        "positive": true,
-        "zero": true
-      },
-      "pspUserRef": "string",
-      "reversedMerchantTxId": "250EAO",
-      "reversedTxId": 1000,
-      "rules": [
-        "string"
-      ],
-      "state": "SUCCESSFUL",
-      "stateInt": 0,
-      "statusCode": "SUCCESS",
-      "statusCodeInt": 0,
-      "successful": true,
-      "suspectedAbuseReason": "250EAO",
-      "txAmount": {
-        "amount": 0,
-        "amountInFractionUnit": 0,
-        "currency": "string",
-        "currencyCode": "string",
-        "currencyNumeric3Code": "string",
-        "fractionDigits": 0,
-        "negative": true,
-        "positive": true,
-        "zero": true
-      },
-      "txAmountAbs": {
-        "amount": 0,
-        "amountInFractionUnit": 0,
-        "currency": "string",
-        "currencyCode": "string",
-        "currencyNumeric3Code": "string",
-        "fractionDigits": 0,
-        "negative": true,
-        "positive": true,
-        "zero": true
-      },
-      "txAmountBase": {
-        "amount": 0,
-        "amountInFractionUnit": 0,
-        "currency": "string",
-        "currencyCode": "string",
-        "currencyNumeric3Code": "string",
-        "fractionDigits": 0,
-        "negative": true,
-        "positive": true,
-        "zero": true
-      },
-      "txCmds": [
-        {
-          "created": "2017-09-27T16:16:27Z",
-          "fault": true,
-          "retry": true
-        }
-      ],
-      "txRefId": "string",
-      "txType": "CreditcardDeposit",
-      "txTypeInt": 108,
-      "updatedBy": "string",
-      "userPspAccountDetails": {
-        "accountUuid": "string",
-        "blockReason": "string",
-        "description": "string",
-        "directDebit": true,
-        "expiryDate": "2017-09-27T16:16:27Z",
-        "extAccountRefId": "string",
-        "firstUsed": "2017-09-27T16:16:27Z",
-        "hashedAccount": "string",
-        "holder": "string",
-        "id": 0,
-        "lastSuccess": "2017-09-27T16:16:27Z",
-        "lastUsed": "2017-09-27T16:16:27Z",
-        "maskedAccount": "string",
-        "merchantId": 0,
-        "merchantUserId": "string",
-        "new": true,
-        "noFailedTx": 0,
-        "noSuccessfulTx": 0,
-        "providerType": "string",
-        "startDate": "2017-09-27T16:16:27Z",
-        "status": "ACTIVE",
-        "storeAccount": true,
-        "type": "CreditcardDeposit",
-        "vaultData": {
-          "property1": "string",
-          "property2": "string"
-        },
-        "vaultIQData": {
-          "property1": "string",
-          "property2": "string"
-        },
-        "vaultIQUuid": "string",
-        "vaultUuid": "string",
-        "visibilityResetAllowed": true,
-        "visible": true
-      },
-      "userPspAccountId": "404200******8008",
-      "viqStoredEntity": {
-        "accessKey": "string",
-        "alreadyStored": true,
-        "clientEncryptionKey": "string",
-        "localWrappedEncryptionKey": "string",
-        "maskedPan": "string",
-        "vaultiqKey": "string"
-      },
-      "withdrawal": true
-    }
-  ],
-  "success": true,
-  "total": 0
+  "info": "Void reason...",
+  "tagId": "CP-1"
 } 
 ```
 
@@ -3584,875 +4088,9 @@ type|Capture|
 
 Name|Type|Required|Description
 ---|---|---|---|
-errors|object|false|No description
-message|string|false|No description
-success|boolean|false|No description
-total|integer(int64)|false|No description
-result|[[PaymentResponse](#schemapaymentresponse)]|false|No description
-» accountHolderName|string|true|Account holder name
-» amount|[Money](#schemamoney)|true|No description
-»» amount|number|false|No description
-»» amountInFractionUnit|integer(int64)|false|No description
-»» currency|string|false|No description
-»» currencyCode|string|false|No description
-»» currencyNumeric3Code|string|false|No description
-»» fractionDigits|integer(int32)|false|No description
-»» negative|boolean|false|No description
-»» positive|boolean|false|No description
-»» zero|boolean|false|No description
-» amountAbs|[Money](#schemamoney)|false|No description
-»» amount|number|false|No description
-»» amountInFractionUnit|integer(int64)|false|No description
-»» currency|string|false|No description
-»» currencyCode|string|false|No description
-»» currencyNumeric3Code|string|false|No description
-»» fractionDigits|integer(int32)|false|No description
-»» negative|boolean|false|No description
-»» positive|boolean|false|No description
-»» zero|boolean|false|No description
-» amountBase|[Money](#schemamoney)|true|No description
-»» amount|number|false|No description
-»» amountInFractionUnit|integer(int64)|false|No description
-»» currency|string|false|No description
-»» currencyCode|string|false|No description
-»» currencyNumeric3Code|string|false|No description
-»» fractionDigits|integer(int32)|false|No description
-»» negative|boolean|false|No description
-»» positive|boolean|false|No description
-»» zero|boolean|false|No description
-» attributes|object|false|No description
-» authAmount|[Money](#schemamoney)|false|No description
-»» amount|number|false|No description
-»» amountInFractionUnit|integer(int64)|false|No description
-»» currency|string|false|No description
-»» currencyCode|string|false|No description
-»» currencyNumeric3Code|string|false|No description
-»» fractionDigits|integer(int32)|false|No description
-»» negative|boolean|false|No description
-»» positive|boolean|false|No description
-»» zero|boolean|false|No description
-» authAmountBase|[Money](#schemamoney)|false|No description
-»» amount|number|false|No description
-»» amountInFractionUnit|integer(int64)|false|No description
-»» currency|string|false|No description
-»» currencyCode|string|false|No description
-»» currencyNumeric3Code|string|false|No description
-»» fractionDigits|integer(int32)|false|No description
-»» negative|boolean|false|No description
-»» positive|boolean|false|No description
-»» zero|boolean|false|No description
-» authorized|boolean|false|No description
-» bankWithdrawal|boolean|false|No description
-» blockedAccountReason|string|false|Blocked Account Reason
-» bonusCode|string|true|Optional bonus code.
-» captured|boolean|false|No description
-» channelId|string|true|Optional channel-id provided by merchant
-» contextMap|object|true|Context map
-» created|string(date-time)|true|Date and time when transaction was created
-» deposit|boolean|false|No description
-» depositType|string|true|Deposit Type
-» failure|boolean|false|No description
-» failureOrInconsistent|boolean|false|No description
-» fee|[Money](#schemamoney)|true|No description
-»» amount|number|false|No description
-»» amountInFractionUnit|integer(int64)|false|No description
-»» currency|string|false|No description
-»» currencyCode|string|false|No description
-»» currencyNumeric3Code|string|false|No description
-»» fractionDigits|integer(int32)|false|No description
-»» negative|boolean|false|No description
-»» positive|boolean|false|No description
-»» zero|boolean|false|No description
-» feeBase|[Money](#schemamoney)|true|No description
-»» amount|number|false|No description
-»» amountInFractionUnit|integer(int64)|false|No description
-»» currency|string|false|No description
-»» currencyCode|string|false|No description
-»» currencyNumeric3Code|string|false|No description
-»» fractionDigits|integer(int32)|false|No description
-»» negative|boolean|false|No description
-»» positive|boolean|false|No description
-»» zero|boolean|false|No description
-» finalState|boolean|false|No description
-» id|integer(int64)|true|Unique transaction id
-» info|string|true|Misc payment info
-» initiatedPsp|string|false|No description
-» initiatedPspAccount|string|true|Provider account used in the transaction
-» initiatedPspId|integer(int32)|true|Representation of provider who initiated the transaction, e.g. Skrill, Neteller or PayPoint
-» ipAddr|string|true|IP Address
-» ipCity|string|true|IP City
-» ipCountry|string|true|IP Country
-» ipRegion|string|true|IP Region
-» issuerCountry|string|true|Optional info for credit cards .. Three letter iso standard
-» kycResult|[KycResult](#schemakycresult)|false|No description
-»» created|string(date-time)|false|No description
-»» fault|boolean|false|No description
-»» mostRecentResult|[KycProviderResult](#schemakycproviderresult)|false|No description
-»»» ageStatus|string|false|No description
-»»» idStatus|string|false|No description
-»»» provider|string|false|No description
-»»» score|integer(int32)|false|No description
-»»» status|string|false|No description
-»»» txId|integer(int64)|false|No description
-»»» updated|string(date-time)|false|No description
-»» retry|boolean|false|No description
-»» results|[[KycProviderResult](#schemakycproviderresult)]|false|No description
-»»» ageStatus|string|false|No description
-»»» idStatus|string|false|No description
-»»» provider|string|false|No description
-»»» score|integer(int32)|false|No description
-»»» status|string|false|No description
-»»» txId|integer(int64)|false|No description
-»»» updated|string(date-time)|false|No description
-» kycStatus|string|true|Know Your Customer (KYC) status. Value returned by merchant. Used for checking tx
-» lastUpdated|string(date-time)|true|Last date and time when transaction was updated
-» latestTxCmdMap|object|false|No description
-»» created|string(date-time)|false|No description
-»» fault|boolean|false|No description
-»» retry|boolean|false|No description
-» maskedUserAccount|string|true|User's account masked
-» merchantAuthCode|string|true|Merchant's authorization code from the authorize request
-» merchantErrCode|string|true|Merchant error code, e.g. verify user failed
-» merchantId|integer(int32)|true|Unique transaction id
-» merchantTxId|string|true|Merchant's tx id.
-» merchantUser|[MerchantUser](#schemamerchantuser)|false|No description
-»» addressAsOneLine|string|false|No description
-»» attributes|object|false|No description
-»» authenticated|boolean|false|No description
-»» balance|[Money](#schemamoney)|false|No description
-»»» amount|number|false|No description
-»»» amountInFractionUnit|integer(int64)|false|No description
-»»» currency|string|false|No description
-»»» currencyCode|string|false|No description
-»»» currencyNumeric3Code|string|false|No description
-»»» fractionDigits|integer(int32)|false|No description
-»»» negative|boolean|false|No description
-»»» positive|boolean|false|No description
-»»» zero|boolean|false|No description
-»» city|string|false|No description
-»» countryCode|[CountryCode](#schemacountrycode)|false|No description
-»»» name|string|false|No description
-»»» threeAlphaCode|string|false|No description
-»»» threeDigitCode|string|false|No description
-»»» threeDigitCodeAsInteger|integer(int32)|false|No description
-»»» twoAlphaCode|string|false|No description
-»» dob|string|false|No description
-»» email|string|false|No description
-»» firstName|string|false|No description
-»» kycStatus|string|false|No description
-»» lastName|string|false|No description
-»» locale|[Locale](#schemalocale)|false|No description
-»»» country|string|false|No description
-»»» displayCountry|string|false|No description
-»»» displayLanguage|string|false|No description
-»»» displayName|string|false|No description
-»»» displayScript|string|false|No description
-»»» displayVariant|string|false|No description
-»»» iso3Country|string|false|No description
-»»» iso3Language|string|false|No description
-»»» language|string|false|No description
-»»» script|string|false|No description
-»»» variant|string|false|No description
-»»» extensionKeys|[[Character](#schemacharacter)]|false|No description
-»»» unicodeLocaleAttributes|[string]|false|No description
-»»» unicodeLocaleKeys|[string]|false|No description
-»» mobile|string|false|No description
-»» mobileDigits|string|false|No description
-»» name|string|false|No description
-»» sex|string|false|No description
-»» state|string|false|No description
-»» street|string|false|No description
-»» userCat|string|false|No description
-»» userId|string|false|No description
-»» zip|string|false|No description
-»» communicationChannel|[string]|false|No description
-» merchantUserBal|[Money](#schemamoney)|true|No description
-»» amount|number|false|No description
-»» amountInFractionUnit|integer(int64)|false|No description
-»» currency|string|false|No description
-»» currencyCode|string|false|No description
-»» currencyNumeric3Code|string|false|No description
-»» fractionDigits|integer(int32)|false|No description
-»» negative|boolean|false|No description
-»» positive|boolean|false|No description
-»» zero|boolean|false|No description
-» merchantUserCat|string|true|Merchant's user category
-» merchantUserCountry|string|true|Merchant user country
-» merchantUserEmail|string|true|Merchant user email
-» merchantUserId|string|true|Merchant's user id
-» originTxId|integer(int64)|true|Transaction id that is origin to this transaction
-» processing|boolean|false|No description
-» psp|string|false|No description
-» pspAccount|string|true|Provider account used in the transaction
-» pspFee|[Money](#schemamoney)|false|No description
-»» amount|number|false|No description
-»» amountInFractionUnit|integer(int64)|false|No description
-»» currency|string|false|No description
-»» currencyCode|string|false|No description
-»» currencyNumeric3Code|string|false|No description
-»» fractionDigits|integer(int32)|false|No description
-»» negative|boolean|false|No description
-»» positive|boolean|false|No description
-»» zero|boolean|false|No description
-» pspFeeBase|[Money](#schemamoney)|false|No description
-»» amount|number|false|No description
-»» amountInFractionUnit|integer(int64)|false|No description
-»» currency|string|false|No description
-»» currencyCode|string|false|No description
-»» currencyNumeric3Code|string|false|No description
-»» fractionDigits|integer(int32)|false|No description
-»» negative|boolean|false|No description
-»» positive|boolean|false|No description
-»» zero|boolean|false|No description
-» pspFraudScore|number(double)|false|Normalized PSP fraud score (0-10).
-» pspId|integer(int32)|true|Representation of provider who has processed the transaction, e.g. Skrill, Neteller or PayPoint
-» pspRefId|string|true|Provider reference id
-» pspService|string|false|Representation of provider's sub service which will be used to do a payment
-» pspStatusCode|string|true|Provider specific status code
-» pspTxAmount|[Money](#schemamoney)|true|No description
-»» amount|number|false|No description
-»» amountInFractionUnit|integer(int64)|false|No description
-»» currency|string|false|No description
-»» currencyCode|string|false|No description
-»» currencyNumeric3Code|string|false|No description
-»» fractionDigits|integer(int32)|false|No description
-»» negative|boolean|false|No description
-»» positive|boolean|false|No description
-»» zero|boolean|false|No description
-» pspUserRef|string|true|PSP User ref 
-» reversedMerchantTxId|string|true|Merchant transaction that have been reversed by this transaction 
-» reversedTxId|integer(int64)|true|Transaction id that have been reversed by this transaction
-» state|string|true|Transaction state
-» stateInt|integer(int32)|false|No description
-» statusCode|string|true|Status code
-» statusCodeInt|integer(int32)|false|No description
-» successful|boolean|false|No description
-» suspectedAbuseReason|string|false|Suspected Abused Reason
-» txAmount|[Money](#schemamoney)|true|No description
-»» amount|number|false|No description
-»» amountInFractionUnit|integer(int64)|false|No description
-»» currency|string|false|No description
-»» currencyCode|string|false|No description
-»» currencyNumeric3Code|string|false|No description
-»» fractionDigits|integer(int32)|false|No description
-»» negative|boolean|false|No description
-»» positive|boolean|false|No description
-»» zero|boolean|false|No description
-» txAmountAbs|[Money](#schemamoney)|false|No description
-»» amount|number|false|No description
-»» amountInFractionUnit|integer(int64)|false|No description
-»» currency|string|false|No description
-»» currencyCode|string|false|No description
-»» currencyNumeric3Code|string|false|No description
-»» fractionDigits|integer(int32)|false|No description
-»» negative|boolean|false|No description
-»» positive|boolean|false|No description
-»» zero|boolean|false|No description
-» txAmountBase|[Money](#schemamoney)|true|No description
-»» amount|number|false|No description
-»» amountInFractionUnit|integer(int64)|false|No description
-»» currency|string|false|No description
-»» currencyCode|string|false|No description
-»» currencyNumeric3Code|string|false|No description
-»» fractionDigits|integer(int32)|false|No description
-»» negative|boolean|false|No description
-»» positive|boolean|false|No description
-»» zero|boolean|false|No description
-» txRefId|string|false|No description
-» txType|string|false|No description
-» txTypeInt|integer(int32)|true|Representation of transaction type, e.g. Skrill deposit, Neteller
-» updatedBy|string|true|Optional last user took same action on the transactions
-» userPspAccountDetails|[UserPspAccountDetails](#schemauserpspaccountdetails)|true|No description
-»» accountUuid|string|false|No description
-»» blockReason|string|false|No description
-»» description|string|false|No description
-»» directDebit|boolean|false|No description
-»» expiryDate|string(date-time)|false|No description
-»» extAccountRefId|string|false|No description
-»» firstUsed|string(date-time)|false|No description
-»» hashedAccount|string|false|No description
-»» holder|string|false|No description
-»» id|integer(int64)|false|No description
-»» lastSuccess|string(date-time)|false|No description
-»» lastUsed|string(date-time)|false|No description
-»» maskedAccount|string|false|No description
-»» merchantId|integer(int32)|false|No description
-»» merchantUserId|string|false|No description
-»» new|boolean|false|No description
-»» noFailedTx|integer(int32)|false|No description
-»» noSuccessfulTx|integer(int32)|false|No description
-»» providerType|string|false|No description
-»» startDate|string(date-time)|false|No description
-»» status|string|false|No description
-»» storeAccount|boolean|false|No description
-»» type|string|false|No description
-»» vaultData|object|false|No description
-»» vaultIQData|object|false|No description
-»» vaultIQUuid|string|false|No description
-»» vaultUuid|string|false|No description
-»» visibilityResetAllowed|boolean|false|No description
-»» visible|boolean|false|No description
-» userPspAccountId|integer(int64)|true|User PSP account unique id, reference to table 'user_psp_account.id
-» viqStoredEntity|[SuccessStoreEntity](#schemasuccessstoreentity)|true|No description
-»» accessKey|string|false|No description
-»» alreadyStored|boolean|false|No description
-»» clientEncryptionKey|string|false|No description
-»» localWrappedEncryptionKey|string|false|No description
-»» maskedPan|string|false|No description
-»» vaultiqKey|string|false|No description
-» withdrawal|boolean|false|No description
-» rules|[string]|false|No description
-» txCmds|[[AbstractTxCmd](#schemaabstracttxcmd)]|false|No description
-»» created|string(date-time)|false|No description
-»» fault|boolean|false|No description
-»» retry|boolean|false|No description
+info|string|false|Any additional information to provide reason for capture. Maximum limit 200 characters.
+tagId|string|false|Tag id, you need to predefine tags in MerchantConfig.The tag must be named Void, an example is <tags><entry><string>Void</string><list><tag><id>CP-1</id><name>Other reason</name></tag></list></entry></tags>
 
-
-#### Enumerated Values
-
-|Property|Value|
-|---|---|
-» initiatedPsp|Entropay|
-» initiatedPsp|PayPoint|
-» initiatedPsp|PayLine|
-» initiatedPsp|Realex|
-» initiatedPsp|TicketSurf|
-» initiatedPsp|Payvision|
-» initiatedPsp|SwiftVoucher|
-» initiatedPsp|Neosurf|
-» initiatedPsp|Credorax|
-» initiatedPsp|Wirecard|
-» initiatedPsp|NxPay|
-» initiatedPsp|EMP|
-» initiatedPsp|Vamex|
-» initiatedPsp|Payon|
-» initiatedPsp|Pacnet|
-» initiatedPsp|Borgun|
-» initiatedPsp|WorldPay|
-» initiatedPsp|PayEx|
-» initiatedPsp|CC247|
-» initiatedPsp|Computop|
-» initiatedPsp|Ilixium|
-» initiatedPsp|AstroPayCard|
-» initiatedPsp|EMerchantPay|
-» initiatedPsp|YuuPay|
-» initiatedPsp|AlliedWallet|
-» initiatedPsp|WorldPayHCG|
-» initiatedPsp|Ochapay|
-» initiatedPsp|Redbaron|
-» initiatedPsp|Payr|
-» initiatedPsp|Argus|
-» initiatedPsp|Valitor|
-» initiatedPsp|SafeCharge|
-» initiatedPsp|Bambora|
-» initiatedPsp|Dibs|
-» initiatedPsp|Apco|
-» initiatedPsp|ASTech|
-» initiatedPsp|Fibonatix|
-» initiatedPsp|DreamsPay|
-» initiatedPsp|Clearhaus|
-» initiatedPsp|Citigate|
-» initiatedPsp|CreditGuard|
-» initiatedPsp|Powerpay21|
-» initiatedPsp|EMerchantPayWs|
-» initiatedPsp|Kluwp|
-» initiatedPsp|MiFinity|
-» initiatedPsp|Ingenico|
-» initiatedPsp|BamboraGa|
-» initiatedPsp|AltPayNet|
-» initiatedPsp|CcMock|
-» initiatedPsp|Neteller|
-» initiatedPsp|Skrill|
-» initiatedPsp|Paybox|
-» initiatedPsp|ClickandBuy|
-» initiatedPsp|PayPal|
-» initiatedPsp|Mbankomat|
-» initiatedPsp|Siru|
-» initiatedPsp|IBanq|
-» initiatedPsp|LavaPay|
-» initiatedPsp|VenusPoint|
-» initiatedPsp|IWallet|
-» initiatedPsp|Paysafecard|
-» initiatedPsp|Ukash|
-» initiatedPsp|Instadebit|
-» initiatedPsp|IDebit|
-» initiatedPsp|EcoPayz|
-» initiatedPsp|Fortumo|
-» initiatedPsp|AstroPayDirect|
-» initiatedPsp|Boku|
-» initiatedPsp|NeosurfVoucher|
-» initiatedPsp|PayGround|
-» initiatedPsp|SmsVoucher|
-» initiatedPsp|Flexepin|
-» initiatedPsp|Funanga|
-» initiatedPsp|Trustly|
-» initiatedPsp|Envoy|
-» initiatedPsp|Euteller|
-» initiatedPsp|Entercash|
-» initiatedPsp|InPay|
-» initiatedPsp|Poli|
-» initiatedPsp|Sofort|
-» initiatedPsp|Transferuj|
-» initiatedPsp|Adyen|
-» initiatedPsp|RapidPaymentsNetwork|
-» initiatedPsp|ManualBanking|
-» initiatedPsp|Citadel|
-» initiatedPsp|Safetypay|
-» initiatedPsp|EasyEft|
-» initiatedPsp|PugglePay|
-» initiatedPsp|Paylevo|
-» initiatedPsp|Seqr|
-» initiatedPsp|AccentPay|
-» initiatedPsp|PPro|
-» initiatedPsp|SecureTrading|
-» initiatedPsp|Dotpay|
-» initiatedPsp|Przelewy24|
-» initiatedPsp|MobileGiro|
-» initiatedPsp|ToditoCash|
-» initiatedPsp|TolaMobile|
-» initiatedPsp|Teleingreso|
-» initiatedPsp|FraudGuard|
-» initiatedPsp|FeatureSpace|
-» initiatedPsp|Undefined|
-» initiatedPsp|Unknown|
-»»» ageStatus|ERROR|
-»»» ageStatus|UNDER_AGE|
-»»» ageStatus|NOT_VERIFIED|
-»»» ageStatus|VERIFIED|
-»»» idStatus|ERROR|
-»»» idStatus|UNDER_AGE|
-»»» idStatus|NOT_VERIFIED|
-»»» idStatus|VERIFIED|
-»»» provider|CALLCREDIT|
-»»» provider|GBG|
-»»» status|VERIFIED|
-»»» status|VERIFICATION_IN_PROGRESS|
-»»» status|VERIFICATION_FAILED|
-»»» status|VERIFICATION_EXTERNAL_FAILURE|
-»»» status|VERIFICATION_FAILED_INVALID_USER_DATA|
-»»» status|NOT_VERIFIED|
-»»» status|BLOCKED|
-»»» status|UNDER_AGE|
-»»» status|UNKNOWN|
-»»» status|UNKNOWN_AGE|
-»»» ageStatus|ERROR|
-»»» ageStatus|UNDER_AGE|
-»»» ageStatus|NOT_VERIFIED|
-»»» ageStatus|VERIFIED|
-»»» idStatus|ERROR|
-»»» idStatus|UNDER_AGE|
-»»» idStatus|NOT_VERIFIED|
-»»» idStatus|VERIFIED|
-»»» provider|CALLCREDIT|
-»»» provider|GBG|
-»»» status|VERIFIED|
-»»» status|VERIFICATION_IN_PROGRESS|
-»»» status|VERIFICATION_FAILED|
-»»» status|VERIFICATION_EXTERNAL_FAILURE|
-»»» status|VERIFICATION_FAILED_INVALID_USER_DATA|
-»»» status|NOT_VERIFIED|
-»»» status|BLOCKED|
-»»» status|UNDER_AGE|
-»»» status|UNKNOWN|
-»»» status|UNKNOWN_AGE|
-»» sex|FEMALE|
-»» sex|MALE|
-»» sex|UNKNOWN|
-»» sex|X|
-»» communicationChannel|EMAIL|
-»» communicationChannel|SMS|
-» psp|Entropay|
-» psp|PayPoint|
-» psp|PayLine|
-» psp|Realex|
-» psp|TicketSurf|
-» psp|Payvision|
-» psp|SwiftVoucher|
-» psp|Neosurf|
-» psp|Credorax|
-» psp|Wirecard|
-» psp|NxPay|
-» psp|EMP|
-» psp|Vamex|
-» psp|Payon|
-» psp|Pacnet|
-» psp|Borgun|
-» psp|WorldPay|
-» psp|PayEx|
-» psp|CC247|
-» psp|Computop|
-» psp|Ilixium|
-» psp|AstroPayCard|
-» psp|EMerchantPay|
-» psp|YuuPay|
-» psp|AlliedWallet|
-» psp|WorldPayHCG|
-» psp|Ochapay|
-» psp|Redbaron|
-» psp|Payr|
-» psp|Argus|
-» psp|Valitor|
-» psp|SafeCharge|
-» psp|Bambora|
-» psp|Dibs|
-» psp|Apco|
-» psp|ASTech|
-» psp|Fibonatix|
-» psp|DreamsPay|
-» psp|Clearhaus|
-» psp|Citigate|
-» psp|CreditGuard|
-» psp|Powerpay21|
-» psp|EMerchantPayWs|
-» psp|Kluwp|
-» psp|MiFinity|
-» psp|Ingenico|
-» psp|BamboraGa|
-» psp|AltPayNet|
-» psp|CcMock|
-» psp|Neteller|
-» psp|Skrill|
-» psp|Paybox|
-» psp|ClickandBuy|
-» psp|PayPal|
-» psp|Mbankomat|
-» psp|Siru|
-» psp|IBanq|
-» psp|LavaPay|
-» psp|VenusPoint|
-» psp|IWallet|
-» psp|Paysafecard|
-» psp|Ukash|
-» psp|Instadebit|
-» psp|IDebit|
-» psp|EcoPayz|
-» psp|Fortumo|
-» psp|AstroPayDirect|
-» psp|Boku|
-» psp|NeosurfVoucher|
-» psp|PayGround|
-» psp|SmsVoucher|
-» psp|Flexepin|
-» psp|Funanga|
-» psp|Trustly|
-» psp|Envoy|
-» psp|Euteller|
-» psp|Entercash|
-» psp|InPay|
-» psp|Poli|
-» psp|Sofort|
-» psp|Transferuj|
-» psp|Adyen|
-» psp|RapidPaymentsNetwork|
-» psp|ManualBanking|
-» psp|Citadel|
-» psp|Safetypay|
-» psp|EasyEft|
-» psp|PugglePay|
-» psp|Paylevo|
-» psp|Seqr|
-» psp|AccentPay|
-» psp|PPro|
-» psp|SecureTrading|
-» psp|Dotpay|
-» psp|Przelewy24|
-» psp|MobileGiro|
-» psp|ToditoCash|
-» psp|TolaMobile|
-» psp|Teleingreso|
-» psp|FraudGuard|
-» psp|FeatureSpace|
-» psp|Undefined|
-» psp|Unknown|
-» state|SUCCESSFUL|
-» state|REGISTERED|
-» state|PROCESSING|
-» state|WAITING_INPUT|
-» state|WAITING_APPROVAL|
-» state|FAILED|
-» state|INCONSISTENT|
-» state|CANCELLED|
-» state|REPROCESSING|
-» statusCode|SUCCESS|
-» statusCode|SUCCESS_WITHDRAWAL_APPROVAL|
-» statusCode|SUCCESS_WITHDRAWAL_AUTO_APPROVAL|
-» statusCode|SUCCESS_WAITING_CAPTURE|
-» statusCode|SUCCESS_WAITING_AUTO_CAPTURE|
-» statusCode|SUCCESS_AUTO_CAPTURED|
-» statusCode|SUCCESS_CAPTURED|
-» statusCode|REGISTERED|
-» statusCode|PROCESSING_PROVIDER|
-» statusCode|PROCESSING_MERCHANT|
-» statusCode|CONT_WITH_N3DS|
-» statusCode|REPROCESSING_PROVIDER|
-» statusCode|REPROCESSING_MERCHANT|
-» statusCode|WAITING_INPUT|
-» statusCode|WAITING_3D_SECURE|
-» statusCode|WAITING_DEPOSIT_CONFIRMATION|
-» statusCode|WAITING_NOTIFICATION|
-» statusCode|WAITING_DEPOSIT_APPROVAL|
-» statusCode|WAITING_WITHDRAWAL_APPROVAL|
-» statusCode|WAITING_DEPOSIT_AUTO_APPROVAL|
-» statusCode|WAITING_WITHDRAWAL_AUTO_APPROVAL|
-» statusCode|ERR_READ_TIMEOUT|
-» statusCode|ERR_REFERENCE_MISMATCH|
-» statusCode|ERR_INCONSISTENT_TRANSACTION|
-» statusCode|ERR_UNKNOWN_CALLBACK|
-» statusCode|ERR_IO_EXCEPTION|
-» statusCode|ERR_UNKNOWN_RESPONSE|
-» statusCode|ERR_SYSTEM_ERROR|
-» statusCode|ERR_FAILED_TO_CONNECT|
-» statusCode|ERR_DECLINED_BAD_REQUEST|
-» statusCode|ERR_DECLINED_FRAUD|
-» statusCode|ERR_DECLINED_NO_FUNDS|
-» statusCode|ERR_DECLINED_ACCOUNT_SUSPENDED|
-» statusCode|ERR_DECLINED_OTHER_REASON|
-» statusCode|ERR_DECLINED_CONTACT_SUPPORT|
-» statusCode|ERR_DECLINED_CONFIG_ERROR|
-» statusCode|ERR_NOT_AUTHENTICATED|
-» statusCode|ERR_INVALID_RESPONSE|
-» statusCode|ERR_DECLINED_REQ_BLOCKED|
-» statusCode|ERR_PSP_OUT_OF_SERVICE|
-» statusCode|ERR_DECLINED_NOT_AUTHORIZED|
-» statusCode|ERR_RESPONSE_CODE_UNKNOWN|
-» statusCode|ERR_PSP_ACCOUNT_USED_BY_OTHER_USER|
-» statusCode|ERR_PSP_ACCOUNT_NOT_USED|
-» statusCode|ERR_TOO_MANY_PSP_ACCOUNTS|
-» statusCode|ERR_DECLINED_DUPLICATE_TX_ID|
-» statusCode|ERR_DECLINED_INVALID_ACCOUNT_NUMBER|
-» statusCode|ERR_MERCHANT_OUT_OF_SERVICE|
-» statusCode|ERR_DECLINED_LIMIT_OVERDRAWN|
-» statusCode|ERR_MERCHANT_RESPONSE_CODE_UNKNOWN|
-» statusCode|ERR_DECLINED_NO_PROVIDER_FOUND|
-» statusCode|ERR_DECLINED_PROVIDER_ACCOUNT_CONFIG_ERROR|
-» statusCode|ERR_MERCHANT_INVALID_RESPONSE|
-» statusCode|ERR_DECLINED_3D_VALIDATION_FAILED|
-» statusCode|ERR_DECLINED_3D_EXPIRED|
-» statusCode|ERR_VAULTIQ_OUT_OF_SERVICE|
-» statusCode|ERR_DECLINED_IP_BLOCKED|
-» statusCode|ERR_DECLINED_BIN_BLOCKED|
-» statusCode|ERR_VAULTIQ_UNKNOWN_ACCOUNT|
-» statusCode|ERR_DECLINED_KYC_BLOCK|
-» statusCode|ERR_DECLINED_KYC_USER_UNDER_AGE|
-» statusCode|ERR_DECLINED_KYC_CHECK_FAILED|
-» statusCode|ERR_DECLINED_BIC_BLOCK|
-» statusCode|ERR_DECLINED_EXPIRED|
-» statusCode|ERR_DECLINED_REPEAT_CANCELLED|
-» statusCode|ERR_DECLINED_CURRENCY_NOT_SUPPORTED|
-» statusCode|ERR_DECLINED_FRAUD_SCORE_THRESHOLD_EXCEEDED|
-» statusCode|ERR_DECLINED_MERCHANT_NOT_FOUND|
-» statusCode|ERR_DECLINED_MERCHANT_NOT_ENABLED|
-» statusCode|ERR_DECLINED_PROVIDER_NOT_ENABLED|
-» statusCode|ERR_DECLINED_UNDER_MAINTENANCE|
-» statusCode|ERR_NO_REFERRAL_TX_FOUND|
-» statusCode|ERR_DECLINE_TX_NOT_FOUND|
-» statusCode|ERR_DECLINE_COUNTRY_NOT_SUPPORTED|
-» statusCode|ERR_DECLINED_NOT_SUPPORTED_PAYMENT_METHOD_FRAUD|
-» statusCode|ERR_DECLINED_FRAUD_PROVIDER_ACCOUNT_CONFIG_ERROR|
-» statusCode|ERR_CANCELLED_BY_USER|
-» statusCode|ERR_CANCELLED_BY_MERCHANT|
-» statusCode|ERR_CANCELLED_BY_PSP|
-» txType|CreditcardDeposit|
-» txType|CreditcardWithdrawal|
-» txType|EntropayDeposit|
-» txType|ICardDeposit|
-» txType|ICardWithdrawal|
-» txType|NetellerDeposit|
-» txType|NetellerWithdrawal|
-» txType|SkrillDeposit|
-» txType|SkrillWithdrawal|
-» txType|PayboxDeposit|
-» txType|ClickandBuyDeposit|
-» txType|ClickandBuyWithdrawal|
-» txType|PayPalDeposit|
-» txType|PayPalWithdrawal|
-» txType|MbankomatDeposit|
-» txType|IBanqDeposit|
-» txType|IBanqWithdrawal|
-» txType|LavaPayDeposit|
-» txType|LavaPayWithdrawal|
-» txType|InstadebitDeposit|
-» txType|InstadebitWithdrawal|
-» txType|IDebitDeposit|
-» txType|IDebitWithdrawal|
-» txType|EcoPayzDeposit|
-» txType|EcoPayzWithdrawal|
-» txType|AstroPayCardWithdrawal|
-» txType|AstroPayDirectDeposit|
-» txType|AstroPayDirectWithdrawal|
-» txType|VenusPointDeposit|
-» txType|VenusPointWithdrawal|
-» txType|MiFinityEWalletDeposit|
-» txType|MiFinityEWalletWithdrawal|
-» txType|IWalletDeposit|
-» txType|IWalletWithdrawal|
-» txType|EutellerDeposit|
-» txType|EnvoyDeposit|
-» txType|EnvoyWithdrawal|
-» txType|TrustlyDeposit|
-» txType|TrustlyWithdrawal|
-» txType|BankDeposit|
-» txType|BankLocalWithdrawal|
-» txType|BankIBANWithdrawal|
-» txType|BankIntIBANWithdrawal|
-» txType|IdealDeposit|
-» txType|ChinaUnionPayDeposit|
-» txType|BankIntlWithdrawal|
-» txType|ChinaUnionPayWithdrawal|
-» txType|BoletoBancarioDeposit|
-» txType|PaysafecardDeposit|
-» txType|UkashDeposit|
-» txType|UkashWithdrawal|
-» txType|PaysafecardWithdrawal|
-» txType|CashlibDeposit|
-» txType|TicketPremiumDeposit|
-» txType|FlexepinDeposit|
-» txType|FunangaDeposit|
-» txType|VisaVoucherDeposit|
-» txType|GiftcardDeposit|
-» txType|PugglePayDeposit|
-» txType|PaylevoDeposit|
-» txType|YuuCollectDeposit|
-» txType|NeosurfVoucherDeposit|
-» txType|OxxoDeposit|
-» txType|SeqrDeposit|
-» txType|SiruDeposit|
-» txType|SiruStatus|
-» txType|SiruPriceCalc|
-» txType|FortumoDeposit|
-» txType|BokuDeposit|
-» txType|BlikDeposit|
-» txType|PayGroundDeposit|
-» txType|SmsVoucherDeposit|
-» txType|QiwiDeposit|
-» txType|QiwiWithdrawal|
-» txType|AccentPayDeposit|
-» txType|AccentPayWithdrawal|
-» txType|WorldPayDeposit|
-» txType|WorldPayWithdrawal|
-» txType|PProDeposit|
-» txType|PProWithdrawal|
-» txType|EProPaymentWallDeposit|
-» txType|ApcoDeposit|
-» txType|SecureTradingDeposit|
-» txType|DotpayDeposit|
-» txType|Przelewy24Deposit|
-» txType|SweGiroDeposit|
-» txType|ToditoCashDeposit|
-» txType|TolaMobileDeposit|
-» txType|TeleingresoDeposit|
-» txType|ManualChargeback|
-» txType|ManualRefund|
-» txType|ManualCancel|
-» txType|ManualVoid|
-» txType|ManualChargeBackWon|
-» txType|Refund|
-» txType|Cancel|
-» txType|Void|
-» txType|Capture|
-»» status|ACTIVE|
-»» status|INACTIVE|
-»» status|NEW|
-»» status|DELETED|
-»» status|BLOCKED|
-»» type|CreditcardDeposit|
-»» type|CreditcardWithdrawal|
-»» type|EntropayDeposit|
-»» type|ICardDeposit|
-»» type|ICardWithdrawal|
-»» type|NetellerDeposit|
-»» type|NetellerWithdrawal|
-»» type|SkrillDeposit|
-»» type|SkrillWithdrawal|
-»» type|PayboxDeposit|
-»» type|ClickandBuyDeposit|
-»» type|ClickandBuyWithdrawal|
-»» type|PayPalDeposit|
-»» type|PayPalWithdrawal|
-»» type|MbankomatDeposit|
-»» type|IBanqDeposit|
-»» type|IBanqWithdrawal|
-»» type|LavaPayDeposit|
-»» type|LavaPayWithdrawal|
-»» type|InstadebitDeposit|
-»» type|InstadebitWithdrawal|
-»» type|IDebitDeposit|
-»» type|IDebitWithdrawal|
-»» type|EcoPayzDeposit|
-»» type|EcoPayzWithdrawal|
-»» type|AstroPayCardWithdrawal|
-»» type|AstroPayDirectDeposit|
-»» type|AstroPayDirectWithdrawal|
-»» type|VenusPointDeposit|
-»» type|VenusPointWithdrawal|
-»» type|MiFinityEWalletDeposit|
-»» type|MiFinityEWalletWithdrawal|
-»» type|IWalletDeposit|
-»» type|IWalletWithdrawal|
-»» type|EutellerDeposit|
-»» type|EnvoyDeposit|
-»» type|EnvoyWithdrawal|
-»» type|TrustlyDeposit|
-»» type|TrustlyWithdrawal|
-»» type|BankDeposit|
-»» type|BankLocalWithdrawal|
-»» type|BankIBANWithdrawal|
-»» type|BankIntIBANWithdrawal|
-»» type|IdealDeposit|
-»» type|ChinaUnionPayDeposit|
-»» type|BankIntlWithdrawal|
-»» type|ChinaUnionPayWithdrawal|
-»» type|BoletoBancarioDeposit|
-»» type|PaysafecardDeposit|
-»» type|UkashDeposit|
-»» type|UkashWithdrawal|
-»» type|PaysafecardWithdrawal|
-»» type|CashlibDeposit|
-»» type|TicketPremiumDeposit|
-»» type|FlexepinDeposit|
-»» type|FunangaDeposit|
-»» type|VisaVoucherDeposit|
-»» type|GiftcardDeposit|
-»» type|PugglePayDeposit|
-»» type|PaylevoDeposit|
-»» type|YuuCollectDeposit|
-»» type|NeosurfVoucherDeposit|
-»» type|OxxoDeposit|
-»» type|SeqrDeposit|
-»» type|SiruDeposit|
-»» type|SiruStatus|
-»» type|SiruPriceCalc|
-»» type|FortumoDeposit|
-»» type|BokuDeposit|
-»» type|BlikDeposit|
-»» type|PayGroundDeposit|
-»» type|SmsVoucherDeposit|
-»» type|QiwiDeposit|
-»» type|QiwiWithdrawal|
-»» type|AccentPayDeposit|
-»» type|AccentPayWithdrawal|
-»» type|WorldPayDeposit|
-»» type|WorldPayWithdrawal|
-»» type|PProDeposit|
-»» type|PProWithdrawal|
-»» type|EProPaymentWallDeposit|
-»» type|ApcoDeposit|
-»» type|SecureTradingDeposit|
-»» type|DotpayDeposit|
-»» type|Przelewy24Deposit|
-»» type|SweGiroDeposit|
-»» type|ToditoCashDeposit|
-»» type|TolaMobileDeposit|
-»» type|TeleingresoDeposit|
-»» type|ManualChargeback|
-»» type|ManualRefund|
-»» type|ManualCancel|
-»» type|ManualVoid|
-»» type|ManualChargeBackWon|
-»» type|Refund|
-»» type|Cancel|
-»» type|Void|
-»» type|Capture|
 
 
 
