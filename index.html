@@ -216,6 +216,12 @@
         <ul class="search-results"></ul>
       <div id="toc" class="toc-list-h1">
           <li>
+            <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
+          </li>
+          <li>
+            <a href="#errors" class="toc-h1 toc-link" data-title="Errors">Errors</a>
+          </li>
+          <li>
             <a href="#paymentiq-backoffice-admin-api-v1-3-14-snapshot" class="toc-h1 toc-link" data-title="PaymentIQ Backoffice Admin API v1.3.14-SNAPSHOT">PaymentIQ Backoffice Admin API v1.3.14-SNAPSHOT</a>
           </li>
           <li>
@@ -312,7 +318,69 @@
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-        <h1 id='paymentiq-backoffice-admin-api-v1-3-14-snapshot'>PaymentIQ Backoffice Admin API v1.3.14-SNAPSHOT</h1>
+        <h1 id='authentication'>Authentication</h1>
+<p>Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.</p>
+
+<p>We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
+
+<p>This example API documentation page was created with <a href="https://github.com/lord/slate">Slate</a>. Feel free to edit it and use it as a base for your own API&#39;s documentation.</p>
+<h1 id='errors'>Errors</h1>
+<aside class="notice">This error section is stored in a separate file in `includes/_errors.md`. Slate allows you to optionally separate out your docs into many files...just save them to the `includes` folder and add them to the top of your `index.md`'s frontmatter. Files are included in the order listed.</aside>
+
+<p>The Kittn API uses the following error codes:</p>
+
+<table><thead>
+<tr>
+<th>Error Code</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>400</td>
+<td>Bad Request -- Your request sucks.</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized -- Your API key is wrong.</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden -- The kitten requested is hidden for administrators only.</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found -- The specified kitten could not be found.</td>
+</tr>
+<tr>
+<td>405</td>
+<td>Method Not Allowed -- You tried to access a kitten with an invalid method.</td>
+</tr>
+<tr>
+<td>406</td>
+<td>Not Acceptable -- You requested a format that isn&#39;t json.</td>
+</tr>
+<tr>
+<td>410</td>
+<td>Gone -- The kitten requested has been removed from our servers.</td>
+</tr>
+<tr>
+<td>418</td>
+<td>I&#39;m a teapot.</td>
+</tr>
+<tr>
+<td>429</td>
+<td>Too Many Requests -- You&#39;re requesting too many kittens! Slow down!</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error -- We had a problem with our server. Try again later.</td>
+</tr>
+<tr>
+<td>503</td>
+<td>Service Unavailable -- We&#39;re temporarily offline for maintenance. Please try again later.</td>
+</tr>
+</tbody></table>
+<h1 id='paymentiq-backoffice-admin-api-v1-3-14-snapshot'>PaymentIQ Backoffice Admin API v1.3.14-SNAPSHOT</h1>
 <blockquote>
 <p>Scroll down for example requests and responses.</p>
 </blockquote>
@@ -1284,109 +1352,109 @@
 <td>No description</td>
 </tr>
 <tr>
-<td>» id</td>
+<td>?? id</td>
 <td>integer(int64)</td>
 <td>false</td>
 <td>User account id</td>
 </tr>
 <tr>
-<td>» merchantId</td>
+<td>?? merchantId</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>Merchant id</td>
 </tr>
 <tr>
-<td>» accountUuid</td>
+<td>?? accountUuid</td>
 <td>string</td>
 <td>false</td>
 <td>Account UUID</td>
 </tr>
 <tr>
-<td>» merchantUserId</td>
+<td>?? merchantUserId</td>
 <td>string</td>
 <td>false</td>
 <td>Merchant user id</td>
 </tr>
 <tr>
-<td>» holder</td>
+<td>?? holder</td>
 <td>string</td>
 <td>false</td>
 <td>Card holder</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>string</td>
 <td>false</td>
 <td>Transaction type</td>
 </tr>
 <tr>
-<td>» providerType</td>
+<td>?? providerType</td>
 <td>string</td>
 <td>false</td>
 <td>Provider type</td>
 </tr>
 <tr>
-<td>» hashedAccount</td>
+<td>?? hashedAccount</td>
 <td>string</td>
 <td>false</td>
 <td>Hashed account</td>
 </tr>
 <tr>
-<td>» maskedAccount</td>
+<td>?? maskedAccount</td>
 <td>string</td>
 <td>false</td>
 <td>Masked account</td>
 </tr>
 <tr>
-<td>» startDate</td>
+<td>?? startDate</td>
 <td>string(date-time)</td>
 <td>false</td>
 <td>Date when account can first be used (if applicable)</td>
 </tr>
 <tr>
-<td>» expiryDate</td>
+<td>?? expiryDate</td>
 <td>string(date-time)</td>
 <td>false</td>
 <td>Date when account will expiry (if applicable)</td>
 </tr>
 <tr>
-<td>» firstUsed</td>
+<td>?? firstUsed</td>
 <td>string(date-time)</td>
 <td>false</td>
 <td>When account was first used</td>
 </tr>
 <tr>
-<td>» lastUsed</td>
+<td>?? lastUsed</td>
 <td>string(date-time)</td>
 <td>false</td>
 <td>When account was last used</td>
 </tr>
 <tr>
-<td>» lastSuccess</td>
+<td>?? lastSuccess</td>
 <td>string(date-time)</td>
 <td>false</td>
 <td>When account had last successful tx</td>
 </tr>
 <tr>
-<td>» noSuccessfulTx</td>
+<td>?? noSuccessfulTx</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>No of successful transactions</td>
 </tr>
 <tr>
-<td>» noFailedTx</td>
+<td>?? noFailedTx</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>No of failed transactions</td>
 </tr>
 <tr>
-<td>» description</td>
+<td>?? description</td>
 <td>string</td>
 <td>false</td>
 <td>Description for the use of psp account</td>
 </tr>
 <tr>
-<td>» status</td>
+<td>?? status</td>
 <td>string</td>
 <td>false</td>
 <td>User account status</td>
@@ -6637,1159 +6705,1159 @@ oauth2 ( Scopes: default )
 <td>No description</td>
 </tr>
 <tr>
-<td>» accountHolderName</td>
+<td>?? accountHolderName</td>
 <td>string</td>
 <td>false</td>
 <td>Account holder name</td>
 </tr>
 <tr>
-<td>» amount</td>
+<td>?? amount</td>
 <td><a href="#schemamoney">Money</a></td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» amount</td>
+<td>???? amount</td>
 <td>number</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» amountInFractionUnit</td>
+<td>???? amountInFractionUnit</td>
 <td>integer(int64)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currency</td>
+<td>???? currency</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currencyCode</td>
+<td>???? currencyCode</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currencyNumeric3Code</td>
+<td>???? currencyNumeric3Code</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» fractionDigits</td>
+<td>???? fractionDigits</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» negative</td>
+<td>???? negative</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» positive</td>
+<td>???? positive</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» zero</td>
+<td>???? zero</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» amountBase</td>
+<td>?? amountBase</td>
 <td><a href="#schemamoney">Money</a></td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» amount</td>
+<td>???? amount</td>
 <td>number</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» amountInFractionUnit</td>
+<td>???? amountInFractionUnit</td>
 <td>integer(int64)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currency</td>
+<td>???? currency</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currencyCode</td>
+<td>???? currencyCode</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currencyNumeric3Code</td>
+<td>???? currencyNumeric3Code</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» fractionDigits</td>
+<td>???? fractionDigits</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» negative</td>
+<td>???? negative</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» positive</td>
+<td>???? positive</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» zero</td>
+<td>???? zero</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» authAmount</td>
+<td>?? authAmount</td>
 <td><a href="#schemamoney">Money</a></td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» amount</td>
+<td>???? amount</td>
 <td>number</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» amountInFractionUnit</td>
+<td>???? amountInFractionUnit</td>
 <td>integer(int64)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currency</td>
+<td>???? currency</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currencyCode</td>
+<td>???? currencyCode</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currencyNumeric3Code</td>
+<td>???? currencyNumeric3Code</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» fractionDigits</td>
+<td>???? fractionDigits</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» negative</td>
+<td>???? negative</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» positive</td>
+<td>???? positive</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» zero</td>
+<td>???? zero</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» authAmountBase</td>
+<td>?? authAmountBase</td>
 <td><a href="#schemamoney">Money</a></td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» amount</td>
+<td>???? amount</td>
 <td>number</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» amountInFractionUnit</td>
+<td>???? amountInFractionUnit</td>
 <td>integer(int64)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currency</td>
+<td>???? currency</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currencyCode</td>
+<td>???? currencyCode</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currencyNumeric3Code</td>
+<td>???? currencyNumeric3Code</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» fractionDigits</td>
+<td>???? fractionDigits</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» negative</td>
+<td>???? negative</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» positive</td>
+<td>???? positive</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» zero</td>
+<td>???? zero</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» blockedAccountReason</td>
+<td>?? blockedAccountReason</td>
 <td>string</td>
 <td>false</td>
 <td>Blocked Account Reason</td>
 </tr>
 <tr>
-<td>» bonusCode</td>
+<td>?? bonusCode</td>
 <td>string</td>
 <td>false</td>
 <td>Optional bonus code.</td>
 </tr>
 <tr>
-<td>» channelId</td>
+<td>?? channelId</td>
 <td>string</td>
 <td>false</td>
 <td>Optional channel-id provided by merchant</td>
 </tr>
 <tr>
-<td>» created</td>
+<td>?? created</td>
 <td>string(date-time)</td>
 <td>false</td>
 <td>Date and time when transaction was created</td>
 </tr>
 <tr>
-<td>» depositType</td>
+<td>?? depositType</td>
 <td>string</td>
 <td>false</td>
 <td>Deposit Type</td>
 </tr>
 <tr>
-<td>» fee</td>
+<td>?? fee</td>
 <td><a href="#schemamoney">Money</a></td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» amount</td>
+<td>???? amount</td>
 <td>number</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» amountInFractionUnit</td>
+<td>???? amountInFractionUnit</td>
 <td>integer(int64)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currency</td>
+<td>???? currency</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currencyCode</td>
+<td>???? currencyCode</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currencyNumeric3Code</td>
+<td>???? currencyNumeric3Code</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» fractionDigits</td>
+<td>???? fractionDigits</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» negative</td>
+<td>???? negative</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» positive</td>
+<td>???? positive</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» zero</td>
+<td>???? zero</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» feeBase</td>
+<td>?? feeBase</td>
 <td><a href="#schemamoney">Money</a></td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» amount</td>
+<td>???? amount</td>
 <td>number</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» amountInFractionUnit</td>
+<td>???? amountInFractionUnit</td>
 <td>integer(int64)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currency</td>
+<td>???? currency</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currencyCode</td>
+<td>???? currencyCode</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currencyNumeric3Code</td>
+<td>???? currencyNumeric3Code</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» fractionDigits</td>
+<td>???? fractionDigits</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» negative</td>
+<td>???? negative</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» positive</td>
+<td>???? positive</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» zero</td>
+<td>???? zero</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» info</td>
+<td>?? info</td>
 <td><a href="#schemastringbuilder">StringBuilder</a></td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» initiatedPspAccount</td>
+<td>?? initiatedPspAccount</td>
 <td>string</td>
 <td>false</td>
 <td>Provider account used in the transaction</td>
 </tr>
 <tr>
-<td>» initiatedPspId</td>
+<td>?? initiatedPspId</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>Representation of provider who initiated the transaction, e.g. Skrill, Neteller or PayPoint</td>
 </tr>
 <tr>
-<td>» ipAddr</td>
+<td>?? ipAddr</td>
 <td>string</td>
 <td>false</td>
 <td>IP Address</td>
 </tr>
 <tr>
-<td>» ipCity</td>
+<td>?? ipCity</td>
 <td>string</td>
 <td>false</td>
 <td>IP City</td>
 </tr>
 <tr>
-<td>» ipCountry</td>
+<td>?? ipCountry</td>
 <td>string</td>
 <td>false</td>
 <td>IP Country</td>
 </tr>
 <tr>
-<td>» ipRegion</td>
+<td>?? ipRegion</td>
 <td>string</td>
 <td>false</td>
 <td>IP Region</td>
 </tr>
 <tr>
-<td>» issuerCountry</td>
+<td>?? issuerCountry</td>
 <td>string</td>
 <td>false</td>
 <td>Optional info for credit cards .. Three letter iso standard</td>
 </tr>
 <tr>
-<td>» kycStatus</td>
+<td>?? kycStatus</td>
 <td>string</td>
 <td>false</td>
 <td>Know Your Customer (KYC) status. Value returned by merchant. Used for checking tx</td>
 </tr>
 <tr>
-<td>» lastUpdated</td>
+<td>?? lastUpdated</td>
 <td>string(date-time)</td>
 <td>false</td>
 <td>Last date and time when transaction was updated</td>
 </tr>
 <tr>
-<td>» maskedUserAccount</td>
+<td>?? maskedUserAccount</td>
 <td>string</td>
 <td>false</td>
 <td>User&#39;s account masked</td>
 </tr>
 <tr>
-<td>» merchantAuthCode</td>
+<td>?? merchantAuthCode</td>
 <td>string</td>
 <td>false</td>
 <td>Merchant&#39;s authorization code from the authorize request</td>
 </tr>
 <tr>
-<td>» merchantErrCode</td>
+<td>?? merchantErrCode</td>
 <td>string</td>
 <td>false</td>
 <td>Merchant error code, e.g. verify user failed</td>
 </tr>
 <tr>
-<td>» merchantId</td>
+<td>?? merchantId</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>Merchant id</td>
 </tr>
 <tr>
-<td>» merchantTxId</td>
+<td>?? merchantTxId</td>
 <td>string</td>
 <td>false</td>
 <td>Merchant&#39;s tx id.</td>
 </tr>
 <tr>
-<td>» merchantUserBal</td>
+<td>?? merchantUserBal</td>
 <td><a href="#schemamoney">Money</a></td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» amount</td>
+<td>???? amount</td>
 <td>number</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» amountInFractionUnit</td>
+<td>???? amountInFractionUnit</td>
 <td>integer(int64)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currency</td>
+<td>???? currency</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currencyCode</td>
+<td>???? currencyCode</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currencyNumeric3Code</td>
+<td>???? currencyNumeric3Code</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» fractionDigits</td>
+<td>???? fractionDigits</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» negative</td>
+<td>???? negative</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» positive</td>
+<td>???? positive</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» zero</td>
+<td>???? zero</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» merchantUserCat</td>
+<td>?? merchantUserCat</td>
 <td>string</td>
 <td>false</td>
 <td>Merchant&#39;s user category</td>
 </tr>
 <tr>
-<td>» merchantUserCountry</td>
+<td>?? merchantUserCountry</td>
 <td>string</td>
 <td>false</td>
 <td>Merchant user country</td>
 </tr>
 <tr>
-<td>» merchantUserEmail</td>
+<td>?? merchantUserEmail</td>
 <td>string</td>
 <td>false</td>
 <td>Merchant user email</td>
 </tr>
 <tr>
-<td>» merchantUserId</td>
+<td>?? merchantUserId</td>
 <td>string</td>
 <td>false</td>
 <td>Merchant&#39;s user id</td>
 </tr>
 <tr>
-<td>» originTxId</td>
+<td>?? originTxId</td>
 <td>integer(int64)</td>
 <td>false</td>
 <td>Transaction id that is origin to this transaction</td>
 </tr>
 <tr>
-<td>» pspAccount</td>
+<td>?? pspAccount</td>
 <td>string</td>
 <td>false</td>
 <td>Provider account used in the transaction</td>
 </tr>
 <tr>
-<td>» pspFee</td>
+<td>?? pspFee</td>
 <td><a href="#schemamoney">Money</a></td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» amount</td>
+<td>???? amount</td>
 <td>number</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» amountInFractionUnit</td>
+<td>???? amountInFractionUnit</td>
 <td>integer(int64)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currency</td>
+<td>???? currency</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currencyCode</td>
+<td>???? currencyCode</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currencyNumeric3Code</td>
+<td>???? currencyNumeric3Code</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» fractionDigits</td>
+<td>???? fractionDigits</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» negative</td>
+<td>???? negative</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» positive</td>
+<td>???? positive</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» zero</td>
+<td>???? zero</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» pspFeeBase</td>
+<td>?? pspFeeBase</td>
 <td><a href="#schemamoney">Money</a></td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» amount</td>
+<td>???? amount</td>
 <td>number</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» amountInFractionUnit</td>
+<td>???? amountInFractionUnit</td>
 <td>integer(int64)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currency</td>
+<td>???? currency</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currencyCode</td>
+<td>???? currencyCode</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currencyNumeric3Code</td>
+<td>???? currencyNumeric3Code</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» fractionDigits</td>
+<td>???? fractionDigits</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» negative</td>
+<td>???? negative</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» positive</td>
+<td>???? positive</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» zero</td>
+<td>???? zero</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» pspFraudScore</td>
+<td>?? pspFraudScore</td>
 <td>number(double)</td>
 <td>false</td>
 <td>Normalized PSP fraud score (0-10).</td>
 </tr>
 <tr>
-<td>» pspId</td>
+<td>?? pspId</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>Representation of provider who has processed the transaction, e.g. Skrill, Neteller or PayPoint</td>
 </tr>
 <tr>
-<td>» pspRefId</td>
+<td>?? pspRefId</td>
 <td>string</td>
 <td>false</td>
 <td>Provider reference id</td>
 </tr>
 <tr>
-<td>» pspService</td>
+<td>?? pspService</td>
 <td>string</td>
 <td>false</td>
 <td>Representation of provider&#39;s sub service which will be used to do a payment</td>
 </tr>
 <tr>
-<td>» pspStatusCode</td>
+<td>?? pspStatusCode</td>
 <td>string</td>
 <td>false</td>
 <td>Provider specific status code</td>
 </tr>
 <tr>
-<td>» pspTxAmount</td>
+<td>?? pspTxAmount</td>
 <td><a href="#schemamoney">Money</a></td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» amount</td>
+<td>???? amount</td>
 <td>number</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» amountInFractionUnit</td>
+<td>???? amountInFractionUnit</td>
 <td>integer(int64)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currency</td>
+<td>???? currency</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currencyCode</td>
+<td>???? currencyCode</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currencyNumeric3Code</td>
+<td>???? currencyNumeric3Code</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» fractionDigits</td>
+<td>???? fractionDigits</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» negative</td>
+<td>???? negative</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» positive</td>
+<td>???? positive</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» zero</td>
+<td>???? zero</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» pspUserRef</td>
+<td>?? pspUserRef</td>
 <td>string</td>
 <td>false</td>
 <td>PSP User ref</td>
 </tr>
 <tr>
-<td>» reversedMerchantTxId</td>
+<td>?? reversedMerchantTxId</td>
 <td>string</td>
 <td>false</td>
 <td>Merchant transaction that have been reversed by this transaction</td>
 </tr>
 <tr>
-<td>» reversedTxId</td>
+<td>?? reversedTxId</td>
 <td>integer(int64)</td>
 <td>false</td>
 <td>Transaction id that have been reversed by this transaction</td>
 </tr>
 <tr>
-<td>» statusCode</td>
+<td>?? statusCode</td>
 <td>string</td>
 <td>false</td>
 <td>Status code</td>
 </tr>
 <tr>
-<td>» suspectedAbuseReason</td>
+<td>?? suspectedAbuseReason</td>
 <td>string</td>
 <td>false</td>
 <td>Suspected Abused Reason</td>
 </tr>
 <tr>
-<td>» txAmount</td>
+<td>?? txAmount</td>
 <td><a href="#schemamoney">Money</a></td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» amount</td>
+<td>???? amount</td>
 <td>number</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» amountInFractionUnit</td>
+<td>???? amountInFractionUnit</td>
 <td>integer(int64)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currency</td>
+<td>???? currency</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currencyCode</td>
+<td>???? currencyCode</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currencyNumeric3Code</td>
+<td>???? currencyNumeric3Code</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» fractionDigits</td>
+<td>???? fractionDigits</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» negative</td>
+<td>???? negative</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» positive</td>
+<td>???? positive</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» zero</td>
+<td>???? zero</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» txAmountBase</td>
+<td>?? txAmountBase</td>
 <td><a href="#schemamoney">Money</a></td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» amount</td>
+<td>???? amount</td>
 <td>number</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» amountInFractionUnit</td>
+<td>???? amountInFractionUnit</td>
 <td>integer(int64)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currency</td>
+<td>???? currency</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currencyCode</td>
+<td>???? currencyCode</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» currencyNumeric3Code</td>
+<td>???? currencyNumeric3Code</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» fractionDigits</td>
+<td>???? fractionDigits</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» negative</td>
+<td>???? negative</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» positive</td>
+<td>???? positive</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» zero</td>
+<td>???? zero</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» updatedBy</td>
+<td>?? updatedBy</td>
 <td>string</td>
 <td>false</td>
 <td>Optional last user took same action on the transactions</td>
 </tr>
 <tr>
-<td>» userPspAccountDetails</td>
+<td>?? userPspAccountDetails</td>
 <td><a href="#schemauserpspaccountdetails">UserPspAccountDetails</a></td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» accountUuid</td>
+<td>???? accountUuid</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» blockReason</td>
+<td>???? blockReason</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» description</td>
+<td>???? description</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» directDebit</td>
+<td>???? directDebit</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» expiryDate</td>
+<td>???? expiryDate</td>
 <td>string(date-time)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» extAccountRefId</td>
+<td>???? extAccountRefId</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» firstUsed</td>
+<td>???? firstUsed</td>
 <td>string(date-time)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» hashedAccount</td>
+<td>???? hashedAccount</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» holder</td>
+<td>???? holder</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» id</td>
+<td>???? id</td>
 <td>integer(int64)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» lastSuccess</td>
+<td>???? lastSuccess</td>
 <td>string(date-time)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» lastUsed</td>
+<td>???? lastUsed</td>
 <td>string(date-time)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» maskedAccount</td>
+<td>???? maskedAccount</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» merchantId</td>
+<td>???? merchantId</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» merchantUserId</td>
+<td>???? merchantUserId</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» new</td>
+<td>???? new</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» noFailedTx</td>
+<td>???? noFailedTx</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» noSuccessfulTx</td>
+<td>???? noSuccessfulTx</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» providerType</td>
+<td>???? providerType</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» startDate</td>
+<td>???? startDate</td>
 <td>string(date-time)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» status</td>
+<td>???? status</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» storeAccount</td>
+<td>???? storeAccount</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» type</td>
+<td>???? type</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» vaultData</td>
+<td>???? vaultData</td>
 <td>object</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» vaultIQData</td>
+<td>???? vaultIQData</td>
 <td>object</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» vaultIQUuid</td>
+<td>???? vaultIQUuid</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» vaultUuid</td>
+<td>???? vaultUuid</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» visibilityResetAllowed</td>
+<td>???? visibilityResetAllowed</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>»» visible</td>
+<td>???? visible</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» userPspAccountId</td>
+<td>?? userPspAccountId</td>
 <td>integer(int64)</td>
 <td>false</td>
 <td>User PSP account unique id, reference to table &#39;user_psp_account.id</td>
 </tr>
 <tr>
-<td>» id</td>
+<td>?? id</td>
 <td>integer(int64)</td>
 <td>false</td>
 <td>Unique transaction id</td>
 </tr>
 <tr>
-<td>» txTypeInt</td>
+<td>?? txTypeInt</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>Representation of transaction type, e.g. Skrill deposit, Neteller</td>
 </tr>
 <tr>
-<td>» state</td>
+<td>?? state</td>
 <td>string</td>
 <td>false</td>
 <td>Transaction state</td>
 </tr>
 <tr>
-<td>» rules</td>
+<td>?? rules</td>
 <td>[string]</td>
 <td>false</td>
 <td>No description</td>
@@ -7846,14 +7914,14 @@ oauth2 ( Scopes: default )
 <td>request</td>
 </tr>
 <tr>
-<td>» info</td>
+<td>?? info</td>
 <td>body</td>
 <td>string</td>
 <td>false</td>
 <td>Any additional information to provide reason for approve. Maximum limit 200 characters.</td>
 </tr>
 <tr>
-<td>» tagId</td>
+<td>?? tagId</td>
 <td>body</td>
 <td>string</td>
 <td>false</td>
@@ -7957,10 +8025,10 @@ oauth2 ( Scopes: default )
 
 <p><em>doCapture</em></p>
 
-<p>Manually  capture  the  amount  of  an  authorized  transaction.  The
-transaction  must  have  the  following  status  code:
-SUCCESS_AUTO_CAPTURED  or
-SUCCESS_CAPTURED  to  able  to  be  captured</p>
+<p>Manually????capture????the????amount????of????an????authorized????transaction.????The
+transaction????must????have????the????following????status????code:
+SUCCESS_AUTO_CAPTURED????or
+SUCCESS_CAPTURED????to????able????to????be????captured</p>
 
 <blockquote>
 <p>Body parameter</p>
@@ -8001,14 +8069,14 @@ SUCCESS_CAPTURED  to  able  to  be  captured</p>
 <td>request</td>
 </tr>
 <tr>
-<td>» info</td>
+<td>?? info</td>
 <td>body</td>
 <td>string</td>
 <td>false</td>
 <td>Any additional information to provide reason for capture. Maximum limit 200 characters.</td>
 </tr>
 <tr>
-<td>» tagId</td>
+<td>?? tagId</td>
 <td>body</td>
 <td>string</td>
 <td>false</td>
@@ -8153,14 +8221,14 @@ oauth2 ( Scopes: default )
 <td>request</td>
 </tr>
 <tr>
-<td>» info</td>
+<td>?? info</td>
 <td>body</td>
 <td>string</td>
 <td>false</td>
 <td>Any additional information to provide reason for deny. Maximum limit 200 characters.</td>
 </tr>
 <tr>
-<td>» tagId</td>
+<td>?? tagId</td>
 <td>body</td>
 <td>string</td>
 <td>false</td>
@@ -8305,14 +8373,14 @@ oauth2 ( Scopes: default )
 <td>request</td>
 </tr>
 <tr>
-<td>» info</td>
+<td>?? info</td>
 <td>body</td>
 <td>string</td>
 <td>false</td>
 <td>Any additional information to provide reason for on hold. Maximum limit 200 characters.</td>
 </tr>
 <tr>
-<td>» tagId</td>
+<td>?? tagId</td>
 <td>body</td>
 <td>string</td>
 <td>false</td>
@@ -8416,14 +8484,14 @@ oauth2 ( Scopes: default )
 
 <p><em>doRefund</em></p>
 
-<p>This  will  attempt  to  refund or partial refund (if txAmount is set) the transaction back to the customer by
-sending  an  instruction  to  the  Payment  provider.  When  you  make  a
-refund,  PaymentIQ  does  various  checks  to  ensure  that  the  financial
-institution  accepts  refund  instructions  and  that  the  amount  to  be
-refunded  is  still  available  for  that  payment.  If  it  is  permitted,  the
-refund  request  is  scheduled  and  sent  to  the  appropriate  financial
-institution.  Once  a  payment  is  processed,  the  customer  receives  the
-refund  amount  requested.</p>
+<p>This????will????attempt????to????refund or partial refund (if txAmount is set)??the??transaction??back??to??the??customer??by
+sending????an????instruction????to????the????Payment????provider.????When????you????make????a
+refund,????PaymentIQ????does????various????checks????to????ensure????that????the????financial
+institution????accepts????refund????instructions????and????that????the????amount????to????be
+refunded????is????still????available????for????that????payment.????If????it????is????permitted,????the
+refund????request????is????scheduled????and????sent????to????the????appropriate????financial
+institution.????Once????a????payment????is????processed,????the????customer????receives????the
+refund????amount????requested.</p>
 
 <blockquote>
 <p>Body parameter</p>
@@ -8465,21 +8533,21 @@ refund  amount  requested.</p>
 <td>request</td>
 </tr>
 <tr>
-<td>» info</td>
+<td>?? info</td>
 <td>body</td>
 <td>string</td>
 <td>false</td>
 <td>Any additional information to provide reason for capture. Maximum limit 200 characters.</td>
 </tr>
 <tr>
-<td>» tagId</td>
+<td>?? tagId</td>
 <td>body</td>
 <td>string</td>
 <td>false</td>
 <td>Tag id, you need to predefine tags in MerchantConfig.The tag must be named Refund, an example is <tags><entry><string>Refund</string><list><tag><id>CP-1</id><name>Other reason</name></tag></list></entry></tags></td>
 </tr>
 <tr>
-<td>» txAmount</td>
+<td>?? txAmount</td>
 <td>body</td>
 <td>string</td>
 <td>false</td>
@@ -8583,9 +8651,9 @@ oauth2 ( Scopes: default )
 
 <p><em>doVoid</em></p>
 
-<p>Credit  card  transactions  can  be  cancelled  (void)  before  they  are
-captured.  If  a  payment  is  captured,  the  customer  has  been  charged
-and  you  cannot  use  this  process  and  should  consider  making  a  refund
+<p>Credit????card????transactions????can????be????cancelled????(void)????before????they????are
+captured.????If????a????payment????is????captured,????the????customer????has????been????charged
+and????you????cannot????use????this????process????and????should????consider????making????a????refund
 instead.</p>
 
 <blockquote>
@@ -8627,14 +8695,14 @@ instead.</p>
 <td>request</td>
 </tr>
 <tr>
-<td>» info</td>
+<td>?? info</td>
 <td>body</td>
 <td>string</td>
 <td>false</td>
 <td>Any additional information to provide reason for capture. Maximum limit 200 characters.</td>
 </tr>
 <tr>
-<td>» tagId</td>
+<td>?? tagId</td>
 <td>body</td>
 <td>string</td>
 <td>false</td>
@@ -9190,55 +9258,55 @@ oauth2 ( Scopes: default )
 <td>No description</td>
 </tr>
 <tr>
-<td>» amount</td>
+<td>?? amount</td>
 <td>number</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» amountInFractionUnit</td>
+<td>?? amountInFractionUnit</td>
 <td>integer(int64)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currency</td>
+<td>?? currency</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currencyCode</td>
+<td>?? currencyCode</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currencyNumeric3Code</td>
+<td>?? currencyNumeric3Code</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» fractionDigits</td>
+<td>?? fractionDigits</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» negative</td>
+<td>?? negative</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» positive</td>
+<td>?? positive</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» zero</td>
+<td>?? zero</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
@@ -9250,55 +9318,55 @@ oauth2 ( Scopes: default )
 <td>No description</td>
 </tr>
 <tr>
-<td>» amount</td>
+<td>?? amount</td>
 <td>number</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» amountInFractionUnit</td>
+<td>?? amountInFractionUnit</td>
 <td>integer(int64)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currency</td>
+<td>?? currency</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currencyCode</td>
+<td>?? currencyCode</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currencyNumeric3Code</td>
+<td>?? currencyNumeric3Code</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» fractionDigits</td>
+<td>?? fractionDigits</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» negative</td>
+<td>?? negative</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» positive</td>
+<td>?? positive</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» zero</td>
+<td>?? zero</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
@@ -9310,55 +9378,55 @@ oauth2 ( Scopes: default )
 <td>No description</td>
 </tr>
 <tr>
-<td>» amount</td>
+<td>?? amount</td>
 <td>number</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» amountInFractionUnit</td>
+<td>?? amountInFractionUnit</td>
 <td>integer(int64)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currency</td>
+<td>?? currency</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currencyCode</td>
+<td>?? currencyCode</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currencyNumeric3Code</td>
+<td>?? currencyNumeric3Code</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» fractionDigits</td>
+<td>?? fractionDigits</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» negative</td>
+<td>?? negative</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» positive</td>
+<td>?? positive</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» zero</td>
+<td>?? zero</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
@@ -9370,55 +9438,55 @@ oauth2 ( Scopes: default )
 <td>No description</td>
 </tr>
 <tr>
-<td>» amount</td>
+<td>?? amount</td>
 <td>number</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» amountInFractionUnit</td>
+<td>?? amountInFractionUnit</td>
 <td>integer(int64)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currency</td>
+<td>?? currency</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currencyCode</td>
+<td>?? currencyCode</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currencyNumeric3Code</td>
+<td>?? currencyNumeric3Code</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» fractionDigits</td>
+<td>?? fractionDigits</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» negative</td>
+<td>?? negative</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» positive</td>
+<td>?? positive</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» zero</td>
+<td>?? zero</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
@@ -9460,55 +9528,55 @@ oauth2 ( Scopes: default )
 <td>No description</td>
 </tr>
 <tr>
-<td>» amount</td>
+<td>?? amount</td>
 <td>number</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» amountInFractionUnit</td>
+<td>?? amountInFractionUnit</td>
 <td>integer(int64)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currency</td>
+<td>?? currency</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currencyCode</td>
+<td>?? currencyCode</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currencyNumeric3Code</td>
+<td>?? currencyNumeric3Code</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» fractionDigits</td>
+<td>?? fractionDigits</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» negative</td>
+<td>?? negative</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» positive</td>
+<td>?? positive</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» zero</td>
+<td>?? zero</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
@@ -9520,55 +9588,55 @@ oauth2 ( Scopes: default )
 <td>No description</td>
 </tr>
 <tr>
-<td>» amount</td>
+<td>?? amount</td>
 <td>number</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» amountInFractionUnit</td>
+<td>?? amountInFractionUnit</td>
 <td>integer(int64)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currency</td>
+<td>?? currency</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currencyCode</td>
+<td>?? currencyCode</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currencyNumeric3Code</td>
+<td>?? currencyNumeric3Code</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» fractionDigits</td>
+<td>?? fractionDigits</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» negative</td>
+<td>?? negative</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» positive</td>
+<td>?? positive</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» zero</td>
+<td>?? zero</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
@@ -9670,55 +9738,55 @@ oauth2 ( Scopes: default )
 <td>No description</td>
 </tr>
 <tr>
-<td>» amount</td>
+<td>?? amount</td>
 <td>number</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» amountInFractionUnit</td>
+<td>?? amountInFractionUnit</td>
 <td>integer(int64)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currency</td>
+<td>?? currency</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currencyCode</td>
+<td>?? currencyCode</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currencyNumeric3Code</td>
+<td>?? currencyNumeric3Code</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» fractionDigits</td>
+<td>?? fractionDigits</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» negative</td>
+<td>?? negative</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» positive</td>
+<td>?? positive</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» zero</td>
+<td>?? zero</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
@@ -9766,55 +9834,55 @@ oauth2 ( Scopes: default )
 <td>No description</td>
 </tr>
 <tr>
-<td>» amount</td>
+<td>?? amount</td>
 <td>number</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» amountInFractionUnit</td>
+<td>?? amountInFractionUnit</td>
 <td>integer(int64)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currency</td>
+<td>?? currency</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currencyCode</td>
+<td>?? currencyCode</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currencyNumeric3Code</td>
+<td>?? currencyNumeric3Code</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» fractionDigits</td>
+<td>?? fractionDigits</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» negative</td>
+<td>?? negative</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» positive</td>
+<td>?? positive</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» zero</td>
+<td>?? zero</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
@@ -9826,55 +9894,55 @@ oauth2 ( Scopes: default )
 <td>No description</td>
 </tr>
 <tr>
-<td>» amount</td>
+<td>?? amount</td>
 <td>number</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» amountInFractionUnit</td>
+<td>?? amountInFractionUnit</td>
 <td>integer(int64)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currency</td>
+<td>?? currency</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currencyCode</td>
+<td>?? currencyCode</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currencyNumeric3Code</td>
+<td>?? currencyNumeric3Code</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» fractionDigits</td>
+<td>?? fractionDigits</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» negative</td>
+<td>?? negative</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» positive</td>
+<td>?? positive</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» zero</td>
+<td>?? zero</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
@@ -9916,55 +9984,55 @@ oauth2 ( Scopes: default )
 <td>No description</td>
 </tr>
 <tr>
-<td>» amount</td>
+<td>?? amount</td>
 <td>number</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» amountInFractionUnit</td>
+<td>?? amountInFractionUnit</td>
 <td>integer(int64)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currency</td>
+<td>?? currency</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currencyCode</td>
+<td>?? currencyCode</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currencyNumeric3Code</td>
+<td>?? currencyNumeric3Code</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» fractionDigits</td>
+<td>?? fractionDigits</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» negative</td>
+<td>?? negative</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» positive</td>
+<td>?? positive</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» zero</td>
+<td>?? zero</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
@@ -10006,55 +10074,55 @@ oauth2 ( Scopes: default )
 <td>No description</td>
 </tr>
 <tr>
-<td>» amount</td>
+<td>?? amount</td>
 <td>number</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» amountInFractionUnit</td>
+<td>?? amountInFractionUnit</td>
 <td>integer(int64)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currency</td>
+<td>?? currency</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currencyCode</td>
+<td>?? currencyCode</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currencyNumeric3Code</td>
+<td>?? currencyNumeric3Code</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» fractionDigits</td>
+<td>?? fractionDigits</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» negative</td>
+<td>?? negative</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» positive</td>
+<td>?? positive</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» zero</td>
+<td>?? zero</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
@@ -10066,55 +10134,55 @@ oauth2 ( Scopes: default )
 <td>No description</td>
 </tr>
 <tr>
-<td>» amount</td>
+<td>?? amount</td>
 <td>number</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» amountInFractionUnit</td>
+<td>?? amountInFractionUnit</td>
 <td>integer(int64)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currency</td>
+<td>?? currency</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currencyCode</td>
+<td>?? currencyCode</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» currencyNumeric3Code</td>
+<td>?? currencyNumeric3Code</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» fractionDigits</td>
+<td>?? fractionDigits</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» negative</td>
+<td>?? negative</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» positive</td>
+<td>?? positive</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» zero</td>
+<td>?? zero</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
@@ -10132,175 +10200,175 @@ oauth2 ( Scopes: default )
 <td>No description</td>
 </tr>
 <tr>
-<td>» accountUuid</td>
+<td>?? accountUuid</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» blockReason</td>
+<td>?? blockReason</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» description</td>
+<td>?? description</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» directDebit</td>
+<td>?? directDebit</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» expiryDate</td>
+<td>?? expiryDate</td>
 <td>string(date-time)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» extAccountRefId</td>
+<td>?? extAccountRefId</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» firstUsed</td>
+<td>?? firstUsed</td>
 <td>string(date-time)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» hashedAccount</td>
+<td>?? hashedAccount</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» holder</td>
+<td>?? holder</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» id</td>
+<td>?? id</td>
 <td>integer(int64)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» lastSuccess</td>
+<td>?? lastSuccess</td>
 <td>string(date-time)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» lastUsed</td>
+<td>?? lastUsed</td>
 <td>string(date-time)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» maskedAccount</td>
+<td>?? maskedAccount</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» merchantId</td>
+<td>?? merchantId</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» merchantUserId</td>
+<td>?? merchantUserId</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» new</td>
+<td>?? new</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» noFailedTx</td>
+<td>?? noFailedTx</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» noSuccessfulTx</td>
+<td>?? noSuccessfulTx</td>
 <td>integer(int32)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» providerType</td>
+<td>?? providerType</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» startDate</td>
+<td>?? startDate</td>
 <td>string(date-time)</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» status</td>
+<td>?? status</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» storeAccount</td>
+<td>?? storeAccount</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» vaultData</td>
+<td>?? vaultData</td>
 <td>object</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» vaultIQData</td>
+<td>?? vaultIQData</td>
 <td>object</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» vaultIQUuid</td>
+<td>?? vaultIQUuid</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» vaultUuid</td>
+<td>?? vaultUuid</td>
 <td>string</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» visibilityResetAllowed</td>
+<td>?? visibilityResetAllowed</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
 </tr>
 <tr>
-<td>» visible</td>
+<td>?? visible</td>
 <td>boolean</td>
 <td>false</td>
 <td>No description</td>
@@ -10668,439 +10736,439 @@ oauth2 ( Scopes: default )
 <td>ERR_CANCELLED_BY_PSP</td>
 </tr>
 <tr>
-<td>» status</td>
+<td>?? status</td>
 <td>ACTIVE</td>
 </tr>
 <tr>
-<td>» status</td>
+<td>?? status</td>
 <td>INACTIVE</td>
 </tr>
 <tr>
-<td>» status</td>
+<td>?? status</td>
 <td>NEW</td>
 </tr>
 <tr>
-<td>» status</td>
+<td>?? status</td>
 <td>DELETED</td>
 </tr>
 <tr>
-<td>» status</td>
+<td>?? status</td>
 <td>BLOCKED</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>CreditcardDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>CreditcardWithdrawal</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>EntropayDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>ICardDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>ICardWithdrawal</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>NetellerDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>NetellerWithdrawal</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>SkrillDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>SkrillWithdrawal</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>PayboxDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>ClickandBuyDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>ClickandBuyWithdrawal</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>PayPalDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>PayPalWithdrawal</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>MbankomatDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>IBanqDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>IBanqWithdrawal</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>LavaPayDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>LavaPayWithdrawal</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>InstadebitDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>InstadebitWithdrawal</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>IDebitDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>IDebitWithdrawal</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>EcoPayzDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>EcoPayzWithdrawal</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>AstroPayCardWithdrawal</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>AstroPayDirectDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>AstroPayDirectWithdrawal</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>VenusPointDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>VenusPointWithdrawal</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>MiFinityEWalletDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>MiFinityEWalletWithdrawal</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>IWalletDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>IWalletWithdrawal</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>MuchBetterDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>MuchBetterWithdrawal</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>AstroPayBankWithdrawal</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>EutellerDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>EnvoyDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>EnvoyWithdrawal</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>TrustlyDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>TrustlyWithdrawal</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>BankDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>BankLocalWithdrawal</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>BankIBANWithdrawal</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>BankIntIBANWithdrawal</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>IdealDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>ChinaUnionPayDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>BankIntlWithdrawal</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>ChinaUnionPayWithdrawal</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>BoletoBancarioDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>PaysafecardDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>UkashDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>UkashWithdrawal</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>PaysafecardWithdrawal</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>CashlibDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>TicketPremiumDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>FlexepinDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>FunangaDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>VisaVoucherDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>GiftcardDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>PugglePayDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>PaylevoDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>YuuCollectDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>NeosurfVoucherDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>OxxoDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>SeqrDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>CryptoCurrencyDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>SeqrWithdrawal</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>SiruDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>SiruStatus</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>SiruPriceCalc</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>FortumoDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>BokuDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>BlikDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>PayGroundDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>SmsVoucherDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>QiwiDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>QiwiWithdrawal</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>AccentPayDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>AccentPayWithdrawal</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>WorldPayDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>WorldPayWithdrawal</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>PProDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>PProWithdrawal</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>EProPaymentWallDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>ApcoDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>SecureTradingDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>DotpayDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>Przelewy24Deposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>SweGiroDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>ToditoCashDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>TolaMobileDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>KluwpDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>TeleingresoDeposit</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>ManualChargeback</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>ManualRefund</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>ManualCancel</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>ManualVoid</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>ManualChargeBackWon</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>Refund</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>Cancel</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>Void</td>
 </tr>
 <tr>
-<td>» type</td>
+<td>?? type</td>
 <td>Capture</td>
 </tr>
 <tr>
